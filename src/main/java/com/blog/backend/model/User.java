@@ -40,9 +40,13 @@ public class User {
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin = false; // default is normal user
 
+    // constructor
+    public User() {
+    }
+
     // Optional constructor for convenience
     public User(String email, String password, String firstName, String lastName,
-            String dateOfBirth, String avatar, String nickname) {
+            String dateOfBirth, String avatar, String nickname, boolean isAdmin) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -50,5 +54,6 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.avatar = avatar;
         this.nickname = nickname;
+        this.isAdmin = isAdmin;
     }
 }
