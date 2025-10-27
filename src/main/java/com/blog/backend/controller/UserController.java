@@ -8,7 +8,8 @@ import com.blog.backend.service.UserService;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    public final UserService userService;
+    private final UserService userService;
+   
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -21,8 +22,4 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "UserController works!";
-    }
 }

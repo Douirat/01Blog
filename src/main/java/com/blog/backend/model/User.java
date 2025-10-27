@@ -1,5 +1,7 @@
 package com.blog.backend.model;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
@@ -29,7 +31,8 @@ public class User {
     private String lastName;
 
     @Column(name = "date_of_birth", nullable = false)
-    private String dateOfBirth; // or LocalDate if you want date type
+    private LocalDateTime dateOfBirth; // or LocalDate if you want date type
+
 
     @Column(nullable = true)
     private String avatar;
@@ -46,7 +49,7 @@ public class User {
 
     // Optional constructor for convenience
     public User(String email, String password, String firstName, String lastName,
-            String dateOfBirth, String avatar, String nickname, boolean isAdmin) {
+            LocalDateTime dateOfBirth, String avatar, String nickname, boolean isAdmin) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;

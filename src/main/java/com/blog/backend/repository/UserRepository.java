@@ -8,10 +8,12 @@ import com.blog.backend.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }
 
 /*
- * aT THE FIRST GLANCE MY uSER repository looks empty but in spring data jpa
+ * At the first glance the user repository looks empty but in spring data jpa
  * it automatically provides basic CRUD operations like save, findById, findAll,
  * deleteById, etc.
  * so you don't need to explicitly define them unless you want custom queries.

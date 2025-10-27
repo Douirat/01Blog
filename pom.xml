@@ -29,6 +29,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+<!-- tcontext -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+
         <!-- JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
