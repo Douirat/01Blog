@@ -1,0 +1,68 @@
+2025-10-30T02:00:39.299+01:00  INFO 215127 --- [01blog] [main] com.blog.backend.Application             : Starting Application using Java 17.0.16 with PID 215127 (/home/bdouirat/Desktop/01Blog/target/classes started by bdouirat in /home/bdouirat/Desktop/01Blog)
+2025-10-30T02:00:39.300+01:00  INFO 215127 --- [01blog] [main] com.blog.backend.Application             : No active profile set, falling back to 1 default profile: "default"
+2025-10-30T02:00:39.567+01:00  INFO 215127 --- [01blog] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-30T02:00:39.591+01:00  INFO 215127 --- [01blog] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 1 JPA repository interface.
+2025-10-30T02:00:39.806+01:00  INFO 215127 --- [01blog] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-10-30T02:00:39.812+01:00  INFO 215127 --- [01blog] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-30T02:00:39.812+01:00  INFO 215127 --- [01blog] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-10-30T02:00:39.838+01:00  INFO 215127 --- [01blog] [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2025-10-30T02:00:39.838+01:00  INFO 215127 --- [01blog] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 503 ms
+2025-10-30T02:00:39.913+01:00  INFO 215127 --- [01blog] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-30T02:00:39.935+01:00  INFO 215127 --- [01blog] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-10-30T02:00:39.950+01:00  INFO 215127 --- [01blog] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-30T02:00:40.070+01:00  INFO 215127 --- [01blog] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-30T02:00:40.082+01:00  INFO 215127 --- [01blog] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-30T02:00:40.148+01:00  INFO 215127 --- [01blog] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.sqlite.jdbc4.JDBC4Connection@4264beb8
+2025-10-30T02:00:40.149+01:00  INFO 215127 --- [01blog] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-30T02:00:40.465+01:00  INFO 215127 --- [01blog] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-30T02:00:40.480+01:00  INFO 215127 --- [01blog] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30T02:00:40.615+01:00  WARN 215127 --- [01blog] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-30T02:00:40.630+01:00  WARN 215127 --- [01blog] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: e0f83090-4af1-4973-84de-8e298c5d29f7
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-10-30T02:00:40.633+01:00  INFO 215127 --- [01blog] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-10-30T02:00:40.813+01:00  INFO 215127 --- [01blog] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/api'
+2025-10-30T02:00:40.818+01:00  INFO 215127 --- [01blog] [main] com.blog.backend.Application             : Started Application in 1.711 seconds (process running for 1.844)
+2025-10-30T02:49:52.785+01:00  INFO 215127 --- [01blog] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-30T02:49:52.785+01:00  INFO 215127 --- [01blog] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-10-30T02:49:52.786+01:00  INFO 215127 --- [01blog] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-10-30T02:51:08.370+01:00  INFO 215127 --- [01blog] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30T02:51:08.371+01:00  INFO 215127 --- [01blog] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-30T02:51:08.372+01:00  INFO 215127 --- [01blog] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-10-30T02:51:11.926+01:00  INFO 233793 --- [01blog] [main] com.blog.backend.Application             : Starting Application using Java 17.0.16 with PID 233793 (/home/bdouirat/Desktop/01Blog/target/classes started by bdouirat in /home/bdouirat/Desktop/01Blog)
+2025-10-30T02:51:11.927+01:00  INFO 233793 --- [01blog] [main] com.blog.backend.Application             : No active profile set, falling back to 1 default profile: "default"
+2025-10-30T02:51:12.185+01:00  INFO 233793 --- [01blog] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-30T02:51:12.210+01:00  INFO 233793 --- [01blog] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 1 JPA repository interface.
+2025-10-30T02:51:12.434+01:00  INFO 233793 --- [01blog] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-10-30T02:51:12.440+01:00  INFO 233793 --- [01blog] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-30T02:51:12.440+01:00  INFO 233793 --- [01blog] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-10-30T02:51:12.465+01:00  INFO 233793 --- [01blog] [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2025-10-30T02:51:12.466+01:00  INFO 233793 --- [01blog] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 516 ms
+2025-10-30T02:51:12.545+01:00  INFO 233793 --- [01blog] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-30T02:51:12.566+01:00  INFO 233793 --- [01blog] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-10-30T02:51:12.580+01:00  INFO 233793 --- [01blog] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-30T02:51:12.694+01:00  INFO 233793 --- [01blog] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-30T02:51:12.706+01:00  INFO 233793 --- [01blog] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-30T02:51:12.772+01:00  INFO 233793 --- [01blog] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.sqlite.jdbc4.JDBC4Connection@919086
+2025-10-30T02:51:12.773+01:00  INFO 233793 --- [01blog] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-30T02:51:13.086+01:00  INFO 233793 --- [01blog] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-30T02:51:13.103+01:00  INFO 233793 --- [01blog] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30T02:51:13.233+01:00  WARN 233793 --- [01blog] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-30T02:51:13.247+01:00  WARN 233793 --- [01blog] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: a95d30c3-362b-42b4-8454-9b93d6fc6582
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-10-30T02:51:13.250+01:00  INFO 233793 --- [01blog] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-10-30T02:51:13.431+01:00  INFO 233793 --- [01blog] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/api'
+2025-10-30T02:51:13.436+01:00  INFO 233793 --- [01blog] [main] com.blog.backend.Application             : Started Application in 1.718 seconds (process running for 1.845)
+2025-10-30T02:51:17.919+01:00  INFO 233793 --- [01blog] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-30T02:51:17.920+01:00  INFO 233793 --- [01blog] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-10-30T02:51:17.920+01:00  INFO 233793 --- [01blog] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-10-30T02:55:04.573+01:00  INFO 233793 --- [01blog] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30T02:55:04.574+01:00  INFO 233793 --- [01blog] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-30T02:55:04.575+01:00  INFO 233793 --- [01blog] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

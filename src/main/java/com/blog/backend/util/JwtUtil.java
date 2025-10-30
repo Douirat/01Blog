@@ -1,41 +1,45 @@
 package com.blog.backend.util;
 
 import org.springframework.stereotype.Component;
+
+import com.blog.backend.dto.UserDTO;
+
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.Map;
+
 
 @Component
 public class JwtUtil {
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+    // @Value("${jwt.secret}")
+    // private String jwtSecret;
 
-    @Value("${jwt.expiration}")
-    private Long jwtExpirationInMs;
+    // @Value("${jwt.expiration}")
+    // private Long jwtExpirationInMs;
+        // Directly in the class
+    private final String SECRET = "toBeOrNotToBeThatIsTheQuestionAnd01blog06-09-1991";
+    private final long EXPIRATION = 86400000; // 1 day in milliseconds
 
     // Generate a signing key
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        return Keys.hmacShaKeyFor(SECRET.getBytes());
     }
 
     // Generate JWT with optional custom claims
-    public String generateToken(String email, Map<String, Object> additionalClaims) {
+    public String generateToken(UserDTO userDTO) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+        Date expiryDate = new Date(now.getTime() + EXPIRATION);
 
         JwtBuilder builder = Jwts.builder()
-                .setSubject(email)
+                .setSubject(userDTO.getEmail())
+                .claim("id", userDTO.getId())
+                .claim("isAdmin", userDTO.isAdmin())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256);
-
-        if (additionalClaims != null) {
-            builder.addClaims(additionalClaims);
-        }
 
         return builder.compact();
     }

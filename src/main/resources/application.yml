@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: 01blog
+
+  datasource:
+    url: jdbc:sqlite:blogdb.sqlite
+    driver-class-name: org.sqlite.JDBC
+
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret: toBeOrNotToBeThatIsTheQuestionAnd01blog06-09-1991
+  expiration: 86400000

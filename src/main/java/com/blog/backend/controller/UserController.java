@@ -2,6 +2,8 @@ package com.blog.backend.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.blog.backend.dto.AuthResponseDTO;
 import com.blog.backend.model.User;
 import com.blog.backend.service.UserService;
 
@@ -16,7 +18,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
+    public ResponseEntity<AuthResponseDTO> registerUser(@RequestBody User user) {
         return userService.registerUser(user)
                 .map(registeredUser -> ResponseEntity.ok().body(registeredUser))
                 .orElseGet(() -> ResponseEntity.badRequest().build());

@@ -4,12 +4,17 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import com.blog.backend.repository.UserRepository;
+import com.blog.backend.dto.AuthResponseDTO;
+import com.blog.backend.dto.UserDTO;
 import com.blog.backend.model.User;
+import com.blog.backend.util.JwtUtil;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public interface UserService {
     // Define service methods here, e.g., createUser, getUserById, etc.
-    Optional<User> registerUser(User user);
+    Optional<AuthResponseDTO> registerUser(User user);
     // Optional<User> loginUser(String email, String password);
     // Optional<User> logoutUser(Long userId);
     // Optional<User> getUserByEmail(String email);
@@ -19,14 +24,17 @@ public interface UserService {
 class UserServiceImpl implements UserService {
 
     // You would typically inject UserRepository here
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private final JwtUtil jwtUtil = new JwtUtil();
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public Optional<User> registerUser(User user) {
+    public Optional<AuthResponseDTO> registerUser(User user) {
         // Implementation for registering a user
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return Optional.empty(); // User already exists
@@ -35,19 +43,40 @@ class UserServiceImpl implements UserService {
                 || user.getLastName() == null || user.getNickname() == null || user.getDateOfBirth() == null) {
             return Optional.empty(); // Required fields are missing
         }
+        // print to debug:
+        System.err.println("Registering user --------------->: " + user.getEmail() + ", DOB: " + user.getDateOfBirth());
+
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         newUser.setPassword(encoder.encode(user.getPassword()));
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
-        newUser.setDateOfBirth(user.getDateOfBirth());
+        newUser.setDateOfBirth(user.getDateOfBirth()); // .atStartOfDay()
         newUser.setAvatar(user.getAvatar());
         newUser.setNickname(user.getNickname());
         newUser.setAdmin(false); // default to normal user
 
-        return Optional.of(userRepository.save(newUser));
 
+
+        User savedUser = userRepository.save(newUser);
+        UserDTO userDTO = new UserDTO(
+                savedUser.getId(),
+                savedUser.getEmail(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
+                savedUser.getAvatar(),
+                savedUser.getNickname(),
+                savedUser.getDateOfBirth(),
+                savedUser.isAdmin());
+
+        String token = jwtUtil.generateToken(userDTO);
+
+        AuthResponseDTO authResponse = new AuthResponseDTO();
+        authResponse.setUser(userDTO);
+        authResponse.setToken(token);
+        
+        return Optional.of(authResponse);
     }
 
     // @Override

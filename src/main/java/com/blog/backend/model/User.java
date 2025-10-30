@@ -1,7 +1,10 @@
 package com.blog.backend.model;
 
+import java.time.LocalDate;
+// import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
@@ -31,7 +34,8 @@ public class User {
     private String lastName;
 
     @Column(name = "date_of_birth", nullable = false)
-    private LocalDateTime dateOfBirth; // or LocalDate if you want date type
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfBirth; // or LocalDate if you want date type
 
 
     @Column(nullable = true)
@@ -49,7 +53,7 @@ public class User {
 
     // Optional constructor for convenience
     public User(String email, String password, String firstName, String lastName,
-            LocalDateTime dateOfBirth, String avatar, String nickname, boolean isAdmin) {
+            LocalDate dateOfBirth, String avatar, String nickname, boolean isAdmin) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -60,3 +64,14 @@ public class User {
         this.isAdmin = isAdmin;
     }
 }
+/*
+ * When you puth the annotations @Getter/Setter from Lombok library, you dont need to write the getters/setters manually.
+ * Lombok will generate them at compile time.
+ * For more information, visit: https://projectlombok.org/features/GetterSetter
+ * summary: this class represents the User entity in the database with fields like id, email, password, firstName, lastName,
+ *  dateOfBirth, avatar, nickname, and isAdmin.
+ * Each field is mapped to a corresponding column in the "users" table.
+ * and includes constructors for creating User instances.
+ * and the setters and getters like getId(), setId(Long id), getEmail(), setEmail(String email), etc.
+ * are generated automatically by Lombok.
+  */
