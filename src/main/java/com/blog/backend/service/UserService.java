@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.blog.backend.repository.UserRepository;
 import com.blog.backend.dto.AuthResponseDTO;
 import com.blog.backend.dto.UserDTO;
+import com.blog.backend.dto.LoginRequestDTO;
+
 import com.blog.backend.model.User;
 import com.blog.backend.util.JwtUtil;
 
@@ -15,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public interface UserService {
     // Define service methods here, e.g., createUser, getUserById, etc.
     Optional<AuthResponseDTO> registerUser(User user);
-    // Optional<User> loginUser(String email, String password);
+    Optional<User> loginUser(LoginRequestDTO payload);
     // Optional<User> logoutUser(Long userId);
     // Optional<User> getUserByEmail(String email);
 }
@@ -79,11 +81,11 @@ class UserServiceImpl implements UserService {
         return Optional.of(authResponse);
     }
 
-    // @Override
-    // public Optional<User> loginUser(String email, String password) {
-    // // Implementation for logging in a user
-    // return Optional.empty();
-    // }
+    @Override
+    public Optional<User> loginUser(LoginRequestDTO payload) {
+    // Implementation for logging in a user
+    return Optional.empty();
+    }
 
     // @Override
     // public Optional<User> logoutUser(Long userId) {
