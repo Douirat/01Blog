@@ -11,8 +11,6 @@ import com.blog.backend.dto.LoginRequestDTO;
 import com.blog.backend.model.User;
 import com.blog.backend.util.JwtUtil;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,8 +20,9 @@ public interface UserService {
     Optional<AuthResponseDTO> registerUser(User user);
 
     Optional<AuthResponseDTO> loginUser(LoginRequestDTO payload);
-    
-    
+
+    Optional<AuthResponseDTO> checkStatus(String token);
+
 }
 
 @Service
@@ -37,7 +36,7 @@ class UserServiceImpl implements UserService {
 
     private final PasswordEncoder encoder;
 
-    public UserServiceImpl(UserRepository userRepository, JwtUtil jwtUtil,  PasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.jwtUtil = new JwtUtil();
         this.encoder = encoder;
@@ -94,7 +93,7 @@ class UserServiceImpl implements UserService {
             return Optional.empty(); // User not found or password mismatch
         }
 
-    return userOpt.map(user -> {
+        return userOpt.map(user -> {
             UserDTO userDTO = new UserDTO(
                     user.getId(),
                     user.getEmail(),
@@ -121,9 +120,32 @@ class UserServiceImpl implements UserService {
     // return Optional.empty();
     // }
 
-    // @Override
-    // public Optional<User> getUserByEmail(String email) {
-    // // Implementation for retrieving a user by email
-    // return Optional.empty();
-    // }
+    @Override
+    public Optional<AuthResponseDTO> checkStatus(String token) {
+        // the request will uphold the JWT token in the Authorization header as a Bearer
+        if(!jwtUtil.validateToken(token)) {
+            return Optional.empty();
+        }
+        String email = jwtUtil.getUserEmailFromToken(token);
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        return userOpt.map(user -> {
+            UserDTO userDTO = new UserDTO(
+                    user.getId(),
+                    user.getEmail(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getAvatar(),
+                    user.getNickname(),
+                    user.getDateOfBirth(),
+                    user.isAdmin());
+
+            String newToken = jwtUtil.generateToken(userDTO);
+
+            AuthResponseDTO authResponse = new AuthResponseDTO();
+            authResponse.setUser(userDTO);
+            authResponse.setToken(newToken);
+
+            return authResponse;
+        });
+    }
 }

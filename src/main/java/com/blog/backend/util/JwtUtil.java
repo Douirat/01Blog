@@ -7,6 +7,7 @@ import com.blog.backend.dto.UserDTO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
@@ -24,7 +25,7 @@ public class JwtUtil {
 
     // Generate a signing key
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET.getBytes());
+        return Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     }
 
     // Generate JWT with optional custom claims
@@ -65,5 +66,10 @@ public class JwtUtil {
         } catch (JwtException | IllegalArgumentException e) {
             return false; // expired, malformed, tampered, etc.
         }
+    }
+
+    // get user email from token
+    public String getUserEmailFromToken(String token) {
+        return getEmail(token);
     }
 }

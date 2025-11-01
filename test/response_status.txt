@@ -1,0 +1,1 @@
+{"user":{"id":1,"email":"test@example.com","firstName":"test","lastName":"tester","avatar":null,"nickname":"testuser","dateOfBirth":"1991-01-01","admin":false},"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWQiOjEsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3NjIwMDIxMjIsImV4cCI6MTc2MjA4ODUyMn0.8-o7_d7CPvZKNy_8sTnOyKHvhWojxpbWxZ-KB2yVOy8"}

@@ -45,8 +45,10 @@ public class UserController {
     }
 
     // An endpoint to check the authentication status using the JWT token:
-    // @GetMapping
-    // public ResponseEntity<AuthResponseDTO> checkStatus() {
-        
-    // }
+    @GetMapping
+    public ResponseEntity<AuthResponseDTO> checkStatus( @RequestHeader("Authorization") String authHeader) {
+        return userService.checkStatus(authHeader.replace("Bearer ", ""))
+                .map(authResponse -> ResponseEntity.ok().body(authResponse))
+                .orElseGet(() -> ResponseEntity.status(401).build());
+    }
 }
