@@ -1,8 +1,6 @@
 package com.blog.backend.model;
 
 import java.time.LocalDate;
-// import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

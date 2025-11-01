@@ -11,15 +11,19 @@ import com.blog.backend.dto.LoginRequestDTO;
 import com.blog.backend.model.User;
 import com.blog.backend.util.JwtUtil;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public interface UserService {
     // Define service methods here, e.g., createUser, getUserById, etc.
     Optional<AuthResponseDTO> registerUser(User user);
-    Optional<User> loginUser(LoginRequestDTO payload);
-    // Optional<User> logoutUser(Long userId);
-    // Optional<User> getUserByEmail(String email);
+
+    Optional<AuthResponseDTO> loginUser(LoginRequestDTO payload);
+    
+    
 }
 
 @Service
@@ -29,10 +33,14 @@ class UserServiceImpl implements UserService {
     @Autowired
     private final UserRepository userRepository;
     @Autowired
-    private final JwtUtil jwtUtil = new JwtUtil();
+    private final JwtUtil jwtUtil;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private final PasswordEncoder encoder;
+
+    public UserServiceImpl(UserRepository userRepository, JwtUtil jwtUtil,  PasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.jwtUtil = new JwtUtil();
+        this.encoder = encoder;
     }
 
     @Override
@@ -45,8 +53,6 @@ class UserServiceImpl implements UserService {
                 || user.getLastName() == null || user.getNickname() == null || user.getDateOfBirth() == null) {
             return Optional.empty(); // Required fields are missing
         }
-        // print to debug:
-        System.err.println("Registering user --------------->: " + user.getEmail() + ", DOB: " + user.getDateOfBirth());
 
         User newUser = new User();
         newUser.setEmail(user.getEmail());
@@ -58,8 +64,6 @@ class UserServiceImpl implements UserService {
         newUser.setAvatar(user.getAvatar());
         newUser.setNickname(user.getNickname());
         newUser.setAdmin(false); // default to normal user
-
-
 
         User savedUser = userRepository.save(newUser);
         UserDTO userDTO = new UserDTO(
@@ -77,15 +81,39 @@ class UserServiceImpl implements UserService {
         AuthResponseDTO authResponse = new AuthResponseDTO();
         authResponse.setUser(userDTO);
         authResponse.setToken(token);
-        
+
         return Optional.of(authResponse);
     }
 
     @Override
-    public Optional<User> loginUser(LoginRequestDTO payload) {
-    // Implementation for logging in a user
-    return Optional.empty();
-    }
+    public Optional<AuthResponseDTO> loginUser(LoginRequestDTO payload) {
+        Optional<User> userOpt = userRepository.findByEmail(payload.getEmailOrUsername())
+                .or(() -> userRepository.findByNickname(payload.getEmailOrUsername()));
+
+        if (userOpt.isEmpty() || !encoder.matches(payload.getPassword(), userOpt.get().getPassword())) {
+            return Optional.empty(); // User not found or password mismatch
+        }
+
+    return userOpt.map(user -> {
+            UserDTO userDTO = new UserDTO(
+                    user.getId(),
+                    user.getEmail(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getAvatar(),
+                    user.getNickname(),
+                    user.getDateOfBirth(),
+                    user.isAdmin());
+
+            String token = jwtUtil.generateToken(userDTO);
+
+            AuthResponseDTO authResponse = new AuthResponseDTO();
+            authResponse.setUser(userDTO);
+            authResponse.setToken(token);
+
+            return authResponse;
+        });
+    };
 
     // @Override
     // public Optional<User> logoutUser(Long userId) {

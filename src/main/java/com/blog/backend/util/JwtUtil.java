@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import com.blog.backend.dto.UserDTO;
 
-import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
