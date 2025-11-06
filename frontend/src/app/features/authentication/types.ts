@@ -8,7 +8,7 @@ export interface User{
     dateOfBirth: string; // ISO format date string
     avatar?: string; // URL to avatar image (optional)
     nickname: string;
-    isAdmin: boolean;
+    isAdmin?: boolean;
 }
 
 // the UserDTO frontend type representer:
@@ -20,7 +20,7 @@ export interface UserDTO{
     dateOfBirth: string; // ISO format date string
     avatar?: string; // URL to avatar image (optional)
     nickname: string;
-    isAdmin: boolean;
+    isAdmin?: boolean;
 }
 
 // Typescript interface representing the user response:
