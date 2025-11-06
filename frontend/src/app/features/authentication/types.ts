@@ -1,6 +1,6 @@
 // TypeScript interface representing a User entity:
 export interface User{
-    readonly id: string;
+    readonly id?: string;
     email: string;
     password: string;
     firstName: string;
@@ -25,8 +25,8 @@ export interface UserDTO{
 
 // Typescript interface representing the user response:
 export interface UserResponse{
-    readonly token: string;
     readonly user: UserDTO;
+    readonly token: string;
 }
 
 // Typescript interface to represent the login payload:
