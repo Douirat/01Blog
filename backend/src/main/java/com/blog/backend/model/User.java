@@ -63,7 +63,7 @@ public class User {
     }
 }
 /*
- * When you puth the annotations @Getter/Setter from Lombok library, you dont need to write the getters/setters manually.
+ * When you put the annotations @Getter/Setter from Lombok library, you dont need to write the getters/setters manually.
  * Lombok will generate them at compile time.
  * For more information, visit: https://projectlombok.org/features/GetterSetter
  * summary: this class represents the User entity in the database with fields like id, email, password, firstName, lastName,

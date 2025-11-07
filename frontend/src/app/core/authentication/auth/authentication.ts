@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { environment } from '../environment/environment';
-import { LoginPayload, User, UserResponse } from '../features/authentication/types';
-import { REACTIVE_NODE } from '@angular/core/primitives/signals';
+import { environment } from '../../../environment/environment'
+import { LoginPayload, User, UserResponse } from '../../../features/authentication/types';
 
 
 export interface AuthenticationService {
@@ -55,9 +54,9 @@ export class Authentication {
    * @returns Observable<UserResponse> containing user and token.
    * 
    * On success:
-   * - Stores token in localStorage
-   * - Updates currentUser$ observable
-   * - Logs registration event
+   * - Stores token in localStorage.
+   * - Updates currentUser$ observable.
+   * - Logs registration event.
    */
 
   // register the user:
