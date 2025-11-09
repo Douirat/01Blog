@@ -1,0 +1,10 @@
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/model/User.java
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/dto/UserDTO.java
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/controller/UserController.java
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/dto/AuthResponseDTO.java
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/config/SecurityConfig.java
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/dto/LoginRequestDTO.java
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/Application.java
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/util/JwtUtil.java
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/service/UserService.java
+/home/bdouirat/Desktop/01Blog/src/main/java/com/blog/backend/repository/UserRepository.java
