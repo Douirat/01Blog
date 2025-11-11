@@ -1,1 +1,89 @@
-<p>registeration works!</p>
+<div class="registration-card" role="region" aria-labelledby="registration-heading">
+  <h2 id="registration-heading">Create Your Account</h2>
+
+  <!-- Success or error messages -->
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <!-- Registration form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" placeholder="Enter your email" />
+      @if (hasError('email', 'required')) {
+        <small class="error">Email is required</small>
+      } @else if (hasError('email', 'email')) {
+        <small class="error">Invalid email format</small>
+      }
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" placeholder="Enter your password" />
+      @if (hasError('password', 'required')) {
+        <small class="error">Password is required</small>
+      } @else if (hasError('password', 'minlength')) {
+        <small class="error">Password must be at least 6 characters long</small>
+      }
+    </div>
+
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input id="firstName" type="text" formControlName="firstName" placeholder="Enter your first name" />
+      @if (hasError('firstName', 'required')) {
+        <small class="error">First name is required</small>
+      }
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input id="lastName" type="text" formControlName="lastName" placeholder="Enter your last name" />
+      @if (hasError('lastName', 'required')) {
+        <small class="error">Last name is required</small>
+      }
+    </div>
+
+    <!-- Nickname -->
+    <div class="form-group">
+      <label for="nickname">Nickname</label>
+      <input id="nickname" type="text" formControlName="nickname" placeholder="Enter your nickname" />
+      @if (hasError('nickname', 'required')) {
+        <small class="error">Nickname is required</small>
+      }
+    </div>
+
+    <!-- Date of Birth -->
+    <div class="form-group">
+      <label for="dateOfBirth">Date of Birth</label>
+      <input id="dateOfBirth" type="date" formControlName="dateOfBirth" />
+      @if (hasError('dateOfBirth', 'required')) {
+        <small class="error">Date of birth is required</small>
+      }
+    </div>
+
+    <!-- Avatar (optional) -->
+    <div class="form-group">
+      <label for="avatar">Avatar URL (optional)</label>
+      <input id="avatar" type="text" formControlName="avatar" placeholder="https://example.com/avatar.jpg" />
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="isSubmitting || form.invalid">
+      @if (isSubmitting) {
+        Submitting...
+      } @else {
+        Create Account
+      }
+    </button>
+  </form>
+
+  <!-- Reset button -->
+  <button type="button" class="reset-btn" (click)="resetForm()">Reset</button>
+</div>

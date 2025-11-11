@@ -11,7 +11,7 @@ import { User } from '../types';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registeration.html',
-  styleUrl: './registeration.scss',
+  styleUrls: ['./registeration.scss'], 
 })
 export class Registeration {
   form: FormGroup;
