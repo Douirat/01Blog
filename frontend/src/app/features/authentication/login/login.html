@@ -1,1 +1,44 @@
-<p>login works!</p>
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <!-- Email or Username -->
+    <div class="form-group">
+      <label for="emailOrUsername">Email or Username</label>
+      <input
+        id="emailOrUsername"
+        type="text"
+        formControlName="emailOrUsername"
+        placeholder="Enter your email or username"
+      />
+      <small class="error" *ngIf="hasError('emailOrUsername', 'required')">
+        Email or username is required
+      </small>
+      <small class="error" *ngIf="hasError('emailOrUsername', 'invalidFormat')">
+        Must be a valid email or username (3-20 chars, letters/numbers/_)
+      </small>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        placeholder="Enter your password"
+      />
+      <small class="error" *ngIf="hasError('password', 'required')">
+        Password is required
+      </small>
+      <small class="error" *ngIf="hasError('password', 'minlength')">
+        Password must be at least 6 characters long
+      </small>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="isSubmitting || form.invalid">
+      <span *ngIf="isSubmitting">Submitting...</span>
+      <span *ngIf="!isSubmitting">Login</span>
+    </button>
+  </form>
+</div>

@@ -6,8 +6,8 @@ LOGIN_URL="http://localhost:8080/api/users/login"
 # JSON payload
 read -r -d '' PAYLOAD << EOM
 {
-  "emailOrUsername": "testuser",
-  "password": "password123"
+  "emailOrUsername": "test2@gmail.com",
+  "password": "test123*"
 }
 EOM
 

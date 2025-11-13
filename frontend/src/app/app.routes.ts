@@ -3,11 +3,14 @@ import { Routes } from '@angular/router';
 // import { roleGuard } from './core/auth/role.guard'; // import the admin panel guarder.
 // import { httpInterceptor } from './core/authentication/interceptors/http-interceptor';
 import { Registeration } from './features/authentication/registeration/registeration';
+import { Login } from './features/authentication/login/login';
+
 export const routes: Routes = [
 //   { path: 'admin', component: AdminComponent, canActivate: [roleGuard] }, // the admin panel with its gate keeper.
 // other routes...
-// { path: 'login', component: LoginComponent },
-  { path: 'register', component: Registeration },
+{ path: 'login', component: Login },
+{ path: 'register', component: Registeration },
+
 //   { 
 //     path: 'dashboard', 
 //     component: DashboardComponent,

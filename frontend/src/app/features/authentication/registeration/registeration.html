@@ -2,70 +2,55 @@
   <h2 id="registration-heading">Create Your Account</h2>
 
   <!-- Success or error messages -->
-  @if (errorMessage) {
-    <div class="error-message">
-      {{ errorMessage }}
-    </div>
-  }
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
 
   <!-- Registration form -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
     <!-- Email -->
     <div class="form-group">
       <label for="email">Email</label>
       <input id="email" type="email" formControlName="email" placeholder="Enter your email" />
-      @if (hasError('email', 'required')) {
-        <small class="error">Email is required</small>
-      } @else if (hasError('email', 'email')) {
-        <small class="error">Invalid email format</small>
-      }
+      <small class="error" *ngIf="hasError('email', 'required')">Email is required</small>
+      <small class="error" *ngIf="hasError('email', 'email')">Invalid email format</small>
     </div>
 
     <!-- Password -->
     <div class="form-group">
       <label for="password">Password</label>
       <input id="password" type="password" formControlName="password" placeholder="Enter your password" />
-      @if (hasError('password', 'required')) {
-        <small class="error">Password is required</small>
-      } @else if (hasError('password', 'minlength')) {
-        <small class="error">Password must be at least 6 characters long</small>
-      }
+      <small class="error" *ngIf="hasError('password', 'required')">Password is required</small>
+      <small class="error" *ngIf="hasError('password', 'minlength')">Password must be at least 6 characters long</small>
     </div>
 
     <!-- First Name -->
     <div class="form-group">
       <label for="firstName">First Name</label>
       <input id="firstName" type="text" formControlName="firstName" placeholder="Enter your first name" />
-      @if (hasError('firstName', 'required')) {
-        <small class="error">First name is required</small>
-      }
+      <small class="error" *ngIf="hasError('firstName', 'required')">First name is required</small>
     </div>
 
     <!-- Last Name -->
     <div class="form-group">
       <label for="lastName">Last Name</label>
       <input id="lastName" type="text" formControlName="lastName" placeholder="Enter your last name" />
-      @if (hasError('lastName', 'required')) {
-        <small class="error">Last name is required</small>
-      }
+      <small class="error" *ngIf="hasError('lastName', 'required')">Last name is required</small>
     </div>
 
     <!-- Nickname -->
     <div class="form-group">
       <label for="nickname">Nickname</label>
       <input id="nickname" type="text" formControlName="nickname" placeholder="Enter your nickname" />
-      @if (hasError('nickname', 'required')) {
-        <small class="error">Nickname is required</small>
-      }
+      <small class="error" *ngIf="hasError('nickname', 'required')">Nickname is required</small>
     </div>
 
     <!-- Date of Birth -->
     <div class="form-group">
       <label for="dateOfBirth">Date of Birth</label>
       <input id="dateOfBirth" type="date" formControlName="dateOfBirth" />
-      @if (hasError('dateOfBirth', 'required')) {
-        <small class="error">Date of birth is required</small>
-      }
+      <small class="error" *ngIf="hasError('dateOfBirth', 'required')">Date of birth is required</small>
     </div>
 
     <!-- Avatar (optional) -->
@@ -76,12 +61,10 @@
 
     <!-- Submit Button -->
     <button type="submit" [disabled]="isSubmitting || form.invalid">
-      @if (isSubmitting) {
-        Submitting...
-      } @else {
-        Create Account
-      }
+      <span *ngIf="isSubmitting">Submitting...</span>
+      <span *ngIf="!isSubmitting">Create Account</span>
     </button>
+
   </form>
 
   <!-- Reset button -->

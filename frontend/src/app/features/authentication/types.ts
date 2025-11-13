@@ -31,6 +31,6 @@ export interface UserResponse{
 
 // Typescript interface to represent the login payload:
 export interface LoginPayload{
-    email: string;
+    emailOrUsername: string;
     password: string;
 }
