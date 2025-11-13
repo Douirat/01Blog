@@ -124,11 +124,10 @@ public class UserController {
      *         .map(ResponseEntity::ok)
      *         .orElse(ResponseEntity.status(401).build());
      * }
-     * TODO: Implement spring boot security is a must for the project requirements.
      */
     @GetMapping
     public ResponseEntity<AuthResponseDTO> checkStatus(@RequestHeader("Authorization") String authHeader) {
-        return userService.checkStatus(authHeader.replace("Bearer ", ""));
+        return userService.checkStatus(authHeader.replace("Bearer ", ""))
                 .map(authResponse -> ResponseEntity
                     .ok()
                     .body(authResponse))
