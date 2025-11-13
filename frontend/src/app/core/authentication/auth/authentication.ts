@@ -145,7 +145,7 @@ export class Authentication {
   /**
  * Clears all session data from localStorage and resets observable.
  */
-  private clearSession(): void {
+  clearSession(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
     this.currentUser.next(null);

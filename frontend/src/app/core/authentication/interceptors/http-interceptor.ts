@@ -36,12 +36,13 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 401) {
         // Handle unauthorized
         localStorage.removeItem('token');
+         localStorage.removeItem('user');
         // Redirect to login
         router.navigate(['/login']);
       }
       if (error.status === 403) {
         // Handle forbidden
-        router.navigate(['/forbidden']);
+        router.navigate(['/login']);
       }
       return throwError(() => error);
     })
