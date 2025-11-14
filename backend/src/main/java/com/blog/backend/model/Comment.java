@@ -13,7 +13,11 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "comments")
+
+@Table(name = "comments", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"post_id", "user_id"})
+})
+
 @Getter
 @Setter
 public class Comment {

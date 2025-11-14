@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "post_likes", uniqueConstraints = {
+@Table(name = "votes", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"post_id", "user_id"})
 })
 @Getter
