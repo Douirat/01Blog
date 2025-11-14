@@ -27,9 +27,9 @@ public class Vote {
     // true = like, false = dislike (optional)
     private boolean liked = true;
 
-    public PostLike() {}
+    public Vote() {}
 
-    public PostLike(Post post, User user, boolean liked) {
+    public Vote(Post post, User user, boolean liked) {
         this.post = post;
         this.user = user;
         this.liked = liked;
