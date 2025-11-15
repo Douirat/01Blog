@@ -1,4 +1,4 @@
-package com.blog.backend.dto;
+package com.blog.backend.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data // Lombok annotation to generate getters, setters, toString, etc.
 // this the data structure frontend sends with server controlled data flow.
-@AllArgsConstructor
+@AllArgsConstructor // generates constructor with all fields as parameters.
 public class UserDTO {
     private Long id;
     private String email;
