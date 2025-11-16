@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -43,5 +43,22 @@ public class User {
     private String nickname;
 
     @Column(name = "is_admin", nullable = false)
-    private boolean isAdmin = false;
+    private boolean admin = false;  // Changed from isAdmin to admin
+
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

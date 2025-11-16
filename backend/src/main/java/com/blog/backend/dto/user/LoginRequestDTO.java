@@ -1,4 +1,4 @@
-package com.blog.backend.dto;
+package com.blog.backend.dto.user;
 import jakarta.validation.constraints.NotBlank; // if using Jakarta EE 10+
 import lombok.AllArgsConstructor;
 import lombok.Data;

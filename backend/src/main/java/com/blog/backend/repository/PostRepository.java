@@ -4,7 +4,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.blog.backend.model.Post;
 import com.blog.backend.model.User;
+
+import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByUser(User user);

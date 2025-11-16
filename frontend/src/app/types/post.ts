@@ -1,26 +1,52 @@
 import { Comment } from "./comment";
 /*
 Create a typescript type definition for a blog post object.
-*/ 
+*/
 
 // the input type describing the input data only:
-export interface PostInput{
-    title: string;
-    content: string;
-    mediaType?: 'image' | 'video';
-    media?: File 
+export interface PostInput {
+  title: string;
+  content: string;
+  mediaType?: 'image' | 'video';
+  media?: File;
 }
 
-// Full Post type returned by backend (includes user, comments, votes)
+
+// Full Post type returned by backend (includes user, comments, votes):
 export interface Post {
   id: number;
   title: string;
   content: string;
-  mediaType?: string;
-  media: File | null;
-  user: number;          // Populated by backend
-  createdAt: string;   // ISO string
+  mediaType?: 'image' | 'video';
+  mediaUrl?: string | null;       // URL to file on backend.
+  user: number;                   // ID or full User object (depends).
+  createdAt: string;              // ISO date.
   comments?: Comment[];
   likes: number;
   dislikes: number;
 }
+
+/*
+"mediaUrl": "http://localhost:8080/uploads/post-14-image.png"
+the json only contains the URL to the media file stored on the backend server.
+
+Example Post object:
+{
+  "id": 1,
+  "title": "My Post",
+  "content": "Hello world",
+  "mediaType": "image",
+  "mediaUrl": "http://localhost:8080/uploads/12345-image.png",
+  "user": 3,
+  "createdAt": "2025-11-16T15:23:00",
+  "likes": 5,
+  "dislikes": 1,
+  "comments": []
+}
+  after the post is created, the backend returns the URL to access the uploaded media file.
+  This URL can be used to display the media content in the frontend.
+  The browser fetches the image directly from the backend using this URL.
+  exmple: <img src={post.mediaUrl} />
+  GET /uploads/post-14-image.png
+and the backend serves the file.
+*/

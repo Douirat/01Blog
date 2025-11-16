@@ -1,5 +1,7 @@
 package com.blog.backend.controller;
 
+import com.blog.backend.dto.user.LoginRequestDTO;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +12,11 @@ import com.blog.backend.service.UserService;
 
 import jakarta.validation.Valid;
 
-import com.blog.backend.dto.LoginRequestDTO;
+import java.util.Optional;
+import java.util.Map;
+import java.util.HashMap;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -134,10 +140,9 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .build());
-                        /**
+    /**
      * Global exception handler for this controller.
      * Catches validation errors and other exceptions to return consistent error responses.
-     * 
      * Consider moving to a @ControllerAdvice class for application-wide error handling.
      */
     // @ExceptionHandler(MethodArgumentNotValidException.class)
