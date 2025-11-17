@@ -9,6 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
 
 import java.util.List;
 
@@ -18,13 +19,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ enable CORS
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/users/**").permitAll() // allow registration
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form.disable());
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ enable CORS
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/users/**").permitAll() // allow registration
+
+                        // allow multipart POST with authentication
+                        .requestMatchers(HttpMethod.POST, "/api/posts").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+
+                        .anyRequest().authenticated())
+                .formLogin(form -> form.disable());
 
         return http.build();
     }
