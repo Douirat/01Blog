@@ -14,9 +14,7 @@ public class PostDTO {
     private String mediaUrl;
     private Long userId;
     private LocalDateTime createdAt;
-    private List<CommentDTO> comments;
     private int likes;
     private int dislikes;
-
     // Getters and Setters
 }
