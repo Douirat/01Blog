@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Authentication } from '../../../core/authentication/auth/authentication'; // adjust to your path
-import { User } from '../types';
+import { User } from '../../../types/user'; // adjust to your path
 
 
 @Component({

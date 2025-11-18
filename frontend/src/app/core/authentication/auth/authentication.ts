@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from '../../../environment/environment'
-import { LoginPayload, User, UserResponse } from '../../../features/authentication/types';
+import { LoginPayload, User, UserResponse } from '../../../types/user';
 
 
 export interface AuthenticationService {

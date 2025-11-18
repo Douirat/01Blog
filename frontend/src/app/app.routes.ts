@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 // import { roleGuard } from './core/auth/role.guard'; // import the admin panel guarder.
 import { Registeration } from './features/authentication/registeration/registeration';
 import { Login } from './features/authentication/login/login';
-import { Dashboard } from './features/dashboard/dashboard/dashboard';
+import { Dashboard } from './features/dashboard/dashboard';
 import { authGuard } from './core/authentication/guards/auth-guard';
 
 export const routes: Routes = [
