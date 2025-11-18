@@ -59,16 +59,23 @@ public class PostServiceImpl implements PostService {
         return postRepository.save(newPost);
     }
 
-    private String saveMedia(MultipartFile media) {
-        try {
-            String filename = UUID.randomUUID() + "-" + media.getOriginalFilename();
-            Path filePath = Paths.get(UPLOAD_DIR + filename);
-            Files.copy(media.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-            return "http://localhost:8080/" + UPLOAD_DIR + filename;
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to store media file", e);
+private String saveMedia(MultipartFile media) {
+    try {
+        Path uploadPath = Paths.get(UPLOAD_DIR);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath); // create folder if missing
         }
+
+        String filename = UUID.randomUUID() + "-" + media.getOriginalFilename();
+        Path filePath = uploadPath.resolve(filename);
+        Files.copy(media.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return "http://localhost:8080/" + UPLOAD_DIR + filename;
+    } catch (IOException e) {
+        throw new RuntimeException("Failed to store media file", e);
     }
+}
+
 
     // @Override
     // public Post updatePost(Long id, Post post) {
