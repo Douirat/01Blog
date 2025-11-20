@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0NEBleGFtcGxlLmNvbSIsImlkIjo1LCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzYzNDk5MzM5LCJleHAiOjE3NjM1ODU3Mzl9.xEVrVu54didB-D38bMgrPeMCDRapTWlsGBOqA95hpAY"
+TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0NEBleGFtcGxlLmNvbSIsImlkIjo1LCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzYzNjY1MTgyLCJleHAiOjE3NjM3NTE1ODJ9.0tA7KaXX4Bkrkm_E9VgR50t1_h-QSAsP-05vhXzPDzI"
 
 curl -v -X POST http://localhost:8080/api/posts \
   -H "Authorization: Bearer $TOKEN" \
