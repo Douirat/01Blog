@@ -30,7 +30,7 @@ public class PostController {
             @RequestHeader(value = "Authorization", required = false) String authHeader,
             @ModelAttribute PostInputDTO dto) {
 
-        System.out.println("Received PostInputDTO ----------------WWW.fuck.com: " + dto);
+        // System.out.println("Received PostInputDTO ----------------WWW.fuck.com: " + dto);
         try {
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

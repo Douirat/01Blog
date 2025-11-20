@@ -21,9 +21,11 @@ export interface Post {
   mediaUrl?: string | null;       // URL to file on backend.
   user: number;                   // ID or full User object (depends).
   createdAt: string;              // ISO date.
-  comments?: Comment[];
-  likes: number;
-  dislikes: number;
+  // comments?: Comment[]; this is not valid cause it dos't respect that the user will have to feth the comments separatly based on the scroll 10/10.
+  /* likes: number; 
+   dislikes: number;
+  just like the comments, likes and dislike wil have to be fetched separatly based on the user interaction.
+*/
 }
 
 /*

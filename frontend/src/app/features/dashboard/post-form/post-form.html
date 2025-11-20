@@ -1,1 +1,25 @@
-<form ></form>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="post-form">
+  <input formControlName="title" placeholder="Title" />
+  <div *ngIf="form.controls.title.invalid && form.controls.title.touched">
+    Title is required
+  </div>
+
+  <textarea formControlName="content" placeholder="Content"></textarea>
+  <div *ngIf="form.controls.content.invalid && form.controls.content.touched">
+    Content is required
+  </div>
+
+  <select formControlName="mediaType">
+    <option value="">Select media type (optional)</option>
+    <option value="image">Image</option>
+    <option value="video">Video</option>
+  </select>
+
+  <input type="file" (change)="onFileSelected($event)" />
+  <span *ngIf="fileName">{{ fileName }}</span>
+
+  <button type="submit" [disabled]="form.invalid || isSubmitting">
+    {{ isSubmitting ? 'Creating...' : 'Create Post' }}
+  </button>
+</form>
+
