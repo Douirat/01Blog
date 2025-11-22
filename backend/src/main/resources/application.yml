@@ -14,3 +14,7 @@ spring:
 jwt:
   secret: toBeOrNotToBeThatIsTheQuestionAnd01blog06-09-1991
   expiration: 86400000
+
+file:
+  upload-dir: uploads
+  base-url: http://localhost:8080

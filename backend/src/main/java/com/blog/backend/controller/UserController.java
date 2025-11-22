@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.blog.backend.dto.AuthResponseDTO;
 import com.blog.backend.model.User;
 import com.blog.backend.service.UserService;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 
@@ -16,7 +17,6 @@ import java.util.Optional;
 import java.util.Map;
 import java.util.HashMap;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-
 
 @RestController
 @RequestMapping("/api/users")
@@ -45,9 +45,10 @@ public class UserController {
      *         Consider creating RegisterRequestDTO for better separation of
      *         concerns.
      */
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponseDTO> registerUser(@RequestBody User user) {
-        return userService.registerUser(user)
+    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<AuthResponseDTO> registerUser(@RequestPart("user") User user,
+            @RequestPart("image") MultipartFile profileImage) {
+        return userService.registerUser(user, profileImage)
                 .map(registeredUser -> ResponseEntity
                         .status(HttpStatus.CREATED)
                         .body(registeredUser))
@@ -64,7 +65,6 @@ public class UserController {
      *         - 200 OK: Authentication successful with JWT token
      *         - 401 Unauthorized: Invalid credentials
      *         - 400 Bad Request: Validation failed
-     * 
      *         Validation is performed automatically via @Valid annotation.
      */
 
@@ -119,42 +119,45 @@ public class UserController {
      *         - 200 OK: Token valid, returns user data
      *         - 401 Unauthorized: Token invalid/expired/missing
      * 
-     * Note: Token extraction could be handled by @AuthenticationPrincipal
-     * if using Spring Security's authentication context.
+     *         Note: Token extraction could be handled by @AuthenticationPrincipal
+     *         if using Spring Security's authentication context.
      * 
-     * Alternative approach using Spring Security:
+     *         Alternative approach using Spring Security:
      * @GetMapping
-     * public ResponseEntity<AuthResponseDTO> checkStatus(
-     *     @AuthenticationPrincipal UserDetails userDetails) {
-     *     return userService.getUserData(userDetails.getUsername())
-     *         .map(ResponseEntity::ok)
-     *         .orElse(ResponseEntity.status(401).build());
-     * }
+     *             public ResponseEntity<AuthResponseDTO> checkStatus(
+     * @AuthenticationPrincipal UserDetails userDetails) {
+     *                          return
+     *                          userService.getUserData(userDetails.getUsername())
+     *                          .map(ResponseEntity::ok)
+     *                          .orElse(ResponseEntity.status(401).build());
+     *                          }
      */
     @GetMapping
     public ResponseEntity<AuthResponseDTO> checkStatus(@RequestHeader("Authorization") String authHeader) {
         return userService.checkStatus(authHeader.replace("Bearer ", ""))
                 .map(authResponse -> ResponseEntity
-                    .ok()
-                    .body(authResponse))
+                        .ok()
+                        .body(authResponse))
                 .orElseGet(() -> ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build());
-    /**
-     * Global exception handler for this controller.
-     * Catches validation errors and other exceptions to return consistent error responses.
-     * Consider moving to a @ControllerAdvice class for application-wide error handling.
-     */
-    // @ExceptionHandler(MethodArgumentNotValidException.class)
-    // public ResponseEntity<ErrorResponseDTO> handleValidationErrors(
-    //         MethodArgumentNotValidException ex) {
-    //     Map<String, String> errors = new HashMap<>();
-    //     ex.getBindingResult().getFieldErrors()
-    //         .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
-    //     
-    //     return ResponseEntity
-    //         .badRequest()
-    //         .body(new ErrorResponseDTO("Validation failed", errors));
-    // }
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .build());
+        /**
+         * Global exception handler for this controller.
+         * Catches validation errors and other exceptions to return consistent error
+         * responses.
+         * Consider moving to a @ControllerAdvice class for application-wide error
+         * handling.
+         */
+        // @ExceptionHandler(MethodArgumentNotValidException.class)
+        // public ResponseEntity<ErrorResponseDTO> handleValidationErrors(
+        // MethodArgumentNotValidException ex) {
+        // Map<String, String> errors = new HashMap<>();
+        // ex.getBindingResult().getFieldErrors()
+        // .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+        //
+        // return ResponseEntity
+        // .badRequest()
+        // .body(new ErrorResponseDTO("Validation failed", errors));
+        // }
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 class UserServiceImpl implements UserService {
