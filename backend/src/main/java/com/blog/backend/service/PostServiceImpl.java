@@ -17,16 +17,22 @@ import java.nio.file.StandardCopyOption;
 import java.io.IOException;
 import com.blog.backend.repository.UserRepository;
 import com.blog.backend.model.User;
+import com.blog.backend.service.FileStorageService;
+import com.blog.backend.constants.FileTypeConstants;
 
 @Service // ← This tells Spring: "I'm the implementation!"
 public class PostServiceImpl implements PostService {
 
+    // inject the constants:
     @Autowired
     private PostRepository postRepository;
     @Autowired
     private UserRepository userRepository;
-    private static final String UPLOAD_DIR = "uploads/";
-    private static final String BASE_URL = "http://localhost:8080/";
+    // private static final String UPLOAD_DIR = "uploads/";
+    // private static final String BASE_URL = "http://localhost:8080/";
+
+    @Autowired
+    private FileStorageService fileStorageService;
 
     // @Override
     // public List<Post> getAllPosts() {
@@ -43,7 +49,7 @@ public class PostServiceImpl implements PostService {
         String mediaUrl = null;
         // Logic to handle media upload and set mediaUrl accordingly would go here:
         if (post.getMediaType() != null && !post.getMediaType().isEmpty()) {
-            mediaUrl = saveMedia(post.getMedia());
+            mediaUrl = fileStorageService.saveFile(post.getMedia(), FileTypeConstants.POST_MEDIA_DIR, FileTypeConstants.MEDIA_TYPES) ;
         }
 
         User user = userRepository.findById(Long.parseLong(userId))
@@ -59,23 +65,22 @@ public class PostServiceImpl implements PostService {
         return postRepository.save(newPost);
     }
 
-private String saveMedia(MultipartFile media) {
-    try {
-        Path uploadPath = Paths.get(UPLOAD_DIR);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath); // create folder if missing
-        }
+    // private String saveMedia(MultipartFile media) {
+    //     try {
+    //         Path uploadPath = Paths.get(UPLOAD_DIR);
+    //         if (!Files.exists(uploadPath)) {
+    //             Files.createDirectories(uploadPath); // create folder if missing
+    //         }
 
-        String filename = UUID.randomUUID() + "-" + media.getOriginalFilename();
-        Path filePath = uploadPath.resolve(filename);
-        Files.copy(media.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+    //         String filename = UUID.randomUUID() + "-" + media.getOriginalFilename();
+    //         Path filePath = uploadPath.resolve(filename);
+    //         Files.copy(media.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return "http://localhost:8080/" + UPLOAD_DIR + filename;
-    } catch (IOException e) {
-        throw new RuntimeException("Failed to store media file", e);
-    }
-}
-
+    //         return "http://localhost:8080/" + UPLOAD_DIR + filename;
+    //     } catch (IOException e) {
+    //         throw new RuntimeException("Failed to store media file", e);
+    //     }
+    // }
 
     // @Override
     // public Post updatePost(Long id, Post post) {

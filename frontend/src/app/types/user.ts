@@ -18,7 +18,7 @@ export interface UserDTO{
     firstName: string;
     lastName: string;
     dateOfBirth: string; // ISO format date string
-    avatar?: string; // URL to avatar image (optional)
+    avatar?: File; // image (optional)
     nickname: string;
     isAdmin?: boolean;
 }

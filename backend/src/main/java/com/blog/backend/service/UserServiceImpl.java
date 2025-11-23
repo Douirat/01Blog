@@ -5,35 +5,40 @@ import com.blog.backend.repository.UserRepository;
 import com.blog.backend.dto.AuthResponseDTO;
 import com.blog.backend.dto.user.UserDTO;
 import com.blog.backend.dto.user.LoginRequestDTO;
+import com.blog.backend.dto.user.UserRegistrationDTO;
 
 import com.blog.backend.model.User;
 import com.blog.backend.util.JwtUtil;
+import com.blog.backend.service.FileStorageService;
+import com.blog.backend.constants.FileTypeConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.Optional;
 
 @Service
 class UserServiceImpl implements UserService {
 
-    // You would typically inject UserRepository here
-    @Autowired
+    private final FileStorageService fileStorage;
     private final UserRepository userRepository;
-    @Autowired
     private final JwtUtil jwtUtil;
-
     private final PasswordEncoder encoder;
 
-    public UserServiceImpl(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder encoder) {
+    @Autowired
+    public UserServiceImpl(FileStorageService fileStorage,
+                           UserRepository userRepository,
+                           JwtUtil jwtUtil,
+                           PasswordEncoder encoder) {
+        this.fileStorage = fileStorage;
         this.userRepository = userRepository;
-        this.jwtUtil = new JwtUtil();
+        this.jwtUtil = jwtUtil;
         this.encoder = encoder;
     }
 
     @Override
-    public Optional<AuthResponseDTO> registerUser(User user) {
+    public Optional<AuthResponseDTO> registerUser(UserRegistrationDTO user) {
         // Implementation for registering a user
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return Optional.empty(); // User already exists
@@ -43,16 +48,22 @@ class UserServiceImpl implements UserService {
             return Optional.empty(); // Required fields are missing
         }
 
+        String avatarPath = null;
+        if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+            avatarPath = fileStorage.saveFile(user.getAvatar(), FileTypeConstants.AVATAR_DIR,
+                    FileTypeConstants.IMAGE_TYPES);
+        }
+
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         newUser.setPassword(encoder.encode(user.getPassword()));
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
-        newUser.setDateOfBirth(user.getDateOfBirth()); // .atStartOfDay()
-        newUser.setAvatar(user.getAvatar());
+        newUser.setDateOfBirth(user.getDateOfBirth()); // .atStartOfDay():
+        newUser.setAvatar(avatarPath);
         newUser.setNickname(user.getNickname());
-        newUser.setAdmin(false); // default to normal user
+        newUser.setAdmin(false); // default to normal user:
 
         User savedUser = userRepository.save(newUser);
         UserDTO userDTO = new UserDTO(
@@ -113,7 +124,7 @@ class UserServiceImpl implements UserService {
     @Override
     public Optional<AuthResponseDTO> checkStatus(String token) {
         // the request will uphold the JWT token in the Authorization header as a Bearer
-        if(!jwtUtil.validateToken(token)) {
+        if (!jwtUtil.validateToken(token)) {
             return Optional.empty();
         }
         String email = jwtUtil.getUserEmailFromToken(token);
