@@ -1,0 +1,28 @@
+
+// _mixins.scss
+@mixin flex-column($gap: 1rem) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin disabled-state {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@mixin center-elements-column($gap: 1vmin) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: $gap;
+}
+
+@mixin center-elements-raw($gap: 1vmin) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: $gap;
+}

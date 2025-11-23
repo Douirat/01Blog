@@ -1,0 +1,45 @@
+@import '../../../../mixins';
+@import '../../../../variables';
+
+.post-form {
+
+    // container styles go here
+    @include center-elements-column($gap-size) ;
+    width: $form-width;
+    input {
+        // general input styles
+        width: $input-width;
+    }
+
+    textarea {
+        // textarea styles
+        width: $input-width;
+    }
+
+    select {
+        // select styles
+        width: $input-width;
+    }
+
+    span {
+        // filename display
+        width: $span-width;
+    }
+
+    button {
+        // submit button styles
+        width: $button-width;
+
+        &:disabled {
+            // disabled state
+            @include disabled-state;
+        }
+    }
+
+    // validation messages
+    div.ng-invalid.ng-touched {
+        // error styles
+        color: red;
+        font-size: $er-font;
+    }
+}
