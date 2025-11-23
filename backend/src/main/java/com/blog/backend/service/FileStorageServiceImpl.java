@@ -14,7 +14,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
-public class FileStorageServiceImpl {
+public class FileStorageServiceImpl implements FileStorageService  {
 
     @Value("${file.upload-dir:uploads}")
     private String uploadDir;
@@ -86,7 +86,7 @@ public class FileStorageServiceImpl {
     /**
      * Validate file against allowed types
      */
-    private void validateFile(MultipartFile file, String[] allowedTypes) {
+    public void validateFile(MultipartFile file, String[] allowedTypes) {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("File cannot be empty");
         }
@@ -117,7 +117,7 @@ public class FileStorageServiceImpl {
         }
     }
 
-    private String getFileExtension(String filename) {
+    public String getFileExtension(String filename) {
         if (filename == null) return "";
         int lastDot = filename.lastIndexOf('.');
         return (lastDot == -1) ? "" : filename.substring(lastDot);

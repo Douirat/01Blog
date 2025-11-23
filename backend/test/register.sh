@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Path to the avatar image to upload
-AVATAR_PATH="./avatar.png"
+AVATAR_PATH="./image_test/Test-Logo.svg.png"
 
 # API endpoint
-URL="http://localhost:8080/api/register"
+URL="http://localhost:8080/api/users/register"
 
 # User data
 EMAIL="john@example.com"

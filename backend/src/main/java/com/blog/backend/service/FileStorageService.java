@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 
 
-@Service
+
 public interface FileStorageService {
     String saveFile(MultipartFile file, String subDirectory, String[] allowedTypes);
     void deleteFile(String fileUrl);
