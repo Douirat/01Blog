@@ -1,45 +1,46 @@
-@import '../../../../mixins';
-@import '../.';
+@use '../../../styles/mixins' as mixins;
+@use '../../../styles/variables' as variables;
 
 .post-form {
 
-    // container styles go here
-    @include center-elements-column($gap-size) ;
-    width: $form-width;
-    input {
-        // general input styles
-        width: $input-width;
-    }
+  // container styles go here
+  @include mixins.center-elements-column(variables.$gap-size);
+  width: variables.$form-width;
 
-    textarea {
-        // textarea styles
-        width: $input-width;
-    }
+  input {
+    // general input styles
+    width: variables.$input-width;
+  }
 
-    select {
-        // select styles
-        width: $input-width;
-    }
+  textarea {
+    // textarea styles
+    width: variables.$input-width;
+  }
 
-    span {
-        // filename display
-        width: $span-width;
-    }
+  select {
+    // select styles
+    width: variables.$input-width;
+  }
 
-    button {
-        // submit button styles
-        width: $button-width;
+  span {
+    // filename display
+    width: variables.$span-width;
+  }
 
-        &:disabled {
-            // disabled state
-            @include disabled-state;
-        }
-    }
+  button {
+    // submit button styles
+    width: variables.$button-width;
 
-    // validation messages
-    div.ng-invalid.ng-touched {
-        // error styles
-        color: red;
-        font-size: $er-font;
+    &:disabled {
+      // disabled state
+      @include mixins.disabled-state;
     }
+  }
+
+  // validation messages
+  div.ng-invalid.ng-touched {
+    // error styles
+    color: red;
+    font-size: variables.$er-font;
+  }
 }

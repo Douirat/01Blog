@@ -1,10 +1,10 @@
-@import '../variables';
-@import '../mixins';
+@use './styles/mixins' as mixins;
+@use './styles/variables' as variables;
 
 // generate a general style to start with::after
 body {
-@include center-elements-column($gap-size);
-width: $body-width;
-height: $body-height;
-background-color: $over-all-color;
+  @include mixins.center-elements-column(variables.$gap-size);
+  width: variables.$body-width;
+  height: variables.$body-height;
+  background-color: variables.$over-all-color;
 }

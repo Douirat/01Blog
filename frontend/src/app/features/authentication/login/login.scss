@@ -1,16 +1,16 @@
-@import '../../../../variables';
-@import '../../../../mixins';
+@use '../../../styles/mixins' as mixins;
+@use '../../../styles/variables' as variables;
 
 .form-container {
-  max-width: $form-max-width;
-  margin: $form-margin;
-  padding: $form-padding;
-  border: $border-default;
-  border-radius: $border-radius-md;
+  max-width: variables.$form-max-width;
+  margin: variables.$form-margin;
+  padding: variables.$form-padding;
+  border: variables.$border-default;
+  border-radius: variables.$border-radius-md;
 
   form {
-    @include flex-column(1rem);
-    width: $form-width;
+    @include mixins.flex-column(1rem);
+    width: variables.$form-width;
     align-self: center;
 
     .form-group {
@@ -22,15 +22,15 @@
       }
 
       input {
-        width: $input-width;
+        width: variables.$input-width;
         padding: 0.5rem;
-        border: $border-default;
-        border-radius: $border-radius-sm;
+        border: variables.$border-default;
+        border-radius: variables.$border-radius-sm;
       }
 
       .error {
-        color: $error-color;
-        font-size: $font-size-sm;
+        color: variables.$error-color;
+        font-size: variables.$font-size-sm;
         margin-top: 0.2rem;
       }
     }
@@ -38,14 +38,14 @@
     button {
       padding: 0.6rem;
       border: none;
-      border-radius: $border-radius-sm;
-      background-color: $primary-color;
+      border-radius: variables.$border-radius-sm;
+      background-color: variables.$primary-color;
       color: white;
-      font-size: $font-size-md;
+      font-size: variables.$font-size-md;
       cursor: pointer;
 
       &:disabled {
-        @include disabled-state;
+        @include mixins.disabled-state;
       }
     }
   }
