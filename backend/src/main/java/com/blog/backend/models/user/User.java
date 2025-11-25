@@ -1,4 +1,4 @@
-package com.blog.backend.model;
+package com.blog.backend.models.user;
 
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;

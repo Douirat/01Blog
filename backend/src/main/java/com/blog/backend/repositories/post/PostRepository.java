@@ -1,11 +1,11 @@
-package com.blog.backend.repository;
+package com.blog.backend.repositories.post;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.blog.backend.model.Post;
-import com.blog.backend.model.User;
+import com.blog.backend.models.post.Post;
+import com.blog.backend.models.user.User;
 
 import java.util.List;
 

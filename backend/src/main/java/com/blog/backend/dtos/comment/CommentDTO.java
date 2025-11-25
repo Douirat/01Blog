@@ -1,4 +1,4 @@
-package com.blog.backend.dto.comment;
+package com.blog.backend.dtos.comment;
 
 import java.time.LocalDateTime;
 import lombok.Data;

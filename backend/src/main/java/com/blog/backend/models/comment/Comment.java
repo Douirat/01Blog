@@ -1,8 +1,12 @@
-package com.blog.backend.model;
+package com.blog.backend.models.comment;
 
 import java.lang.annotation.Inherited;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import com.blog.backend.models.post.Post;
+import com.blog.backend.models.user.User;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package com.blog.backend.dto.user;
+package com.blog.backend.dtos.user;
 
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;

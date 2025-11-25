@@ -1,8 +1,9 @@
-package com.blog.backend.dto.post;
+package com.blog.backend.dtos.post;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import com.blog.backend.dto.comment.CommentDTO;
+import com.blog.backend.dtos.comment.CommentDTO;
+
 import lombok.Data;
 
 @Data

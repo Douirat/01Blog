@@ -1,9 +1,16 @@
-package com.blog.backend.service;
+package com.blog.backend.services.post;
+
+import com.blog.backend.models.post.Post;
+import com.blog.backend.repositories.post.PostRepository;
+import com.blog.backend.dtos.post.PostInputDTO;
+import com.blog.backend.repositories.user.UserRepository;
+import com.blog.backend.models.user.User;
+import com.blog.backend.services.file.FileStorageService;
+
 
 import java.util.List;
 import java.util.Optional;
-import com.blog.backend.model.Post;
-import com.blog.backend.dto.post.PostInputDTO;
+
 
 
 

@@ -1,15 +1,16 @@
-package com.blog.backend.controller;
+package com.blog.backend.controllers.user;
 
-import com.blog.backend.dto.user.LoginRequestDTO;
-import com.blog.backend.dto.user.UserRegistrationDTO;
+import com.blog.backend.dtos.user.LoginRequestDTO;
+import com.blog.backend.dtos.user.UserRegistrationDTO;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.blog.backend.dto.AuthResponseDTO;
-import com.blog.backend.model.User;
-import com.blog.backend.service.UserService;
+import com.blog.backend.dtos.user.AuthResponseDTO;
+
+import com.blog.backend.models.user.User;
+import com.blog.backend.services.user.UserService;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.ModelAttribute; // This maps the http request data to a java object.
 

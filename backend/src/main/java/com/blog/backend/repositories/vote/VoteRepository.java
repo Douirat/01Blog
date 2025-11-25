@@ -1,7 +1,7 @@
-package com.blog.backend.repository;
+package com.blog.backend.repositories.vote;
 
 
-import com.blog.backend.model.Vote;
+import com.blog.backend.models.vote.Vote;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;

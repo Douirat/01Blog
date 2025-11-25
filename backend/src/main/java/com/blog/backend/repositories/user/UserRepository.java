@@ -1,10 +1,11 @@
-package com.blog.backend.repository;
+package com.blog.backend.repositories.user;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.blog.backend.model.User;
+import com.blog.backend.models.user.User;
+
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);

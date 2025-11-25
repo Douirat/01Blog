@@ -1,4 +1,7 @@
-package com.blog.backend.model;
+package com.blog.backend.models.vote;
+
+import com.blog.backend.models.user.User;
+import com.blog.backend.models.post.Post;
 
 import jakarta.persistence.*;
 import lombok.Getter;

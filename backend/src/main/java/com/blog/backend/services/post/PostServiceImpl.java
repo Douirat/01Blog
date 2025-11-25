@@ -1,12 +1,18 @@
-package com.blog.backend.service;
+package com.blog.backend.services.post;
+
+import com.blog.backend.models.post.Post;
+import com.blog.backend.repositories.post.PostRepository;
+import com.blog.backend.dtos.post.PostInputDTO;
+import com.blog.backend.repositories.user.UserRepository;
+import com.blog.backend.models.user.User;
+import com.blog.backend.services.file.FileStorageService;
+import com.blog.backend.constants.FileTypeConstants;
+
 
 import java.util.List;
 import java.util.Optional;
-import com.blog.backend.model.Post;
 import org.springframework.stereotype.Service;
-import com.blog.backend.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.blog.backend.dto.post.PostInputDTO;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,10 +21,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.io.IOException;
-import com.blog.backend.repository.UserRepository;
-import com.blog.backend.model.User;
-import com.blog.backend.service.FileStorageService;
-import com.blog.backend.constants.FileTypeConstants;
+
+
 
 @Service // ← This tells Spring: "I'm the implementation!"
 public class PostServiceImpl implements PostService {

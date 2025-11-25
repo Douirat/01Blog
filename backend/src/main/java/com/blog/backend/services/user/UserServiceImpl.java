@@ -1,15 +1,17 @@
-package com.blog.backend.service;
+package com.blog.backend.services.user;
 
 import org.springframework.stereotype.Service;
-import com.blog.backend.repository.UserRepository;
-import com.blog.backend.dto.AuthResponseDTO;
-import com.blog.backend.dto.user.UserDTO;
-import com.blog.backend.dto.user.LoginRequestDTO;
-import com.blog.backend.dto.user.UserRegistrationDTO;
+import com.blog.backend.repositories.user.UserRepository;
+import com.blog.backend.services.user.UserService;
+import com.blog.backend.dtos.user.AuthResponseDTO;
 
-import com.blog.backend.model.User;
+import com.blog.backend.dtos.user.UserDTO;
+import com.blog.backend.dtos.user.LoginRequestDTO;
+import com.blog.backend.dtos.user.UserRegistrationDTO;
+
+import com.blog.backend.models.user.User;
 import com.blog.backend.util.JwtUtil;
-import com.blog.backend.service.FileStorageService;
+import com.blog.backend.services.file.FileStorageService;
 import com.blog.backend.constants.FileTypeConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;

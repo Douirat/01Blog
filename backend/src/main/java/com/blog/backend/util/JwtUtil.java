@@ -2,7 +2,7 @@ package com.blog.backend.util;
 
 import org.springframework.stereotype.Component;
 
-import com.blog.backend.dto.user.UserDTO;
+import com.blog.backend.dtos.user.UserDTO;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

@@ -1,4 +1,4 @@
-package com.blog.backend.controller;
+package com.blog.backend.controllers.post;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,19 +6,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
-import com.blog.backend.dto.post.PostInputDTO;
-import com.blog.backend.service.PostService;
+import com.blog.backend.dtos.post.PostInputDTO;
+import com.blog.backend.services.post.PostService;
+
 import lombok.RequiredArgsConstructor;
 import com.blog.backend.util.JwtUtil;
 import org.springframework.web.bind.annotation.RequestHeader;
-import com.blog.backend.model.Post;
+import com.blog.backend.models.post.Post;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import java.lang.RuntimeException;
-import com.blog.backend.dto.post.PostDTO;
+import com.blog.backend.dtos.post.PostDTO;
 import java.lang.Exception;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 @RestController
 @RequestMapping("/api/posts")
@@ -57,21 +61,21 @@ public class PostController {
     }
 
     // Get all the posts component:
-    @GetMapping
-    public ResponseEntity<Page<PostDTO>> getPosts(
-            @RequestParam(defaultValue = "0") int page) {
+//     @GetMapping
+//     public ResponseEntity<Page<PostDTO>> getPosts(
+//             @RequestParam(defaultValue = "0") int page) {
 
-        if (page < 0) {
-            return ResponseEntity.badRequest().build();
-        }
+//         if (page < 0) {
+//             return ResponseEntity.badRequest().build();
+//         }
 
-        Page<PostDTO> posts = postService.getPosts(page);
+//         Page<PostDTO> posts = postService.getPosts(page);
 
-        if (posts.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
+//         if (posts.isEmpty()) {
+//             return ResponseEntity.noContent().build();
+//         }
 
-        return ResponseEntity.ok(posts);
-    }
+//         return ResponseEntity.ok(posts);
+//     }
 
 }
