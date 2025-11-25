@@ -7,11 +7,11 @@ AVATAR_PATH="./image_test/Test-Logo.svg.png"
 URL="http://localhost:8080/api/users/register"
 
 # User data
-EMAIL="john@example.com"
+EMAIL="john1@example.com"
 PASSWORD="password123"
-FIRST_NAME="John"
-LAST_NAME="Doe"
-NICKNAME="johnny"
+FIRST_NAME="John1"
+LAST_NAME="Doe1"
+NICKNAME="johnny1"
 DATE_OF_BIRTH="1990-01-01"
 IS_ADMIN="false"
 
