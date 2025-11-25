@@ -3,6 +3,7 @@ package com.blog.backend.controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
 import com.blog.backend.dto.post.PostInputDTO;
@@ -12,9 +13,11 @@ import com.blog.backend.util.JwtUtil;
 import org.springframework.web.bind.annotation.RequestHeader;
 import com.blog.backend.model.Post;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import java.lang.RuntimeException;
+import com.blog.backend.dto.post.PostDTO;
 import java.lang.Exception;
 
 @RestController
@@ -51,6 +54,24 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Server error: " + e.getMessage());
         }
+    }
+
+    // Get all the posts component:
+    @GetMapping
+    public ResponseEntity<Page<PostDTO>> getPosts(
+            @RequestParam(defaultValue = "0") int page) {
+
+        if (page < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Page<PostDTO> posts = postService.getPosts(page);
+
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(posts);
     }
 
 }
