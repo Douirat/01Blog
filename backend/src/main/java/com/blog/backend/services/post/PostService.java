@@ -6,7 +6,7 @@ import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.repositories.user.UserRepository;
 import com.blog.backend.models.user.User;
 import com.blog.backend.services.file.FileStorageService;
-
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 
 public interface PostService {
-    // List<Post> getAllPosts();
+    Page<Post> getAllPosts(int page);
     // Optional<Post> getPostById(Long id);
     Post createPost(String userId, PostInputDTO post);
     // Post updatePost(Long id, PostInputDTO post);

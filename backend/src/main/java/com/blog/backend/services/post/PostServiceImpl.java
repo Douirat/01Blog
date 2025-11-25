@@ -8,6 +8,10 @@ import com.blog.backend.models.user.User;
 import com.blog.backend.services.file.FileStorageService;
 import com.blog.backend.constants.FileTypeConstants;
 
+// Pagination imports:
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +25,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.io.IOException;
-
-
 
 @Service // ← This tells Spring: "I'm the implementation!"
 public class PostServiceImpl implements PostService {
@@ -39,13 +41,15 @@ public class PostServiceImpl implements PostService {
     private FileStorageService fileStorageService;
 
     // @Override
-    // public List<Post> getAllPosts() {
-    // return postRepository.findAll();
-    // }
+    public Page<Post> getAllPosts(int page) {
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+        return postRepository.findAll(pageable);
+    }
 
     // @Override
     // public Optional<Post> getPostById(Long id) {
-    // return postRepository.findById(id);
+    //     return postRepository.findById(id);
     // }
 
     @Override
@@ -53,7 +57,8 @@ public class PostServiceImpl implements PostService {
         String mediaUrl = null;
         // Logic to handle media upload and set mediaUrl accordingly would go here:
         if (post.getMediaType() != null && !post.getMediaType().isEmpty()) {
-            mediaUrl = fileStorageService.saveFile(post.getMedia(), FileTypeConstants.POST_MEDIA_DIR, FileTypeConstants.MEDIA_TYPES) ;
+            mediaUrl = fileStorageService.saveFile(post.getMedia(), FileTypeConstants.POST_MEDIA_DIR,
+                    FileTypeConstants.MEDIA_TYPES);
         }
 
         User user = userRepository.findById(Long.parseLong(userId))
@@ -68,23 +73,6 @@ public class PostServiceImpl implements PostService {
         newPost.setUser(user);
         return postRepository.save(newPost);
     }
-
-    // private String saveMedia(MultipartFile media) {
-    //     try {
-    //         Path uploadPath = Paths.get(UPLOAD_DIR);
-    //         if (!Files.exists(uploadPath)) {
-    //             Files.createDirectories(uploadPath); // create folder if missing
-    //         }
-
-    //         String filename = UUID.randomUUID() + "-" + media.getOriginalFilename();
-    //         Path filePath = uploadPath.resolve(filename);
-    //         Files.copy(media.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-    //         return "http://localhost:8080/" + UPLOAD_DIR + filename;
-    //     } catch (IOException e) {
-    //         throw new RuntimeException("Failed to store media file", e);
-    //     }
-    // }
 
     // @Override
     // public Post updatePost(Long id, Post post) {

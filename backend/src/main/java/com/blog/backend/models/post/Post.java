@@ -5,7 +5,6 @@ import com.blog.backend.models.post.Post;
 import com.blog.backend.models.comment.Comment;
 import com.blog.backend.models.user.User;
 
-
 import com.blog.backend.models.vote.Vote;
 
 import java.time.LocalDateTime;
@@ -14,7 +13,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
-
 
 @Entity
 @Table(name = "posts")
@@ -35,7 +33,7 @@ public class Post {
     private String mediaType;
     private String mediaUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

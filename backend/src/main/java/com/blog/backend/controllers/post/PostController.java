@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import java.lang.RuntimeException;
-import com.blog.backend.dtos.post.PostDTO;
 import java.lang.Exception;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 
 @RestController
 @RequestMapping("/api/posts")
@@ -61,21 +59,21 @@ public class PostController {
     }
 
     // Get all the posts component:
-//     @GetMapping
-//     public ResponseEntity<Page<PostDTO>> getPosts(
-//             @RequestParam(defaultValue = "0") int page) {
+    @GetMapping
+    public ResponseEntity<Page<Post>> getPosts(
+            @RequestParam(defaultValue = "0") int page) {
 
-//         if (page < 0) {
-//             return ResponseEntity.badRequest().build();
-//         }
+        if (page < 0) {
+            return ResponseEntity.badRequest().build();
+        }
 
-//         Page<PostDTO> posts = postService.getPosts(page);
+        Page<Post> posts = postService.getAllPosts(page);
 
-//         if (posts.isEmpty()) {
-//             return ResponseEntity.noContent().build();
-//         }
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
 
-//         return ResponseEntity.ok(posts);
-//     }
+        return ResponseEntity.ok(posts);
+    }
 
 }
