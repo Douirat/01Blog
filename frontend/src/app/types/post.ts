@@ -59,10 +59,41 @@ Key points:
 4. This approach avoids sending the actual media data inside the JSON response.
 */
 
+/**
+ * Represents a paginated response from the backend for a list of posts.
+ * This maps closely to Spring Data's Page<T> structure.
+ */
 export interface PaginatedPosts {
-  content: Post[];       // Posts in the current page
-  last: boolean;         // True if this is the last page
-  totalPages: number;    // Total number of pages available
-  totalElements: number; // Total number of posts across all pages
+  /**
+   * The actual posts returned in the current page.
+   * - This is an array of Post objects.
+   * - Each Post contains metadata like id, title, content, user info, likes, etc.
+   * Example:
+   * [
+   *   { id: 1, title: 'My Post', user: { id: 3, nickName: 'John' }, ... },
+   *   { id: 2, title: 'Another Post', user: { id: 5, nickName: 'Jane' }, ... }
+   * ]
+   */
+  content: Post[];
+
+  /**
+   * Indicates whether this is the last page of results.
+   * - True if there are no more pages after this one.
+   * - Useful for preventing additional requests once all data has been fetched.
+   */
+  last: boolean;
+
+  /**
+   * Total number of pages available given the current page size.
+   * - Helps in creating pagination controls (e.g., page numbers, next/previous buttons).
+   * - Example: 50 total posts, 10 posts per page → totalPages = 5
+   */
+  totalPages: number;
+
+  /**
+   * Total number of posts across all pages, not just the current page.
+   * - Useful for showing "Showing X of Y posts" UI.
+   * - Example: 50 posts in total, even if only 10 are in the current page.
+   */
+  totalElements: number;
 }
-// add a commented explanation to the paginated interface 

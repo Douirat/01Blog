@@ -22,6 +22,7 @@ import java.lang.Exception;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.blog.backend.dtos.post.PostDetailDTO;
+import com.blog.backend.dtos.post.PaginatedPostsDTO;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -61,7 +62,7 @@ public class PostController {
 
     // Get all the posts component:
     @GetMapping
-    public ResponseEntity<Page<PostDetailDTO>> getPosts(
+    public ResponseEntity<PaginatedPostsDTO> getPosts(
             @RequestParam(defaultValue = "0") int page) {
 
         if (page < 0) {
@@ -74,7 +75,13 @@ public class PostController {
             return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(posts);
+        PaginatedPostsDTO response = new PaginatedPostsDTO(
+                posts.getContent(),
+                posts.isLast(),
+                posts.getTotalPages(),
+                posts.getTotalElements());
+
+        return ResponseEntity.ok(response);
     }
 
 }
