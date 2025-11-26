@@ -7,11 +7,13 @@ import com.blog.backend.repositories.user.UserRepository;
 import com.blog.backend.models.user.User;
 import com.blog.backend.services.file.FileStorageService;
 import com.blog.backend.constants.FileTypeConstants;
-
+import com.blog.backend.dtos.post.PostDetailDTO;
+import com.blog.backend.dtos.post.UserSummaryDTO;
 // Pagination imports:
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import com.blog.backend.models.vote.Vote;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,16 +42,39 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private FileStorageService fileStorageService;
 
-    // @Override
-    public Page<Post> getAllPosts(int page) {
+    @Override
+    public Page<PostDetailDTO> getAllPosts(int page) {
         int size = 10;
         Pageable pageable = PageRequest.of(page, size);
-        return postRepository.findAll(pageable);
+        Page<Post> posts = postRepository.findAll(pageable);
+        return posts.map(post -> {
+            UserSummaryDTO userSummary = new UserSummaryDTO(
+                    post.getUser().getId(),
+                    post.getUser().getNickname() // matches DTO
+            );
+
+            int likes = (int) post.getVotes().stream().filter(Vote::isLiked).count();
+            int dislikes = (int) post.getVotes().stream().filter(v -> !v.isLiked()).count();
+
+            int commentsCount = post.getComments().size();
+
+            return new PostDetailDTO(
+                    post.getId(),
+                    post.getTitle(),
+                    post.getContent(),
+                    post.getMediaType(),
+                    post.getMediaUrl(),
+                    userSummary,
+                    likes,
+                    dislikes,
+                    commentsCount,
+                    post.getCreatedAt().toString());
+        });
     }
 
     // @Override
     // public Optional<Post> getPostById(Long id) {
-    //     return postRepository.findById(id);
+    // return postRepository.findById(id);
     // }
 
     @Override

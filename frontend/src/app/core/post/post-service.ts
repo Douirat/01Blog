@@ -29,4 +29,6 @@ export class PostService {
 
     return this.http.post(`${this.apiUrl}`, formData);
   }
+
+  // A general full accessed method to 
 }

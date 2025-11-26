@@ -11,44 +11,58 @@ export interface PostInput {
   media?: File;
 }
 
+interface PostAuthor {
+  id: number;
+  nickName: string;
+}
 
-// Full Post type returned by backend (includes user, comments, votes):
+// Full Post type returned by the backend (includes user, comments, votes):
 export interface Post {
   id: number;
   title: string;
   content: string;
   mediaType?: 'image' | 'video';
-  mediaUrl?: string | null;       // URL to file on backend.
-  user: number;                   // ID or full User object (depends).
-  createdAt: string;              // ISO date.
-  // comments?: Comment[]; this is not valid cause it dos't respect that the user will have to feth the comments separatly based on the scroll 10/10.
-  /* likes: number; 
-   dislikes: number;
-  just like the comments, likes and dislike wil have to be fetched separatly based on the user interaction.
-*/
+  mediaUrl?: string | null;
+  user: PostAuthor;   // full user object (id, nickname, etc.)
+  likes: number;
+  dislikes: number;
+  commentsCount: number;
+  createdAt: string;
 }
 
 /*
-"mediaUrl": "http://localhost:8080/uploads/post-14-image.png"
-the json only contains the URL to the media file stored on the backend server.
+The "mediaUrl" field contains the URL of the media file stored on the backend server.
 
-Example Post object:
+Example Post object returned by the backend:
 {
   "id": 1,
   "title": "My Post",
   "content": "Hello world",
   "mediaType": "image",
   "mediaUrl": "http://localhost:8080/uploads/12345-image.png",
-  "user": 3,
+  "user": {
+    "id": 3,
+    "nickName": "JohnDoe"
+  },
   "createdAt": "2025-11-16T15:23:00",
   "likes": 5,
   "dislikes": 1,
-  "comments": []
+  "commentsCount": 0
 }
-  after the post is created, the backend returns the URL to access the uploaded media file.
-  This URL can be used to display the media content in the frontend.
-  The browser fetches the image directly from the backend using this URL.
-  exmple: <img src={post.mediaUrl} />
-  GET /uploads/post-14-image.png
-and the backend serves the file.
+
+Key points:
+1. After creating a post with media, the backend stores the file and returns a URL pointing to it.
+2. The frontend can use this URL to display the media:
+   Example: <img src={post.mediaUrl} alt="Post media" />
+3. The browser fetches the media directly from the backend using this URL.
+   Example: GET /uploads/12345-image.png
+4. This approach avoids sending the actual media data inside the JSON response.
 */
+
+export interface PaginatedPosts {
+  content: Post[];       // Posts in the current page
+  last: boolean;         // True if this is the last page
+  totalPages: number;    // Total number of pages available
+  totalElements: number; // Total number of posts across all pages
+}
+// add a commented explanation to the paginated interface 

@@ -21,6 +21,7 @@ import java.lang.RuntimeException;
 import java.lang.Exception;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.blog.backend.dtos.post.PostDetailDTO;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -60,14 +61,14 @@ public class PostController {
 
     // Get all the posts component:
     @GetMapping
-    public ResponseEntity<Page<Post>> getPosts(
+    public ResponseEntity<Page<PostDetailDTO>> getPosts(
             @RequestParam(defaultValue = "0") int page) {
 
         if (page < 0) {
             return ResponseEntity.badRequest().build();
         }
 
-        Page<Post> posts = postService.getAllPosts(page);
+        Page<PostDetailDTO> posts = postService.getAllPosts(page);
 
         if (posts.isEmpty()) {
             return ResponseEntity.noContent().build();

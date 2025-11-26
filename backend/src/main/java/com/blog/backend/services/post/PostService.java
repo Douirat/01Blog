@@ -1,6 +1,7 @@
 package com.blog.backend.services.post;
 
 import com.blog.backend.models.post.Post;
+import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.repositories.post.PostRepository;
 import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.repositories.user.UserRepository;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 
 public interface PostService {
-    Page<Post> getAllPosts(int page);
+    Page<PostDetailDTO> getAllPosts(int page);
     // Optional<Post> getPostById(Long id);
     Post createPost(String userId, PostInputDTO post);
     // Post updatePost(Long id, PostInputDTO post);
