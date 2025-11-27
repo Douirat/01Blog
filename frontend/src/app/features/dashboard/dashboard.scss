@@ -1,0 +1,9 @@
+@use '../../styles/mixins' as mixins;
+@use '../../styles/variables' as variables;
+
+
+.post-card{
+    border: variables.$border-default;
+    border-radius: variables.$border-radius-sm;
+    padding: variables.$card-padding;
+}

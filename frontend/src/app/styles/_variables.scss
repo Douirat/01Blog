@@ -1,24 +1,27 @@
 // _variables.scss
 $over-all-color: #f5f5f5;
+$border-default: 1px solid #ccc;
+$primary-color: #007bff;
+$error-color: red;
+
+
+
+// sizes:
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$font-size-sm: 0.8rem;
+$font-size-md: 1rem;
+$body-width:100%;
 $form-max-width: 400px;
 $form-margin: 2rem auto;
 $form-padding: 1rem;
-$border-default: 1px solid #ccc;
-$border-radius-sm: 4px;
-$border-radius-md: 8px;
-$primary-color: #007bff;
-$error-color: red;
-$font-size-sm: 0.8rem;
-$font-size-md: 1rem;
-
-// sizes:
-$body-width:100%;
 $body-height: 100%;
 $input-width: 100%;
 $gap-size: 1rem;
 $button-width: 20vmin;
 $span-width: 100%;
 $form-width: 400px;
+$card-padding: 1vmin;
 
 // fonts:
 $er-font: .8rem;
