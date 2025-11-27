@@ -6,4 +6,16 @@
     border: variables.$border-default;
     border-radius: variables.$border-radius-sm;
     padding: variables.$card-padding;
+    @include mixins.card-display;
+}
+
+.card-image{
+     @include mixins.card-image();
+}
+
+.post-content{
+    border: 1px black solid;
+    width: 50%;
+    height: 100%;
+     @include mixins.center-elements-column();
 }

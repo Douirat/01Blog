@@ -11,7 +11,7 @@
   cursor: not-allowed;
 }
 
-@mixin center-elements-column($gap: 1vmin) {
+@mixin center-elements-column($gap: 2vmin) {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,4 +25,17 @@
     justify-content: center;
     align-items: center;
     gap: $gap;
+}
+
+@mixin card-display($gap: 1vmin){
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 60vw;
+  height: fit-content;
+}
+
+@mixin card-image(){
+  width: 50%;
 }

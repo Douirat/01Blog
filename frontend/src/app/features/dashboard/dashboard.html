@@ -1,19 +1,20 @@
-<div>
-  <div *ngIf="currentUser as user">
-    <h1>Dashboard</h1>
-    <app-post-form></app-post-form>
-    <hr />
 
-    <div *ngFor="let post of posts" class="post-card">
+  <h1>Dashboard</h1>
+  <div *ngIf="currentUser as user">
+    <app-post-form></app-post-form>
+  </div>
+  <hr />
+
+  <div *ngFor="let post of posts" class="post-card">
+    <img class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl" alt="Post media">
+    <div class="post-content">
       <span>By {{ post.user.nickName }}</span>
       <h3>{{ post.title }}</h3>
       <p>{{ post.content }}</p>
-      <img *ngIf="post.mediaUrl" [src]="post.mediaUrl" alt="Post media">
-      <small> Likes: {{ post.likes }}</small>
-      <small> Dislikes: {{ post.dislikes }}</small>
+      <small> <button>comments</button> {{ post.commentsCount }}</small>
+      <small> <button>like</button> {{ post.likes }}</small>
+      <small> <button>dislike</button> {{ post.dislikes }}</small>
     </div>
-
-    <button *ngIf="!lastPage" (click)="loadPosts()">Load More</button>
-
   </div>
-</div>
+
+  <button *ngIf="!lastPage" (click)="loadPosts()">Load More</button>
