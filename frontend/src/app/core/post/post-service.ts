@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environment/environment';
-import { PostInput } from '../../types/post';
+import { PostInput, PaginatedPosts } from '../../types/post';
 import { Observable } from 'rxjs';
 
 
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 
 export class PostService {
-   private readonly apiUrl = `${environment.apiUrl}/api/posts`
+  private readonly apiUrl = `${environment.apiUrl}/api/posts`
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +19,7 @@ export class PostService {
     const formData = new FormData();
     formData.append('title', postData.title);
     formData.append('content', postData.content);
-    
+
     if (postData.mediaType) {
       formData.append('mediaType', postData.mediaType);
     }
@@ -30,5 +30,10 @@ export class PostService {
     return this.http.post(`${this.apiUrl}`, formData);
   }
 
-  // A general full accessed method to 
+  // A general full accessed method to fetch posts from backend:
+  fetchPosts(page: number): Observable<PaginatedPosts> {
+    const params = new HttpParams()
+      .set('page', page.toString());
+    return this.http.get<PaginatedPosts>(this.apiUrl, { params });
+  }
 }
