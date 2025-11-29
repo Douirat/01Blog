@@ -14,7 +14,7 @@ import { UserResponse } from '../../types/user';
 })
 export class Header {
   // Keep auth private
-  constructor(private auth: Authentication, private router: Router) {}
+  constructor(private auth: Authentication, private router: Router) { }
 
   isAdmin = computed(() => this.auth.user()?.user?.isAdmin);
   isLoggedIn = computed(() => this.auth.user() != null);
@@ -22,9 +22,18 @@ export class Header {
 
   // Wrapper method for template
   logout() {
-    this.auth.logout();
-    this.router.navigate(['/login']); // optional redirect
+    this.auth.logout().subscribe({
+      next: () => {
+        console.log('User logged out');
+        this.router.navigate(['/login']); // optional redirect
+      },
+      error: (err) => {
+        console.error('Logout failed', err);
+        this.router.navigate(['/login']); // still redirect
+      }
+    });
   }
+
 
   login() {
     console.log('Login clicked');
@@ -33,5 +42,15 @@ export class Header {
   register() {
     console.log('Register clicked');
     this.router.navigate(['/register']); // optional redirect
+  }
+
+  goHome() {
+    console.log('Home clicked');
+    this.router.navigate(['/']); // optional redirect
+  }
+
+  goToProfile() {
+   console.log('Pogin clicked');
+    this.router.navigate(['/profile']); // optional redirect
   }
 }

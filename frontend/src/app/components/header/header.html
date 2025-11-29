@@ -2,7 +2,7 @@
   <!--Not logged in-->
   <ng-container *ngIf="!isLoggedIn()">
     <div class="nav-section">
-      <h3>01 Blog</h3>
+      <a routerLink="/" (click)="goHome()">01 Blog</a>
     </div>
     <div class="nav-section">
     <a routerLink="/login" (click)="login()">Login</a>
