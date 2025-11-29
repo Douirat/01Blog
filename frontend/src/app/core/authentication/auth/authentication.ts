@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -24,6 +24,8 @@ export class Authentication {
   // observe the current subject to react properly to change:
   // hhh the dolar sign is just a convention to specify the observable
   public currentUser$ = this.currentUser.asObservable();
+  public user = signal<UserResponse | null>(null)
+  public isAdmin = computed(()=> this.user()?.user?.isAdmin)
 
   constructor(private http: HttpClient) {
     // no manual assignment is needed: Angular's dependency injection handles this automatically.
@@ -149,6 +151,7 @@ export class Authentication {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
     this.currentUser.next(null);
+    this.user.set(null)
   }
 
 
@@ -160,6 +163,7 @@ export class Authentication {
     localStorage.setItem('token', response.token);
     localStorage.setItem('currentUser', JSON.stringify(response));
     this.currentUser.next(response);
+    this.user.set(response)
   }
 
   /**

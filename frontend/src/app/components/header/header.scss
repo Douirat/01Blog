@@ -1,0 +1,10 @@
+@use '../../styles/mixins' as mixins;
+@use '../../styles/variables' as variables;
+
+.nav-container {
+    @include mixins.center-elements-raw()
+}
+
+.nav-section {
+    @include mixins.center-elements-raw()
+}
