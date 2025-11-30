@@ -1,19 +1,10 @@
 package com.blog.backend.dtos.comment;
 
-import java.time.LocalDateTime;
-import lombok.Data;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-
-
-@AllArgsConstructor
-@Data
-public class CommentDTO {
-    private Long id;
-    private String content;
-    private Long userId;
-    private LocalDateTime createdAt;
-
-    // Getters and Setters
-}
-
+public record CommentDTO(
+        @NotBlank String title,
+        @NotBlank String content,
+        @NotNull Long postId
+) {}

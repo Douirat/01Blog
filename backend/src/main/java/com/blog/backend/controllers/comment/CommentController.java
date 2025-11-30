@@ -1,25 +1,42 @@
 package com.blog.backend.controllers.comment;
 
+import com.blog.backend.dtos.comment.CommentResponseDTO;
+import com.blog.backend.services.comment.CommentService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/comments")
 @RequiredArgsConstructor
-public class CommentPost {
+public class CommentController {
 
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
 
+    /**
+     * 
+     * @param request payload: {
+     *                "title": "my comment",
+     *                "content": "test body",
+     *                "postId": 1
+     *                }
+     * 
+     * @return comment_id
+     */
     @PostMapping
     public ResponseEntity<CommentResponseDTO> createComment(@Valid @RequestBody CommentRequest request) {
         // Save the comment
-        Comment saved = commentService.save(request);
+        Comment saved = commentService.createComment(request);
 
         // Return only the necessary info
         CommentResponseDTO response = new CommentResponseDTO(
