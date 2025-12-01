@@ -1,6 +1,7 @@
 package com.blog.backend.security;
 
 import com.blog.backend.util.JwtUtil;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,9 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.security.core.GrantedAuthority;
+import java.util.stream.Collectors;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Collection;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -41,11 +45,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     String email = claims.getSubject();
                     Long userId = Long.valueOf(claims.get("id").toString());
 
-                    // Extract roles from JWT
+                    // ⬅ FIXED: Extract roles from JWT
                     List<String> roles = (List<String>) claims.get("roles");
-                    List<SimpleGrantedAuthority> authorities = roles.stream()
+
+                    // Extract roles from JWT
+                    Collection<? extends GrantedAuthority> authorities = roles.stream()
                             .map(SimpleGrantedAuthority::new)
-                            .toList();
+                            .collect(Collectors.toList());
 
                     // Create PrincipalUser
                     PrincipalUser principal = new PrincipalUser(userId, email, authorities);

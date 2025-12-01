@@ -2,8 +2,12 @@ package com.blog.backend.controllers.comment;
 
 import com.blog.backend.dtos.comment.CommentResponseDTO;
 import com.blog.backend.services.comment.CommentService;
+import com.blog.backend.dtos.comment.CommentDTO;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import com.blog.backend.security.PrincipalUser;
 import jakarta.validation.Valid;
+import com.blog.backend.models.comment.Comment;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +23,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommentController {
 
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
-    }
+      private final CommentService commentService;
+
 
     /**
      * 
@@ -34,7 +37,7 @@ public class CommentController {
      * @return comment_id
      */
     @PostMapping
-    public ResponseEntity<CommentResponseDTO> createComment(@Valid @RequestBody CommentRequest request) {
+    public ResponseEntity<CommentResponseDTO> createComment(@Valid @RequestBody CommentDTO request) {
         PrincipalUser currentUser = (PrincipalUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()

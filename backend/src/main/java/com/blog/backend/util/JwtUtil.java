@@ -1,6 +1,8 @@
 package com.blog.backend.util;
 
 import org.springframework.stereotype.Component;
+import java.util.List;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.blog.backend.dtos.user.UserDTO;
 
