@@ -35,8 +35,13 @@ public class CommentController {
      */
     @PostMapping
     public ResponseEntity<CommentResponseDTO> createComment(@Valid @RequestBody CommentRequest request) {
+        PrincipalUser currentUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
         // Save the comment
-        Comment saved = commentService.createComment(request);
+        Comment saved = commentService.createComment(request, currentUser.getId());
 
         // Return only the necessary info
         CommentResponseDTO response = new CommentResponseDTO(

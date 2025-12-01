@@ -1,4 +1,4 @@
-package com.blog.backend.config;
+package com.blog.backend.security;
 
 import com.blog.backend.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +23,6 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                    // .requestMatchers("/api/users/**").permitAll()
-                    // .anyRequest().authenticated()
                     .anyRequest().permitAll()
             )
             .addFilterBefore(jwtFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)

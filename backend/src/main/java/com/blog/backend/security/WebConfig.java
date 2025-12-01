@@ -1,4 +1,4 @@
-package com.blog.backend.config;
+package com.blog.backend.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

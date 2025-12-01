@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-
 @Component
 public class JwtUtil {
     // @Value("${jwt.secret}")
@@ -19,7 +18,7 @@ public class JwtUtil {
 
     // @Value("${jwt.expiration}")
     // private Long jwtExpirationInMs;
-        // Directly in the class
+    // Directly in the class
     private final String SECRET = "toBeOrNotToBeThatIsTheQuestionAnd01blog06-09-1991";
     private final long EXPIRATION = 86400000; // 1 day in milliseconds
 
@@ -33,10 +32,14 @@ public class JwtUtil {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION);
 
+        List<String> roles = userDTO.isAdmin()
+                ? List.of("ROLE_ADMIN")
+                : List.of("ROLE_USER");
+
         JwtBuilder builder = Jwts.builder()
                 .setSubject(userDTO.getEmail())
                 .claim("id", userDTO.getId())
-                .claim("isAdmin", userDTO.isAdmin())
+                .claim("roles", roles)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256);
