@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostForm } from './post-form/post-form';
 import { UserResponse } from '../../types/user';
@@ -6,11 +6,12 @@ import { PaginatedPosts, Post } from '../../types/post'
 import { Authentication } from '../../core/authentication/auth/authentication';
 import { PostService } from '../../core/post/post-service'
 import { Subscription } from 'rxjs';
+import { CommentForm } from './comment-form/comment-form';
 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, PostForm],
+  imports: [CommonModule, PostForm, CommentForm],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -20,6 +21,16 @@ export class Dashboard implements OnInit, OnDestroy {
   posts: Post[] = [];
   lastPage = false;
   currentPage = 0;
+
+
+  // Declare a signal instead of a plain boolean
+  showCommentForm = signal(false);
+
+  toggleCommentForm() {
+    console.log("clicked -------> <-------", this.showCommentForm);
+    
+    this.showCommentForm.set(!this.showCommentForm());
+  }
 
   constructor(private authentication: Authentication, private postService: PostService) { }
 

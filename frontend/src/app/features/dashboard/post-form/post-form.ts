@@ -22,7 +22,8 @@ import { Post, PostInput } from '../../../types/post';
   */
 
 export class PostForm {
-    form: FormGroup<{
+  
+  form: FormGroup<{
     title: FormControl<string>;
     content: FormControl<string>;
     mediaType: FormControl<'image' | 'video' | null>;
@@ -30,10 +31,10 @@ export class PostForm {
   }>;
   isSubmitting = false;
   fileName = ''
-  
+
 
   constructor(private postService: PostService) {
-  this.form = new FormGroup({
+    this.form = new FormGroup({
       title: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
       content: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
       mediaType: new FormControl<'image' | 'video' | null>(null),
@@ -41,7 +42,7 @@ export class PostForm {
     });
   }
 
-    // handle file input change
+  // handle file input change
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
@@ -51,7 +52,7 @@ export class PostForm {
     this.fileName = file.name;
   }
 
-   onSubmit() {
+  onSubmit() {
     if (this.form.invalid) return;
 
     this.isSubmitting = true;

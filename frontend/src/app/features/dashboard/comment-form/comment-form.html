@@ -1,0 +1,33 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <!-- Title Field -->
+  <div class="form-field">
+    <label for="title">Title</label>
+    <input id="title" type="text" formControlName="title" placeholder="Title"
+      [class.error]="form.controls.title.invalid && form.controls.title.touched" />
+    <span class="error-message" *ngIf="form.controls.title.invalid && form.controls.title.touched">
+      Title is required
+    </span>
+  </div>
+
+  <!-- Content Field -->
+  <div class="form-field">
+    <label for="content">Content</label>
+    <textarea id="content" formControlName="content" placeholder="Content" rows="5"
+      [class.error]="form.controls.content.invalid && form.controls.content.touched"></textarea>
+    <span class="error-message" *ngIf="form.controls.content.invalid && form.controls.content.touched">
+      Content is required
+    </span>
+  </div>
+
+
+  <!-- Submit Button -->
+  <button type="submit" [disabled]="form.invalid || isLoading">
+    {{ isLoading ? 'Submitting...' : 'Submit' }}
+  </button>
+
+  <!-- Error Message -->
+  <div class="error-message" *ngIf="isSuccess === false">
+    Failed to create comment. Please try again.
+  </div>
+</form>

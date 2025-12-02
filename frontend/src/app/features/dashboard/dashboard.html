@@ -1,20 +1,21 @@
+<h1>Dashboard</h1>
+<div *ngIf="currentUser as user">
+  <app-post-form></app-post-form>
+</div>
+<hr />
 
-  <h1>Dashboard</h1>
-  <div *ngIf="currentUser as user">
-    <app-post-form></app-post-form>
+<div *ngFor="let post of posts" class="post-card">
+  <img class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl" alt="Post media">
+  <div class="post-content">
+    <span>By {{ post.user.nickName }}</span>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.content }}</p>
+    <small> <button (click)="toggleCommentForm()">comments</button> {{ post.commentsCount }}</small>
+    <small> <button>like</button> {{ post.likes }}</small>
+    <small> <button>dislike</button> {{ post.dislikes }}</small>
+    <app-comment-form *ngIf="showCommentForm()" [postId]="post.id">
+    </app-comment-form>
   </div>
-  <hr />
+</div>
 
-  <div *ngFor="let post of posts" class="post-card">
-    <img class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl" alt="Post media">
-    <div class="post-content">
-      <span>By {{ post.user.nickName }}</span>
-      <h3>{{ post.title }}</h3>
-      <p>{{ post.content }}</p>
-      <small> <button>comments</button> {{ post.commentsCount }}</small>
-      <small> <button>like</button> {{ post.likes }}</small>
-      <small> <button>dislike</button> {{ post.dislikes }}</small>
-    </div>
-  </div>
-
-  <button *ngIf="!lastPage" (click)="loadPosts()">Load More</button>
+<button *ngIf="!lastPage" (click)="loadPosts()">Load More</button>
