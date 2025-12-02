@@ -78,7 +78,7 @@ public class PostServiceImpl implements PostService {
     // }
 
     @Override
-    public Post createPost(String userId, PostInputDTO post) {
+    public Post createPost(Long userId, PostInputDTO post) {
         String mediaUrl = null;
         // Logic to handle media upload and set mediaUrl accordingly would go here:
         if (post.getMediaType() != null && !post.getMediaType().isEmpty()) {
@@ -86,7 +86,7 @@ public class PostServiceImpl implements PostService {
                     FileTypeConstants.MEDIA_TYPES);
         }
 
-        User user = userRepository.findById(Long.parseLong(userId))
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Post newPost = new Post();

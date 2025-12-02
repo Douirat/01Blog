@@ -63,7 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                    System.out.println("JWT Filter passed: email=" + email + ", userId=" + userId);
+                    System.out.println("JWT Filter passed: email=" + email + ", userId=" + userId + "user role: "+ authorities);
                 }
             } catch (Exception e) {
                 System.out.println("Invalid JWT: " + e.getMessage());

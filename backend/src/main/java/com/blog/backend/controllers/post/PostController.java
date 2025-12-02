@@ -23,6 +23,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.dtos.post.PaginatedPostsDTO;
+import com.blog.backend.security.PrincipalUser;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -34,30 +36,16 @@ public class PostController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> createPost(
-            @RequestHeader(value = "Authorization", required = false) String authHeader,
             @ModelAttribute PostInputDTO dto) {
 
-        try {
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body("Missing or invalid Authorization header");
-            }
+        PrincipalUser currentUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-            // Use your util method
-            String token = authHeader.substring(7);
-            String userId = jwtUtil.extractUserId(token);
+        Post saved = postService.createPost(currentUser.getId(), dto);
+        return ResponseEntity.ok(saved);
 
-            Post saved = postService.createPost(userId, dto);
-            return ResponseEntity.ok(saved);
-
-        } catch (JwtException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Server error: " + e.getMessage());
-        }
     }
 
     // Get all the posts component:

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Store your JWT token here (replace with the real one)
-TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWQiOjEsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3NjIwMDIwNzUsImV4cCI6MTc2MjA4ODQ3NX0.I7AfWN6k8Y6nWR2qV-NX32NZ1mFlapoUVMJwIk2v3Zs"
+TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0NEBleGFtcGxlLmNvbSIsImlkIjo1LCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzY0NTk4NDI2LCJleHAiOjE3NjQ2ODQ4MjZ9.BGcT2thtJHb8rYzHPFGEU5SqhWUpYD77bPf533yQwHM"
 # Make the GET request to check status
 curl -X GET http://localhost:8080/api/users \
   -H "Authorization: Bearer $TOKEN" \

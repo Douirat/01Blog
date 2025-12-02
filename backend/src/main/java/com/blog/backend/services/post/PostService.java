@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface PostService {
     Page<PostDetailDTO> getAllPosts(int page);
     // Optional<Post> getPostById(Long id);
-    Post createPost(String userId, PostInputDTO post);
+    Post createPost(Long userId, PostInputDTO post);
     // Post updatePost(Long id, PostInputDTO post);
     // void deletePost(Long id);
 } 
