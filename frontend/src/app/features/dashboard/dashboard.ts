@@ -30,7 +30,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
   constructor(private authentication: Authentication, private postService: PostService) { }
 
-  
+
   ngOnInit(): void {
     this.subscription = this.authentication.currentUser$.subscribe(user => {
       this.currentUser = user
@@ -59,11 +59,21 @@ export class Dashboard implements OnInit, OnDestroy {
 
   // ✅ Toggle single post comment form:
   toggleCommentForm(postId: number) {
-    this.commentVisibility.update(state => ({
-      ...state,
-      [postId]: !state[postId]
-    }));
+    this.commentVisibility.update(state => {
+      const newState: { [id: number]: boolean } = {};
+
+      // Mark everything as false
+      for (const id in state) {
+        newState[id] = false;
+      }
+
+      // Toggle only the clicked post
+      newState[postId] = !state[postId];
+
+      return newState;
+    });
   }
+
 
   // ✅ Read from the signal:
   showCommentForm(postId: number) {
