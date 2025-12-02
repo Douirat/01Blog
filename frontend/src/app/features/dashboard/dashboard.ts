@@ -23,17 +23,14 @@ export class Dashboard implements OnInit, OnDestroy {
   currentPage = 0;
 
 
-  // Declare a signal instead of a plain boolean
-  showCommentForm = signal(false);
+  commentVisibility = signal<{ [postId: number]: boolean }>({});
 
-  toggleCommentForm() {
-    console.log("clicked -------> <-------", this.showCommentForm);
-    
-    this.showCommentForm.set(!this.showCommentForm());
-  }
+
+
 
   constructor(private authentication: Authentication, private postService: PostService) { }
 
+  
   ngOnInit(): void {
     this.subscription = this.authentication.currentUser$.subscribe(user => {
       this.currentUser = user
@@ -42,9 +39,11 @@ export class Dashboard implements OnInit, OnDestroy {
     this.loadPosts();
   }
 
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe(); // prevent memory leaks
   }
+
 
   loadPosts() {
     this.postService.fetchPosts(this.currentPage).subscribe((data: PaginatedPosts) => {
@@ -57,4 +56,18 @@ export class Dashboard implements OnInit, OnDestroy {
       }
     });
   }
+
+  // ✅ Toggle single post comment form:
+  toggleCommentForm(postId: number) {
+    this.commentVisibility.update(state => ({
+      ...state,
+      [postId]: !state[postId]
+    }));
+  }
+
+  // ✅ Read from the signal:
+  showCommentForm(postId: number) {
+    return this.commentVisibility()[postId] === true;
+  }
+
 }

@@ -10,10 +10,10 @@
     <span>By {{ post.user.nickName }}</span>
     <h3>{{ post.title }}</h3>
     <p>{{ post.content }}</p>
-    <small> <button (click)="toggleCommentForm()">comments</button> {{ post.commentsCount }}</small>
-    <small> <button>like</button> {{ post.likes }}</small>
+    <button (click)="toggleCommentForm(post.id)">comments</button> <small> <button>like</button> {{ post.likes
+      }}</small>
     <small> <button>dislike</button> {{ post.dislikes }}</small>
-    <app-comment-form *ngIf="showCommentForm()" [postId]="post.id">
+    <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id">
     </app-comment-form>
   </div>
 </div>
