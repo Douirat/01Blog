@@ -1,7 +1,6 @@
-package com.blog.backend.dtos.post;
+package com.blog.backend.dtos.comment;
 
-import java.util.List;  // ← THIS IS REQUIRED
-import com.blog.backend.dtos.comment.CommentDetailsDTO;
+import java.util.List;
 
 public record PaginatedCommentsDTO(
     List<CommentDetailsDTO> content,

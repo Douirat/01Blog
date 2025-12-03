@@ -47,4 +47,17 @@ public class CommentServiceImpl implements CommentService {
                 comment.setCreatedAt(LocalDate.now());
                 return commentRepository.save(comment);
         }
+
+        /**
+         * Fetches a page of comments for a specific post.
+         * 
+         * @param page   The page number (0-indexed).
+         * @param postId The ID of the post.
+         * @return A Page of CommentDetailsDTOs.
+         */
+        @Override
+        @Transactional(readOnly = true)
+        public Page<CommentDetailsDTO> getPostComments(int page, Long postId) {
+                int pageSize = 10;
+        }
 }
