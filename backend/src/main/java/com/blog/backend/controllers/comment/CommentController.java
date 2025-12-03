@@ -3,14 +3,13 @@ package com.blog.backend.controllers.comment;
 import com.blog.backend.dtos.comment.CommentResponseDTO;
 import com.blog.backend.services.comment.CommentService;
 import com.blog.backend.dtos.comment.CommentDTO;
+import com.blog.backend.dtos.comment.CommentDetailsDTO;
+import com.blog.backend.dtos.comment.PaginatedCommentsDTO;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.blog.backend.security.PrincipalUser;
 import jakarta.validation.Valid;
 import com.blog.backend.models.comment.Comment;
-
-import com.blog.backend.dtos.comment.CommentDetialsDTO;
-import com.blog.backend.dtos.comment.PaginatedCommentsDTO;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,7 +59,7 @@ public class CommentController {
         }
 
         @GetMapping
-        public ResponseEntity<PaginatedCommentsDTO> getComments(@RequestParam Long postId,
+        public ResponseEntity<Object> getComments(@RequestParam Long postId,
                         @RequestParam(defaultValue = "0") int page) {
                 // Add validation for the postId if needed (e.g., must be > 0)
                 if (postId == null || postId <= 0) {

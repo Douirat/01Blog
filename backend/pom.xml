@@ -19,9 +19,9 @@
     <description>Demo project for Spring Boot Authentication</description>
 
     <properties>
-        <!-- UPDATED to 21 to match your JDK and enable preview features -->
         <java.version>21</java.version> 
         <lombok.version>1.18.30</lombok.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
     </properties>
 
     <dependencies>
@@ -80,6 +80,13 @@
             <artifactId>hibernate-community-dialects</artifactId>
         </dependency>
 
+        <!-- MapStruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -116,17 +123,25 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <!-- UPDATED to 21 -->
                     <release>21</release> 
                     <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
                     </annotationProcessorPaths>
                     <compilerArgs>
-                        <!-- This is now valid because release is 21 -->
                         <arg>--enable-preview</arg> 
                     </compilerArgs>
                 </configuration>
