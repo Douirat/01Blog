@@ -23,7 +23,7 @@ export interface Comment {
 export interface CommentRequest {
   title: string;
   content: string;
-  postId: number;
+  postId: number | null;
 }
 
 export interface CommentResponse {

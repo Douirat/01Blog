@@ -53,6 +53,7 @@ export class Dashboard implements OnInit, OnDestroy {
       this.lastPage = data.last;
       if (!data.last) {
         this.currentPage++;
+        
       }
     });
   }

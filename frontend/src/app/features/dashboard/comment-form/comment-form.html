@@ -22,7 +22,7 @@
 
 
   <!-- Submit Button -->
-  <button type="submit" [disabled]="form.invalid || isLoading">
+  <button type="submit" [disabled]="isLoading">
     {{ isLoading ? 'Submitting...' : 'Submit' }}
   </button>
 
