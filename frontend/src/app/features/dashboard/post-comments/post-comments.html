@@ -1,1 +1,15 @@
-<p>post-comments works!</p>
+<div class="comments">
+  <h3>Comments</h3>
+
+  <div *ngFor="let c of comments()">
+    <p><strong>{{ c.author.nickname }}</strong> - {{ c.createdAt }}</p>
+    <p>{{ c.content }}</p>
+    <hr />
+  </div>
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page() === 0">Previous</button>
+    <span>Page {{ page() + 1 }} / {{ totalPages() }}</span>
+    <button (click)="nextPage()" [disabled]="lastPage()">Next</button>
+  </div>
+</div>

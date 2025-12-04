@@ -17,11 +17,10 @@ export class CommentService {
     return this.http.post<CommentResponse>(this.apiUrl, comment);
   }
 
-    getComments(postId: number, page: number, size: number): Observable<PaginatedCommentsDTO> {
+    getComments(postId: number, page: number): Observable<PaginatedCommentsDTO> {
     const params = new HttpParams()
       .set('postId', postId)
       .set('page', page)
-      .set('size', size);
 
     return this.http.get<PaginatedCommentsDTO>(this.apiUrl, { params });
   }

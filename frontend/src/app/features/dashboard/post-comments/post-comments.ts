@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, inject, Input, signal, OnChanges } from '@angular/core';
 import { CommentService } from '../../../core/comment/comment-service';
 import { CommonModule } from '@angular/common';
 import { Comment } from '../../../types/comment';
@@ -11,17 +11,47 @@ import { Comment } from '../../../types/comment';
   styleUrl: './post-comments.scss',
 })
 export class PostComments {
- @Input() postId!: number;
+  @Input() postId!: number;
 
- private commentService = inject(CommentService);
+  private commentService = inject(CommentService);
 
- comments = signal<Comment[]>([]);
- page = signal(0)
- 
+  comments = signal<Comment[]>([]);
+  page = signal(0)
+  totalPages = signal(0);
+  lastPage = signal(false);
 
- onChange(){
-  if(this.postId){
-    console.log("______-__-______", this.postId);
+
+
+  ngOnChanges() {
+    if (this.postId) {
+      this.loadComments()
+    }
   }
- }
+
+  //  Load comments:
+  loadComments() {
+    console.log("______-__-______", this.postId);
+    this.commentService.getComments(this.postId, this.page()).subscribe(res => {
+      this.comments.set(res?.content);
+      console.log("___ - - ___", res);
+      
+      this.totalPages.set(res.totalPages);
+      this.lastPage.set(res.last);
+    })
+  }
+
+
+  nextPage() {
+    if (!this.lastPage()) {
+      this.page.update(p => p + 1);
+      this.loadComments();
+    }
+  }
+
+  prevPage() {
+    if (this.page() > 0) {
+      this.page.update(p => p - 1);
+      this.loadComments();
+    }
+  }
 }
