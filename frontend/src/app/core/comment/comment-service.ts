@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
-import { CommentRequest, CommentResponse, Comment } from '../../types/comment';
+import { CommentRequest, CommentResponse, Comment, PaginatedCommentsDTO } from '../../types/comment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,5 +15,14 @@ export class CommentService {
   // a method to request the creation of a comment:
   createComment(comment: CommentRequest): Observable<CommentResponse> {
     return this.http.post<CommentResponse>(this.apiUrl, comment);
+  }
+
+    getComments(postId: number, page: number, size: number): Observable<PaginatedCommentsDTO> {
+    const params = new HttpParams()
+      .set('postId', postId)
+      .set('page', page)
+      .set('size', size);
+
+    return this.http.get<PaginatedCommentsDTO>(this.apiUrl, { params });
   }
 }

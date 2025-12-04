@@ -6,13 +6,12 @@ Vote type definition for a blog postding system.
 // The comment author:
 export interface CommentAuthor {
   id: number;
-  nickName: string;
+  nickname: string;
 }
 
 // a contract to receive the comment from the backend:
 export interface Comment {
   id: number;
-  title: string;
   content: string;
   createdAt: string;
   author: CommentAuthor;
@@ -30,4 +29,12 @@ export interface CommentResponse {
     id: number;
     success: boolean;
     message: string;
+}
+
+// ceate a paginated contract to ease data retrieval:
+export interface PaginatedCommentsDTO {
+  content: Comment[];
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
 }
