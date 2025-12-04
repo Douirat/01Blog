@@ -1,21 +1,40 @@
 <h1>Dashboard</h1>
+
+<!-- Post creation form -->
 <div *ngIf="currentUser as user">
   <app-post-form></app-post-form>
 </div>
 <hr />
 
-<div *ngFor="let post of posts" class="post-card">
+<!-- Posts -->
+<div *ngFor="let post of posts()" class="post-card">
   <img class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl" alt="Post media">
   <div class="post-content">
     <span>By {{ post.user.nickName }}</span>
     <h3>{{ post.title }}</h3>
     <p>{{ post.content }}</p>
-    <button (click)="toggleCommentForm(post.id)">comments</button> <small> <button>like</button> {{ post.likes
-      }}</small>
-    <small> <button>dislike</button> {{ post.dislikes }}</small>
+
+    <div class="post-actions">
+      <button (click)="toggleCommentForm(post.id)">Comments</button>
+      <small>
+        <button>Like</button> {{ post.likes }}
+      </small>
+      <small>
+        <button>Dislike</button> {{ post.dislikes }}
+      </small>
+    </div>
+
+    <!-- Comment form -->
     <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-comment-form>
+
+    <!-- Post comments -->
     <app-post-comments *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-post-comments>
   </div>
 </div>
 
-<button *ngIf="!lastPage" (click)="loadPosts()">Load More</button>
+<!-- Load more posts -->
+<div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage() === 0">Previous</button>
+  <span>Page {{ currentPage() + 1 }} / {{ totalPages() }}</span>
+  <button (click)="nextPage()" [disabled]="lastPage()">Next</button>
+</div>

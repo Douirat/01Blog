@@ -11,6 +11,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
+
 import java.util.List;
 
 @Configuration
@@ -23,7 +25,11 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                    .anyRequest().permitAll()
+                    // .anyRequest().permitAll()
+                    .requestMatchers("/api/users/register", "/api/users/login").permitAll()
+                     .requestMatchers("/uploads/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
+                    .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

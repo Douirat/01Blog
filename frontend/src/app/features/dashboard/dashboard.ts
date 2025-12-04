@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostForm } from './post-form/post-form';
 import { UserResponse } from '../../types/user';
@@ -12,6 +12,7 @@ import { PostComments } from './post-comments/post-comments';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [CommonModule, PostForm, CommentForm, PostComments],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -19,9 +20,12 @@ import { PostComments } from './post-comments/post-comments';
 export class Dashboard implements OnInit, OnDestroy {
   currentUser: UserResponse | null = null;
   private subscription?: Subscription;
-  posts: Post[] = [];
-  lastPage = false;
-  currentPage = 0;
+
+  // pagination related input
+  posts = signal<Post[]>([]);
+  lastPage = signal(false);
+  currentPage = signal(0);
+  totalPages = signal(0);
 
 
   commentVisibility = signal<{ [postId: number]: boolean }>({});
@@ -29,7 +33,9 @@ export class Dashboard implements OnInit, OnDestroy {
 
 
 
-  constructor(private authentication: Authentication, private postService: PostService) { }
+  constructor(private authentication: Authentication,
+    private postService: PostService
+  ) { }
 
 
   ngOnInit(): void {
@@ -47,15 +53,11 @@ export class Dashboard implements OnInit, OnDestroy {
 
 
   loadPosts() {
-    this.postService.fetchPosts(this.currentPage).subscribe((data: PaginatedPosts) => {
+    this.postService.fetchPosts(this.currentPage()).subscribe((data: PaginatedPosts) => {
       console.log("The loaded posts: ", data);
-
-      this.posts.push(...data.content);
-      this.lastPage = data.last;
-      if (!data.last) {
-        this.currentPage++;
-        
-      }
+      this.posts.set(data.content);
+      this.lastPage.set(data.last);
+      this.totalPages.set(data.totalPages);
     });
   }
 
@@ -83,5 +85,17 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   // get all comments for a specific post.
+  nextPage() {
+    if (!this.lastPage()) {
+      this.currentPage.update(p => p + 1);
+      this.loadPosts();
+    }
+  }
 
+  prevPage() {
+    if (this.currentPage() > 0) {
+      this.currentPage.update(p => p - 1);
+      this.loadPosts();
+    }
+  }
 }
