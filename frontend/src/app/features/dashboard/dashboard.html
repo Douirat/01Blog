@@ -13,8 +13,8 @@
     <button (click)="toggleCommentForm(post.id)">comments</button> <small> <button>like</button> {{ post.likes
       }}</small>
     <small> <button>dislike</button> {{ post.dislikes }}</small>
-    <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id">
-    </app-comment-form>
+    <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-comment-form>
+    <app-post-comments *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-post-comments>
   </div>
 </div>
 

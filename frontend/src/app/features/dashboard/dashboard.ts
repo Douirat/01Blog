@@ -7,11 +7,12 @@ import { Authentication } from '../../core/authentication/auth/authentication';
 import { PostService } from '../../core/post/post-service'
 import { Subscription } from 'rxjs';
 import { CommentForm } from './comment-form/comment-form';
+import { PostComments } from './post-comments/post-comments';
 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, PostForm, CommentForm],
+  imports: [CommonModule, PostForm, CommentForm, PostComments],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
