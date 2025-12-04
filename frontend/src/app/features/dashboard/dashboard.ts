@@ -81,4 +81,6 @@ export class Dashboard implements OnInit, OnDestroy {
     return this.commentVisibility()[postId] === true;
   }
 
+  // get all comments for a specific post.
+
 }
