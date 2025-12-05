@@ -6,45 +6,63 @@ import com.blog.backend.models.user.User;
 import com.blog.backend.services.vote.VoteService;
 import com.blog.backend.repositories.vote.VoteRepository;
 import com.blog.backend.repositories.post.PostRepository;
+import com.blog.backend.repositories.user.UserRepository;
 import org.springframework.stereotype.Service;
+import com.blog.backend.dtos.vote.VoteResponseDTO;
 import org.springframework.transaction.annotation.Transactional;
+import com.blog.backend.dtos.vote.VoteRequestDTO;
 import java.util.Optional;
 
 import javax.management.RuntimeErrorException;
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class VoteServiceImpl implements VoteService {
 
     private final VoteRepository voteRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    public VoteService(VoteRepository voteRepository, PostRepository postRepository) {
-        this.voteRepository = voteRepository;
-        this.postRepository = postRepository;
-    }
+    // public void VoteService(VoteRepository voteRepository, PostRepository postRepository,
+    //         UserRepository userRepository) {
+    //     this.voteRepository = voteRepository;
+    //     this.postRepository = postRepository;
+    //     this.userRepository = userRepository;
+    // }
 
     @Transactional
-    public boolean toggleVote(Long postId, User user, boolean vote) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> RuntimeException("Post not found with ID: " + postId));
+    public VoteResponseDTO toggleVote(VoteRequestDTO vote) {
+
+        Post post = postRepository.findById(vote.postId())
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        User user = userRepository.findById(vote.userId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         Optional<Vote> existingVoteOpt = voteRepository.findByPostAndUser(post, user);
+        String message;
+        Long voteId = null;
+
         if (existingVoteOpt.isPresent()) {
 
             Vote existingVote = existingVoteOpt.get();
-            if (existingVote.isLiked() == vote) {
+            voteId = existingVote.getId();
+
+            if (existingVote.isLiked() == vote.value()) {
                 voteRepository.delete(existingVote);
-                return false;
+                message = "Vote removed successfully (toggled off).";
             } else {
-                existingVote.setLiked(isLiking);
+                existingVote.setLiked(vote.value());
                 voteRepository.save(existingVote);
-                return true;
+                message = "Vote changed successfully.";
             }
 
         } else {
-            Vote newVote = new Vote(post, user, isLiking);
+            Vote newVote = new Vote(post, user, vote.value());
             voteRepository.save(newVote);
-            return true;
+            message = "New vote successfully cast.";
         }
+        return new VoteResponseDTO(voteId, true, message);
     }
 }

@@ -16,25 +16,28 @@ import lombok.AllArgsConstructor;
 })
 @Getter
 @Setter
-@NoArgsConstructor // For JPA compliance
-@AllArgsConstructor // Optional, for convenience in creating instances
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // ✅ no setter
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
-    // You might want @ToString.Exclude here if using @ToString explicitly
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    // You might want @ToString.Exclude here if using @ToString explicitly
     private User user;
 
-    // true = like, false = dislike
     private boolean liked = true;
     
+    // Optional: constructor without id
+    public Vote(Post post, User user, boolean liked) {
+        this.post = post;
+        this.user = user;
+        this.liked = liked;
+    }
 }
