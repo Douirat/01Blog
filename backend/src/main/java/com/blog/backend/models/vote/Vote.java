@@ -6,6 +6,9 @@ import com.blog.backend.models.post.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+// Removed @Data
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {
@@ -13,6 +16,8 @@ import lombok.Setter;
 })
 @Getter
 @Setter
+@NoArgsConstructor // For JPA compliance
+@AllArgsConstructor // Optional, for convenience in creating instances
 public class Vote {
 
     @Id
@@ -21,20 +26,15 @@ public class Vote {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
+    // You might want @ToString.Exclude here if using @ToString explicitly
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    // You might want @ToString.Exclude here if using @ToString explicitly
     private User user;
 
-    // true = like, false = dislike (optional)
+    // true = like, false = dislike
     private boolean liked = true;
-
-    public Vote() {}
-
-    public Vote(Post post, User user, boolean liked) {
-        this.post = post;
-        this.user = user;
-        this.liked = liked;
-    }
+    
 }
