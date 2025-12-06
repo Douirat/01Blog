@@ -63,6 +63,6 @@ public class VoteServiceImpl implements VoteService {
             voteRepository.save(newVote);
             message = "New vote successfully cast.";
         }
-        return new VoteResponseDTO(voteId, true, message);
+        return new VoteResponseDTO(post.getId(), true, message);
     }
 }

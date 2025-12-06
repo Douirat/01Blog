@@ -8,6 +8,7 @@ import { PostService } from '../../core/post/post-service'
 import { Subscription } from 'rxjs';
 import { CommentForm } from './comment-form/comment-form';
 import { PostComments } from './post-comments/post-comments';
+import { VoteRequest } from '../../types/vote';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class Dashboard implements OnInit, OnDestroy {
       console.log('Current user changed:', user);
     });
     this.loadPosts();
+    console.log("The loaded posts: ", this.posts);
   }
 
 
@@ -97,5 +99,31 @@ export class Dashboard implements OnInit, OnDestroy {
       this.currentPage.update(p => p - 1);
       this.loadPosts();
     }
+  }
+
+  // handle the post's vote:
+  vote(postId: number, value: 'like' | 'dislike') {
+    let decision: boolean = false;
+    if (value == 'like') {
+      decision = true
+    }
+    let voteRequest: VoteRequest = {
+      postId: postId,
+      value: decision
+    }
+    this.postService.createVote(voteRequest).subscribe({
+      next: (response) => {
+        console.log('Vote response:', response.message);
+        if (response.success) {
+          // post.likes += 1; // or post.dislikes += 1 if value = false
+          console.log("The vote response: ", response);
+          
+        }
+      },
+      error: (err) => {
+        console.error('Vote failed', err);
+      }
+    });
+
   }
 }

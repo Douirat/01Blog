@@ -17,11 +17,12 @@
     <div class="post-actions">
       <button (click)="toggleCommentForm(post.id)">Comments</button>
       <small>
-        <button>Like</button> {{ post.likes }}
+        <button (click)="vote(post.id, 'like')">Like</button> {{ post.likes }}
       </small>
       <small>
-        <button>Dislike</button> {{ post.dislikes }}
+        <button (click)="vote(post.id, 'dislike')">Dislike</button> {{ post.dislikes }}
       </small>
+
     </div>
 
     <!-- Comment form -->

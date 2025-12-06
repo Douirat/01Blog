@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environment/environment';
 import { PostInput, PaginatedPosts } from '../../types/post';
 import { Observable } from 'rxjs';
+import { VoteRequest, VoteResponse } from '../../types/vote';
 
 
 @Injectable({
@@ -11,6 +12,7 @@ import { Observable } from 'rxjs';
 
 export class PostService {
   private readonly apiUrl = `${environment.apiUrl}/api/posts`
+  private readonly voteApiUrl = `${environment.apiUrl}/api/votes`
 
   constructor(private http: HttpClient) { }
 
@@ -36,4 +38,9 @@ export class PostService {
       .set('page', page.toString());
     return this.http.get<PaginatedPosts>(this.apiUrl, { params });
   }
+
+  createVote(vote: VoteRequest): Observable<VoteResponse> {
+    return this.http.post<VoteResponse>(this.voteApiUrl, vote);
+  }
+
 }
