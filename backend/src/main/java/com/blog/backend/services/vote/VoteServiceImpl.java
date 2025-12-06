@@ -35,9 +35,9 @@ public class VoteServiceImpl implements VoteService {
     @Transactional
     public VoteResponseDTO toggleVote(VoteRequestDTO vote) {
 
-        Post post = postRepository.findById(vote.postId())
+        Post post = postRepository.findById(vote.getPostId())
                 .orElseThrow(() -> new RuntimeException("Post not found"));
-        User user = userRepository.findById(vote.userId())
+        User user = userRepository.findById(vote.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Optional<Vote> existingVoteOpt = voteRepository.findByPostAndUser(post, user);
@@ -49,17 +49,17 @@ public class VoteServiceImpl implements VoteService {
             Vote existingVote = existingVoteOpt.get();
             voteId = existingVote.getId();
 
-            if (existingVote.isLiked() == vote.value()) {
+            if (existingVote.isLiked() == vote.isValue()) {
                 voteRepository.delete(existingVote);
                 message = "Vote removed successfully (toggled off).";
             } else {
-                existingVote.setLiked(vote.value());
+                existingVote.setLiked(vote.isValue());
                 voteRepository.save(existingVote);
                 message = "Vote changed successfully.";
             }
 
         } else {
-            Vote newVote = new Vote(post, user, vote.value());
+            Vote newVote = new Vote(post, user, vote.isValue());
             voteRepository.save(newVote);
             message = "New vote successfully cast.";
         }

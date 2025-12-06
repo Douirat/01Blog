@@ -1,0 +1,1 @@
+{"id":null,"success":true,"message":"New vote successfully cast."}

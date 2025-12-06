@@ -1,7 +1,10 @@
 package com.blog.backend.dtos.vote;
 
-public record VoteRequestDTO(
-Long postId,
-Long userId,
-boolean value
-) {}
+import lombok.Data;
+
+@Data
+public class VoteRequestDTO {
+    private Long postId;
+    private Long userId;
+    private boolean value;
+}

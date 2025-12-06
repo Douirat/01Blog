@@ -20,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/api/votes")
 @RequiredArgsConstructor
@@ -28,11 +27,9 @@ public class VoteController {
 
     private final VoteService voteService;
 
-
-
     @PostMapping
     public ResponseEntity<VoteResponseDTO> castVote(@RequestBody VoteRequestDTO vote) {
-
+        System.out.println("Hello mother fucker... ");
         // Use a single variable name for clarity
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
@@ -50,19 +47,17 @@ public class VoteController {
 
         // 3. Call the service layer with the retrieved IDs
         // Assuming 'true' for a default 'like' vote
-        vote.setUserId(userId); // add userId into DTO
-        VoteResponseDTO responseDTO = voteService.toggleVote(vote);
+        vote.setUserId(userId);// add userId into DTO
+        VoteResponseDTO responseDTO;
+
         try {
-
-            // Return 200 OK with the success DTO
-            return ResponseEntity.ok(responseDTO);
-
+            responseDTO = voteService.toggleVote(vote);
         } catch (RuntimeException e) {
-            // Handle specific business logic errors (e.g., Post Not Found)
-            VoteResponseDTO errorResponse = new VoteResponseDTO(null, false,
-                    "Error processing vote: " + e.getMessage());
-            // Return 400 Bad Request with the error DTO
-            return ResponseEntity.badRequest().body(errorResponse);
+            return ResponseEntity.badRequest()
+                    .body(new VoteResponseDTO(null, false, "Error processing vote: " + e.getMessage()));
         }
+
+        // 6. Success
+        return ResponseEntity.ok(responseDTO);
     }
 }
