@@ -29,7 +29,7 @@
 
 @mixin card-display($gap: 1vmin){
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 60vw;

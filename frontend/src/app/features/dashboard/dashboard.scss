@@ -14,8 +14,7 @@
 }
 
 .post-content{
-    border: 1px black solid;
     width: 50%;
     height: 100%;
-     @include mixins.center-elements-column();
+    @include mixins.center-elements-column();
 }

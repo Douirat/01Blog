@@ -1,37 +1,34 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-  <!-- Title Field -->
-  <div class="form-field">
-    <label for="title">Title</label>
-    <input id="title" type="text" formControlName="title" placeholder="Title"
-      [class.error]="form.controls.title.invalid && form.controls.title.touched" />
-    <span class="error-message" *ngIf="form.controls.title.invalid && form.controls.title.touched">
-      Title is required
-    </span>
-  </div>
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input id="title" type="text" formControlName="title" placeholder="Title"
+        [class.error]="form.controls.title.invalid && form.controls.title.touched" />
+      <span class="error" *ngIf="form.controls.title.invalid && form.controls.title.touched">
+        Title is required
+      </span>
+    </div>
 
-  <!-- Content Field -->
-  <div class="form-field">
-    <label for="content">Content</label>
-    <textarea id="content" formControlName="content" placeholder="Content" rows="5"
-      [class.error]="form.controls.content.invalid && form.controls.content.touched"></textarea>
-    <span class="error-message" *ngIf="form.controls.content.invalid && form.controls.content.touched">
-      Content is required
-    </span>
-  </div>
+    <div class="form-group">
+      <label for="content">Content</label>
+      <textarea id="content" formControlName="content" placeholder="Content" rows="5"
+        [class.error]="form.controls.content.invalid && form.controls.content.touched"></textarea>
+      <span class="error" *ngIf="form.controls.content.invalid && form.controls.content.touched">
+        Content is required
+      </span>
+    </div>
 
+    <button type="submit" [disabled]="isLoading">
+      {{ isLoading ? 'Submitting...' : 'Submit' }}
+    </button>
 
-  <!-- Submit Button -->
-  <button type="submit" [disabled]="isLoading">
-    {{ isLoading ? 'Submitting...' : 'Submit' }}
-  </button>
+    <div class="error-message" *ngIf="isSuccess === false">
+      Failed to create comment. Please try again.
+    </div>
 
-  <!-- Error Message -->
-  <div class="error-message" *ngIf="isSuccess === false">
-    Failed to create comment. Please try again.
-  </div>
-
-  <div class="success_message" *ngIf="isSuccess === true">
-    comment was created successfully.
-  </div>
-</form>
+    <div class="success-message" *ngIf="isSuccess === true">
+      Comment was created successfully.
+    </div>
+  </form>
+</div>

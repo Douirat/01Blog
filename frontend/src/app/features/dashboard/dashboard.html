@@ -22,12 +22,11 @@
       <small>
         <button (click)="vote(post.id, 'dislike')">Dislike</button> {{ post.dislikes }}
       </small>
-
     </div>
-
+<hr />
     <!-- Comment form -->
     <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-comment-form>
-
+<hr />
     <!-- Post comments -->
     <app-post-comments *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-post-comments>
   </div>
