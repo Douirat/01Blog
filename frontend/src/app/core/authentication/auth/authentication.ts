@@ -27,9 +27,11 @@ export class Authentication {
   public user = signal<UserResponse | null>(null)
   public isAdmin = computed(()=> this.user()?.user?.isAdmin)
 
+
   constructor(private http: HttpClient) {
     // no manual assignment is needed: Angular's dependency injection handles this automatically.
-    this.loadStoredUser();
+    this.loadStoredUser()
+    this.checkStatus().subscribe()
   }
 
   /**
@@ -41,6 +43,7 @@ export class Authentication {
     if (storedUser) {
       try {
         this.currentUser.next(JSON.parse(storedUser));
+         this.user.set(JSON.parse(storedUser));
       } catch (error) {
         console.error('[AuthService] Failed to parse stored user', error);
         localStorage.removeItem('currentUser')
@@ -133,6 +136,8 @@ export class Authentication {
       tap(response => {
         // Update user data if it changed on server
         this.currentUser.next(response);
+          this.user.set(response);
+         localStorage.setItem('user', JSON.stringify(response));
       }),
       catchError(error => {
         // If token is invalid, clear session

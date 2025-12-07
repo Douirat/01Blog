@@ -25,11 +25,11 @@ export class Header {
     this.auth.logout().subscribe({
       next: () => {
         console.log('User logged out');
-        this.router.navigate(['/login']); // optional redirect
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('Logout failed', err);
-        this.router.navigate(['/login']); // still redirect
+        this.router.navigate(['/login']);
       }
     });
   }
@@ -37,20 +37,20 @@ export class Header {
 
   login() {
     console.log('Login clicked');
-    this.router.navigate(['/login']); // optional redirect
+    this.router.navigate(['/login']);
   }
   register() {
     console.log('Register clicked');
-    this.router.navigate(['/register']); // optional redirect
+    this.router.navigate(['/register']);
   }
 
   goHome() {
     console.log('Home clicked');
-    this.router.navigate(['/']); // optional redirect
+    this.router.navigate(['/']);
   }
 
   goToProfile() {
    console.log('Pogin clicked');
-    this.router.navigate(['/profile']); // optional redirect
+    this.router.navigate(['/profile']);
   }
 }
