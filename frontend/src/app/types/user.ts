@@ -1,5 +1,5 @@
 // TypeScript interface representing a User entity:
-export interface User{
+export interface User {
     readonly id?: string;
     email: string;
     password: string;
@@ -12,7 +12,7 @@ export interface User{
 }
 
 // the UserDTO frontend type representer:
-export interface UserDTO{
+export interface UserDTO {
     readonly id: string;
     email: string;
     firstName: string;
@@ -23,14 +23,26 @@ export interface UserDTO{
     isAdmin?: boolean;
 }
 
+// create an interface to represent the paginated users:
+export interface PaginatedUsersDTO {
+
+    content: UserDTO[];
+
+    last: boolean;
+
+    totalPages: number;
+
+    totalElements: number;
+}
+
 // Typescript interface representing the user response:
-export interface UserResponse{
+export interface UserResponse {
     readonly user: UserDTO;
     readonly token: string;
 }
 
 // Typescript interface to represent the login payload:
-export interface LoginPayload{
+export interface LoginPayload {
     emailOrUsername: string;
     password: string;
 }
