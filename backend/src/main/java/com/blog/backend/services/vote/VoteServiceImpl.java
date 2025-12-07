@@ -9,13 +9,13 @@ import com.blog.backend.repositories.post.PostRepository;
 import com.blog.backend.repositories.user.UserRepository;
 import org.springframework.stereotype.Service;
 import com.blog.backend.dtos.vote.VoteResponseDTO;
+import com.blog.backend.dtos.post.PostDetailDTO;
 import org.springframework.transaction.annotation.Transactional;
 import com.blog.backend.dtos.vote.VoteRequestDTO;
 import java.util.Optional;
 
 import javax.management.RuntimeErrorException;
 import lombok.RequiredArgsConstructor;
-
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +25,12 @@ public class VoteServiceImpl implements VoteService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    // public void VoteService(VoteRepository voteRepository, PostRepository postRepository,
-    //         UserRepository userRepository) {
-    //     this.voteRepository = voteRepository;
-    //     this.postRepository = postRepository;
-    //     this.userRepository = userRepository;
+    // public void VoteService(VoteRepository voteRepository, PostRepository
+    // postRepository,
+    // UserRepository userRepository) {
+    // this.voteRepository = voteRepository;
+    // this.postRepository = postRepository;
+    // this.userRepository = userRepository;
     // }
 
     @Transactional
@@ -63,6 +64,22 @@ public class VoteServiceImpl implements VoteService {
             voteRepository.save(newVote);
             message = "New vote successfully cast.";
         }
-        return new VoteResponseDTO(post.getId(), true, message);
+
+        int likes = (int) post.getVotes().stream().filter(Vote::isLiked).count();
+        int dislikes = (int) post.getVotes().stream().filter(v -> !v.isLiked()).count();
+
+        System.out.printf("The number of likes is: %d and the number of dilikes is: %d\n", likes, dislikes);
+        PostDetailDTO postDTO = new PostDetailDTO(
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getMediaType(),
+                post.getMediaUrl(),
+                null,
+                likes,
+                dislikes,
+                0,
+                post.getCreatedAt().toString());
+        return new VoteResponseDTO(postDTO, true, message);
     }
 }

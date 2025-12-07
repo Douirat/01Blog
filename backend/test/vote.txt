@@ -1,1 +1,1 @@
-{"id":3,"success":true,"message":"Vote removed successfully (toggled off)."}
+{"postDTO":{"id":2,"title":"my post","content":"test body","mediaType":"image","mediaUrl":"http://localhost:8080/uploads/3aeeee99-3075-4091-aa69-fffe9f496fd4-Test-Logo.svg.png","user":null,"likes":2,"dislikes":0,"commentsCount":0,"createdAt":"2025-11-20T20:00:13.190"},"success":true,"message":"Vote removed successfully (toggled off)."}

@@ -62,11 +62,11 @@ class UserServiceImpl implements UserService {
         newUser.setPassword(encoder.encode(user.getPassword()));
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
-        newUser.setDateOfBirth(user.getDateOfBirth()); // .atStartOfDay():
+        newUser.setDateOfBirth(user.getDateOfBirth());
         newUser.setAvatar(avatarPath);
         newUser.setNickname(user.getNickname());
-        newUser.setAdmin(false); // default to normal user:
-
+        newUser.setAdmin(false);
+        
         User savedUser = userRepository.save(newUser);
         UserDTO userDTO = new UserDTO(
                 savedUser.getId(),

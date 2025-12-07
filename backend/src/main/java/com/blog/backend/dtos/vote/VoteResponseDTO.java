@@ -1,7 +1,9 @@
 package com.blog.backend.dtos.vote;
 
+import com.blog.backend.dtos.post.PostDetailDTO;
+
 public record VoteResponseDTO(
-    Long postId,
+    PostDetailDTO postDTO,
     boolean success,
     String message
 ) {}

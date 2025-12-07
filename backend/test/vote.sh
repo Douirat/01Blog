@@ -1,12 +1,12 @@
-TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0NEBleGFtcGxlLmNvbSIsImlkIjo1LCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzY1MDE4ODQyLCJleHAiOjE3NjUxMDUyNDJ9.Dyg8l2VHi3_9mzo6Qt1AG0R6ot4WCVTcieNyBuAK7LE"
+TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0NEBleGFtcGxlLmNvbSIsImlkIjo1LCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzY1MTAxMDIwLCJleHAiOjE3NjUxODc0MjB9.op9fCumdaSmXXWnpwZuWb6aiOZjxWdOmw5NKLBVQcSw"
 
 curl -X POST "http://localhost:8080/api/votes" \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-        "postId": 1,
+        "postId": 2,
         "userId": 5,
-        "value": false
+        "value": true
       }' \
   -o vote.txt
 

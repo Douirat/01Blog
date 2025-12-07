@@ -115,9 +115,20 @@ export class Dashboard implements OnInit, OnDestroy {
       next: (response) => {
         console.log('Vote response:', response.message);
         if (response.success) {
-          // post.likes += 1; // or post.dislikes += 1 if value = false
-          console.log("The vote response: ", response);
+          this.posts
           
+          this.posts.update(currentPosts =>
+            currentPosts.map(post => {
+              if (post.id === postId) {
+                post.likes = response.postDTO.likes;
+                post.dislikes = response.postDTO.dislikes;
+                console.log("vote response: ----> ", response);
+                console.log("post after update: ---> ", post); 
+              }
+              return post;
+              
+            })
+          )
         }
       },
       error: (err) => {

@@ -43,11 +43,9 @@ public class VoteController {
 
         // 2. Cast the object and extract the userId
         PrincipalUser currentUser = (PrincipalUser) principal;
-        Long userId = currentUser.getId(); // Assuming 'getId()' exists in your PrincipalUser class
+        Long userId = currentUser.getId();
 
-        // 3. Call the service layer with the retrieved IDs
-        // Assuming 'true' for a default 'like' vote
-        vote.setUserId(userId);// add userId into DTO
+        vote.setUserId(userId);
         VoteResponseDTO responseDTO;
 
         try {

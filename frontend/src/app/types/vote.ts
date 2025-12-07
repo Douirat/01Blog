@@ -1,5 +1,5 @@
 export interface VoteResponse {
-  id: number | null;
+  postDTO: any;
   success: boolean;
   message: string;
 }
