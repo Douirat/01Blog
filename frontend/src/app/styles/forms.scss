@@ -1,6 +1,7 @@
 @use './mixins' as mixins;
 @use './variables' as variables;
 @use "sass:color";
+
 // Base form container - use this class on all form wrappers
 .form-container {
   max-width: variables.$form-max-width;
@@ -11,7 +12,8 @@
   background-color: #fff;
 
   // Heading styles
-  h2, h3 {
+  h2,
+  h3 {
     margin-bottom: 1.5rem;
     color: variables.$font-color;
     font-weight: 600;
@@ -139,7 +141,7 @@ button[type="submit"],
   transition: background-color 0.2s ease, opacity 0.2s ease;
 
   &:hover:not(:disabled) {
-    background-color: darken(variables.$primary-color, 10%);
+    background-color: color.adjust(variables.$primary-color, $lightness: -10%);
   }
 
   &:disabled {
@@ -203,7 +205,7 @@ input[type="file"] {
 .post-form {
   @include mixins.flex-column(variables.$gap-size);
 
-  input[type="file"] + span {
+  input[type="file"]+span {
     font-size: variables.$font-size-sm;
     color: #666;
     margin-top: -0.5rem;
@@ -259,14 +261,14 @@ input[type="file"] {
     color: variables.$font-color;
   }
 
-  > div {
+  >div {
     padding: variables.$gap-size 0;
 
     p {
       margin-bottom: 0.5rem;
       color: variables.$font-color;
       font-family: variables.$font-family;
-      
+
       strong {
         color: variables.$primary-color;
       }
