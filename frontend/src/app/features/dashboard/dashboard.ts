@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostForm } from './post-form/post-form';
 import { UserResponse } from '../../types/user';
@@ -19,7 +19,8 @@ import { VoteRequest } from '../../types/vote';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard implements OnInit, OnDestroy {
-  currentUser: UserResponse | null = null;
+  user = signal<UserResponse | null>(null);
+
   private subscription?: Subscription;
 
   // pagination related input
@@ -40,10 +41,9 @@ export class Dashboard implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.subscription = this.authentication.currentUser$.subscribe(user => {
-      this.currentUser = user
-      console.log('Current user changed:', user);
-    });
+
+    this.user.set(this.authentication.user())
+    console.log('Current user changed:', this.user);
     this.loadPosts();
     console.log("The loaded posts: ", this.posts);
   }
@@ -116,17 +116,17 @@ export class Dashboard implements OnInit, OnDestroy {
         console.log('Vote response:', response.message);
         if (response.success) {
           this.posts
-          
+
           this.posts.update(currentPosts =>
             currentPosts.map(post => {
               if (post.id === postId) {
                 post.likes = response.postDTO.likes;
                 post.dislikes = response.postDTO.dislikes;
                 console.log("vote response: ----> ", response);
-                console.log("post after update: ---> ", post); 
+                console.log("post after update: ---> ", post);
               }
               return post;
-              
+
             })
           )
         }

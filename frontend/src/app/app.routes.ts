@@ -4,7 +4,9 @@ import { Routes } from '@angular/router';
 import { Registeration } from './features/authentication/registeration/registeration';
 import { Login } from './features/authentication/login/login';
 import { Dashboard } from './features/dashboard/dashboard';
-// import { authGuard } from './core/authentication/guards/auth-guard';
+import { authGuard } from './core/authentication/guards/auth-guard';
+import { Users } from './features/users/users';
+
 
 export const routes: Routes = [
     //   { path: 'admin', component: AdminComponent, canActivate: [roleGuard] }, // the admin panel with its gate keeper.
@@ -21,6 +23,11 @@ export const routes: Routes = [
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full'
+    },
+      {
+        path: 'users',
+        component: Users,
+        canActivate: [authGuard]
     },
     // Fallback route (optional)
     { path: '**', redirectTo: '/dashboard' }

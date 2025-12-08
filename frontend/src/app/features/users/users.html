@@ -1,1 +1,16 @@
-<p>users works!</p>
+<div class="container">
+    <div class="user-card" *ngFor="let user of users()">
+        <p><strong>Name:</strong> {{ user.firstName }}</p>
+    </div>
+</div>
+
+<!-- export interface UserDTO {
+    readonly id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string; // ISO format date string
+    avatar?: File; // image (optional)
+    nickname: string;
+    isAdmin?: boolean;
+} -->

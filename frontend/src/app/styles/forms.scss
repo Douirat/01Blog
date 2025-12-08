@@ -1,6 +1,6 @@
 @use './mixins' as mixins;
 @use './variables' as variables;
-
+@use "sass:color";
 // Base form container - use this class on all form wrappers
 .form-container {
   max-width: variables.$form-max-width;

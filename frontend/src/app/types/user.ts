@@ -24,7 +24,7 @@ export interface UserDTO {
 }
 
 // create an interface to represent the paginated users:
-export interface PaginatedUsersDTO {
+export interface PaginatedUsers {
 
     content: UserDTO[];
 

@@ -1,21 +1,33 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Authentication } from '../../core/authentication/auth/authentication';
-import { UserDTO, PaginatedUsersDTO } from '../../types/user';
+import { UserDTO, PaginatedUsers } from '../../types/user';
 import { UsersService } from '../../core/users/users-service';
 
 @Component({
   selector: 'app-users',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './users.html',
   styleUrl: './users.scss',
 })
 export class Users {
   constructor(private auth: Authentication, private usersService: UsersService) { }
-  page:number = 0;
+  page = signal(0);
   users = signal<UserDTO[] | []>([])
+  lastUsers = signal(false);
+  totalUser = signal(0);
+
+    ngOnInit(): void {
+
+  }
 
   // get all users:
-  get_all_users() {
-    
+  loadUsers() {
+    this.usersService.fetchUsers(this.page()).subscribe((data: PaginatedUsers) => {
+      console.log("The loaded users: ", data);
+      this.users.set(data.content);
+      this.lastUsers.set(data.last);
+      this.totalUser.set(data.totalPages);
+    })
   }
 }
