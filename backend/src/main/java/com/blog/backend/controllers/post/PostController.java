@@ -10,7 +10,6 @@ import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.services.post.PostService;
 
 import lombok.RequiredArgsConstructor;
-import com.blog.backend.util.JwtUtil;
 import org.springframework.web.bind.annotation.RequestHeader;
 import com.blog.backend.models.post.Post;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,7 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class PostController {
 
     private final PostService postService;
-    private final JwtUtil jwtUtil;
+  
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> createPost(
@@ -48,28 +47,39 @@ public class PostController {
 
     }
 
-    // Get all the posts component:
-    @GetMapping
-    public ResponseEntity<PaginatedPostsDTO> getPosts(
-            @RequestParam(defaultValue = "0") int page) {
+// Get all the posts component:
+@GetMapping
+public ResponseEntity<PaginatedUsersDTO> getProfiles(@RequestParam(defaultValue = "0") int page) {
 
-        if (page < 0) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Page<PostDetailDTO> posts = postService.getAllPosts(page);
-
-        if (posts.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
-        PaginatedPostsDTO response = new PaginatedPostsDTO(
-                posts.getContent(),
-                posts.isLast(),
-                posts.getTotalPages(),
-                posts.getTotalElements());
-
-        return ResponseEntity.ok(response);
+    if (page < 0) {
+        PaginatedUsersDTO errorResponse = new PaginatedUsersDTO(
+            List.of(), // empty content
+            true,      // mark as last page
+            0,         // total pages
+            0          // total elements
+        );
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 
+    Page<UserDTO> users = profileService.fetchUsers(page);
+
+    if (users.isEmpty()) {
+        PaginatedUsersDTO emptyResponse = new PaginatedUsersDTO(
+            List.of(),
+            true,
+            users.getTotalPages(),
+            users.getTotalElements()
+        );
+        return ResponseEntity.noContent().body(emptyResponse); 
+    }
+
+    PaginatedUsersDTO response = new PaginatedUsersDTO(
+        users.getContent(),
+        users.isLast(),
+        users.getTotalPages(),
+        users.getTotalElements()
+    );
+
+    return ResponseEntity.ok(response);
+}
 }
