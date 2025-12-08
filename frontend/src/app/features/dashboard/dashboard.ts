@@ -23,7 +23,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
   private subscription?: Subscription;
 
-  // pagination related input
+  // pagination related input:
   posts = signal<Post[]>([]);
   lastPage = signal(false);
   currentPage = signal(0);
@@ -41,7 +41,6 @@ export class Dashboard implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-
     this.user.set(this.authentication.user())
     console.log('Current user changed:', this.user);
     this.loadPosts();
@@ -50,7 +49,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe(); // prevent memory leaks
+    this.subscription?.unsubscribe(); // prevent memory leaks.
   }
 
 
@@ -68,12 +67,12 @@ export class Dashboard implements OnInit, OnDestroy {
     this.commentVisibility.update(state => {
       const newState: { [id: number]: boolean } = {};
 
-      // Mark everything as false
+      // Mark everything as false:
       for (const id in state) {
         newState[id] = false;
       }
 
-      // Toggle only the clicked post
+      // Toggle only the clicked post:
       newState[postId] = !state[postId];
 
       return newState;
@@ -86,7 +85,7 @@ export class Dashboard implements OnInit, OnDestroy {
     return this.commentVisibility()[postId] === true;
   }
 
-  // get all comments for a specific post.
+  // get all comments for a specific post:
   nextPage() {
     if (!this.lastPage()) {
       this.currentPage.update(p => p + 1);
@@ -135,6 +134,5 @@ export class Dashboard implements OnInit, OnDestroy {
         console.error('Vote failed', err);
       }
     });
-
   }
 }
