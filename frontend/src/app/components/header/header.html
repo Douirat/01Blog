@@ -2,28 +2,32 @@
   <!--Not logged in-->
   <ng-container *ngIf="!isLoggedIn()">
     <div class="nav-section">
-      <a routerLink="/" (click)="goHome()">01 Blog</a>
+      <a class="clickable" routerLink="/" (click)="goHome()">01 Blog</a>
     </div>
     <div class="nav-section">
-    <a routerLink="/login" (click)="login()">Login</a>
-      <a routerLink="/register" (click)="register()">Register</a>
+      <a class="clickable" routerLink="/login" (click)="login()">Login</a>
+      <a class="clickable" routerLink="/register" (click)="register()">Register</a>
     </div>
   </ng-container>
 
   <!--Logged in-->
   <ng-container *ngIf="isLoggedIn()">
     <div class="nav-section">
-      <h3>01 Blog</h3>
+      <a class="clickable" routerLink="/" (click)="goHome()">01 Blog</a>
     </div>
     <div class="nav-section">
-      <a routerLink="/profile">Profile <span>Welcome, {{ user()?.user?.firstName + ' ' + user()?.user?.lastName }}
+      <a class="clickable" (click)="seeUsers()" routerLink="/users">users</a>
+    </div>
+    <div class="nav-section">
+      <a class="clickable" routerLink="/profile">Profile <span>Welcome, {{ user()?.user?.firstName + ' ' +
+          user()?.user?.lastName }}
         </span></a>
       <button (click)="logout()">Logout</button>
     </div>
     <!--Is admine-->
     <ng-container *ngIf="isAdmin()">
       <!--TODO: Handle the admine logic later-->
-      <a routerLink="/admin">Admin Dashboard</a>
+      <a class="clickable" routerLink="/admin">Admin Dashboard</a>
     </ng-container>
   </ng-container>
 

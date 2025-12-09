@@ -53,4 +53,9 @@ export class Header {
    console.log('Pogin clicked');
     this.router.navigate(['/profile']);
   }
+
+  seeUsers(){
+    console.log('Pogin clicked');
+    this.router.navigate(['/users']);
+  }
 }

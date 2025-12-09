@@ -8,3 +8,9 @@
 .nav-section {
     @include mixins.center-elements-raw()
 }
+
+.clickable {
+    &:hover {
+        cursor: pointer;
+    }
+}
