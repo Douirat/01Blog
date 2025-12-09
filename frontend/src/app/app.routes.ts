@@ -27,7 +27,7 @@ export const routes: Routes = [
       {
         path: 'users',
         component: Users,
-        canActivate: [authGuard]
+        // canActivate: [authGuard]
     },
     // Fallback route (optional)
     { path: '**', redirectTo: '/dashboard' }

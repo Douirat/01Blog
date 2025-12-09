@@ -28,6 +28,7 @@ public class ProfileController {
 @GetMapping
 public ResponseEntity<PaginatedUsersDTO> getProfiles(@RequestParam(defaultValue = "0") int page) {
 
+    System.out.println("this end point was triggered ----> '---'");
     if (page < 0) {
         PaginatedUsersDTO errorResponse = new PaginatedUsersDTO(
             List.of(), // empty content

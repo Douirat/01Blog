@@ -14,6 +14,8 @@ export class UsersService {
   constructor(private http: HttpClient) { }
 
   fetchUsers(page: number):Observable<PaginatedUsers>{
+    console.log("fuck what is the error?");
+    
         const params = new HttpParams()
       .set('page', page.toString());
     return this.http.get<PaginatedUsers>(this.apiUrl);

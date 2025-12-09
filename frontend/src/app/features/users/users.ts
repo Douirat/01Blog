@@ -17,8 +17,8 @@ export class Users {
   lastUsers = signal(false);
   totalUser = signal(0);
 
-    ngOnInit(): void {
-
+  ngOnInit(): void {
+    this.loadUsers()
   }
 
   // get all users:
