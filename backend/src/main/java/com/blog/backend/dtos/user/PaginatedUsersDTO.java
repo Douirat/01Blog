@@ -1,4 +1,4 @@
-package com.blog.backend.dtos.post;
+package com.blog.backend.dtos.user;
 
 import java.util.List;
 import com.blog.backend.dtos.user.UserDTO;

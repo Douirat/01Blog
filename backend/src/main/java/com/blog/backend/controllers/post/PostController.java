@@ -49,37 +49,25 @@ public class PostController {
 
 // Get all the posts component:
 @GetMapping
-public ResponseEntity<PaginatedUsersDTO> getProfiles(@RequestParam(defaultValue = "0") int page) {
-
+public ResponseEntity<PaginatedPostsDTO> getPosts(
+        @RequestParam(defaultValue = "0") int page) {
     if (page < 0) {
-        PaginatedUsersDTO errorResponse = new PaginatedUsersDTO(
-            List.of(), // empty content
-            true,      // mark as last page
-            0,         // total pages
-            0          // total elements
-        );
-        return ResponseEntity.badRequest().body(errorResponse);
+        return ResponseEntity.badRequest().build();
     }
-
-    Page<UserDTO> users = profileService.fetchUsers(page);
-
-    if (users.isEmpty()) {
-        PaginatedUsersDTO emptyResponse = new PaginatedUsersDTO(
-            List.of(),
-            true,
-            users.getTotalPages(),
-            users.getTotalElements()
-        );
-        return ResponseEntity.noContent().body(emptyResponse); 
+    
+    Page<PostDetailDTO> posts = postService.getAllPosts(page);
+    
+    if (posts.isEmpty()) {
+        return ResponseEntity.noContent().build();
     }
-
-    PaginatedUsersDTO response = new PaginatedUsersDTO(
-        users.getContent(),
-        users.isLast(),
-        users.getTotalPages(),
-        users.getTotalElements()
+    
+    PaginatedPostsDTO response = new PaginatedPostsDTO(
+        posts.getContent(),
+        posts.isLast(),
+        posts.getTotalPages(),
+        posts.getTotalElements()
     );
-
+    
     return ResponseEntity.ok(response);
 }
 }
