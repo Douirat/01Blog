@@ -9,58 +9,53 @@
 
     <div class="form-group">
       <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email" 
-             placeholder="Enter your email"
-             [class.error]="hasError('email', 'required') || hasError('email', 'email')" />
+      <input id="email" type="email" formControlName="email" placeholder="Enter your email"
+        [class.error]="hasError('email', 'required') || hasError('email', 'email')" />
       <small class="error" *ngIf="hasError('email', 'required')">Email is required</small>
       <small class="error" *ngIf="hasError('email', 'email')">Invalid email format</small>
     </div>
 
     <div class="form-group">
       <label for="password">Password</label>
-      <input id="password" type="password" formControlName="password" 
-             placeholder="Enter your password"
-             [class.error]="hasError('password', 'required') || hasError('password', 'minlength')" />
+      <input id="password" type="password" formControlName="password" placeholder="Enter your password"
+        [class.error]="hasError('password', 'required') || hasError('password', 'minlength')" />
       <small class="error" *ngIf="hasError('password', 'required')">Password is required</small>
       <small class="error" *ngIf="hasError('password', 'minlength')">Password must be at least 6 characters long</small>
     </div>
 
     <div class="form-group">
       <label for="firstName">First Name</label>
-      <input id="firstName" type="text" formControlName="firstName" 
-             placeholder="Enter your first name"
-             [class.error]="hasError('firstName', 'required')" />
+      <input id="firstName" type="text" formControlName="firstName" placeholder="Enter your first name"
+        [class.error]="hasError('firstName', 'required')" />
       <small class="error" *ngIf="hasError('firstName', 'required')">First name is required</small>
     </div>
 
     <div class="form-group">
       <label for="lastName">Last Name</label>
-      <input id="lastName" type="text" formControlName="lastName" 
-             placeholder="Enter your last name"
-             [class.error]="hasError('lastName', 'required')" />
+      <input id="lastName" type="text" formControlName="lastName" placeholder="Enter your last name"
+        [class.error]="hasError('lastName', 'required')" />
       <small class="error" *ngIf="hasError('lastName', 'required')">Last name is required</small>
     </div>
 
     <div class="form-group">
       <label for="nickname">Nickname</label>
-      <input id="nickname" type="text" formControlName="nickname" 
-             placeholder="Enter your nickname"
-             [class.error]="hasError('nickname', 'required')" />
+      <input id="nickname" type="text" formControlName="nickname" placeholder="Enter your nickname"
+        [class.error]="hasError('nickname', 'required')" />
       <small class="error" *ngIf="hasError('nickname', 'required')">Nickname is required</small>
     </div>
 
     <div class="form-group">
       <label for="dateOfBirth">Date of Birth</label>
       <input id="dateOfBirth" type="date" formControlName="dateOfBirth"
-             [class.error]="hasError('dateOfBirth', 'required')" />
+        [class.error]="hasError('dateOfBirth', 'required')" />
       <small class="error" *ngIf="hasError('dateOfBirth', 'required')">Date of birth is required</small>
     </div>
-
+    
     <div class="form-group">
-      <label for="avatar">Avatar URL (optional)</label>
-      <input id="avatar" type="text" formControlName="avatar" 
-             placeholder="https://example.com/avatar.jpg" />
+      <label for="avatar">Avatar (optional)</label>
+      <input id="avatar" type="file" (change)="onFileSelected($event)" />
     </div>
+
 
     <button type="submit" [disabled]="isSubmitting || form.invalid">
       <span *ngIf="isSubmitting">Submitting...</span>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Authentication } from '../../../core/authentication/auth/authentication'; // adjust to your path
-import { User } from '../../../types/user'; // adjust to your path
+import { RegistrationFormData } from '../../../types/user'; // adjust to your path
 
 
 @Component({
@@ -11,14 +11,14 @@ import { User } from '../../../types/user'; // adjust to your path
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registeration.html',
-  styleUrls: ['./registeration.scss'], 
+  styleUrls: ['./registeration.scss'],
 })
 export class Registeration {
   form: FormGroup;
   isSubmitting = false; // Track the submission state.
   errorMessage = ''; // Store error message.
 
-  
+  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +32,7 @@ export class Registeration {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
-      avatar: [''], // Optional field.
+      avatar: [], // Optional field.
       nickname: ['', Validators.required],
     });
   }
@@ -47,22 +47,11 @@ export class Registeration {
       this.isSubmitting = true;
       this.errorMessage = '';
       // get the form values and create the user object:
-      // const newUser: User = this.form.value;
+      const newUser: RegistrationFormData = this.form.value;
       // console.log("The new created user is: " , newUser);
-      const formData = new FormData();
-formData.append("email", this.form.value.email);
-formData.append("password", this.form.value.password);
-formData.append("firstName", this.form.value.firstName);
-formData.append("lastName", this.form.value.lastName);
-formData.append("nickname", this.form.value.nickname);
-formData.append("dateOfBirth", this.form.value.dateOfBirth);
-
-if (this.selectedFile) {
-  formData.append("avatar", this.selectedFile);
-}
 
       // call the authentication service to register the user:
-      this.authService.register(formData).subscribe({
+      this.authService.register(newUser).subscribe({
         // Success handler:
         next: (res => {
           console.log("successful registration: ", res);
@@ -113,6 +102,14 @@ if (this.selectedFile) {
     return !!(field?.hasError(errorType) && field?.touched);
   }
 
+
+  onFileSelected(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
+
+
   /**
    * Optional: Method to reset the form
    */
@@ -120,4 +117,5 @@ if (this.selectedFile) {
     this.form.reset();
     this.errorMessage = '';
   }
+
 }

@@ -56,7 +56,7 @@ class UserServiceImpl implements UserService {
             avatarPath = fileStorage.saveFile(user.getAvatar(), FileTypeConstants.AVATAR_DIR,
                     FileTypeConstants.IMAGE_TYPES);
         } else {
-            avatarPath = "./uploads/default-avatar.jpg";
+            avatarPath = "http://localhost:8080/uploads/default-avatar.jpg";
         }
 
         User newUser = new User();

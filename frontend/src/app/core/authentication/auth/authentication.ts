@@ -25,7 +25,7 @@ export class Authentication {
   // hhh the dolar sign is just a convention to specify the observable
   public currentUser$ = this.currentUser.asObservable();
   public user = signal<UserResponse | null>(null)
-  public isAdmin = computed(()=> this.user()?.user?.isAdmin)
+  public isAdmin = computed(() => this.user()?.user?.isAdmin)
 
 
   constructor(private http: HttpClient) {
@@ -43,13 +43,12 @@ export class Authentication {
     if (storedUser) {
       try {
         this.currentUser.next(JSON.parse(storedUser));
-         this.user.set(JSON.parse(storedUser));
+        this.user.set(JSON.parse(storedUser));
       } catch (error) {
         console.error('[AuthService] Failed to parse stored user', error);
         localStorage.removeItem('currentUser')
       }
     }
-
   }
 
 
@@ -57,7 +56,6 @@ export class Authentication {
    * Registers a new user.
    * @param user - The registration payload (User model).
    * @returns Observable<UserResponse> containing user and token.
-   * 
    * On success:
    * - Stores token in localStorage.
    * - Updates currentUser$ observable.
@@ -67,8 +65,19 @@ export class Authentication {
   // register the user:
   register(user: RegistrationFormData): Observable<UserResponse> {
     console.log('[AuthService] Registering user: ', user);
+    const formData = new FormData();
+    formData.append("email", user.email);
+    formData.append("password", user.password);
+    formData.append("firstName", user.firstName);
+    formData.append("lastName", user.lastName);
+    formData.append("nickname", user.nickname);
+    formData.append("dateOfBirth", user.dateOfBirth);
 
-    return this.http.post<UserResponse>(`${this.apiUrl}/register`, user).pipe(
+    if (user.avatar) {
+      formData.append("avatar", user.avatar);
+    }
+
+    return this.http.post<UserResponse>(`${this.apiUrl}/register`, formData).pipe(
       tap(response => {
         // store the token and user data:
         this.setSession(response)
@@ -82,7 +91,6 @@ export class Authentication {
    * Logs in a user.
    * @param payload - Email and password for authentication.
    * @returns Observable<UserResponse> containing user and token.
-   * 
    * On success:
    * - Stores token in localStorage
    * - Updates currentUser$ observable
@@ -137,8 +145,8 @@ export class Authentication {
       tap(response => {
         // Update user data if it changed on server
         this.currentUser.next(response);
-          this.user.set(response);
-         localStorage.setItem('user', JSON.stringify(response));
+        this.user.set(response);
+        localStorage.setItem('user', JSON.stringify(response));
       }),
       catchError(error => {
         // If token is invalid, clear session
