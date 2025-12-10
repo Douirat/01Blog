@@ -56,9 +56,11 @@ export class Dashboard implements OnInit, OnDestroy {
   loadPosts() {
     this.postService.fetchPosts(this.currentPage()).subscribe((data: PaginatedPosts) => {
       console.log("The loaded posts: ", data);
-      this.posts.set(data.content);
-      this.lastPage.set(data.last);
-      this.totalPages.set(data.totalPages);
+      if( data ){
+        this.posts.set(data.content);
+        this.lastPage.set(data.last);
+        this.totalPages.set(data.totalPages);
+      }
     });
   }
 

@@ -33,7 +33,7 @@
 </div>
 
 <!-- Load more posts -->
-<div class="pagination-controls">
+<div class="pagination-controls" *ngIf="posts().length > 0">
   <button (click)="prevPage()" [disabled]="currentPage() === 0">Previous</button>
   <span>Page {{ currentPage() + 1 }} / {{ totalPages() }}</span>
   <button (click)="nextPage()" [disabled]="lastPage()">Next</button>
