@@ -46,3 +46,14 @@ export interface LoginPayload {
     emailOrUsername: string;
     password: string;
 }
+
+export interface RegistrationFormData {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    nickname: string;
+    dateOfBirth: string;
+    avatar?: File;
+}
+

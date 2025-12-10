@@ -18,6 +18,8 @@ export class Registeration {
   isSubmitting = false; // Track the submission state.
   errorMessage = ''; // Store error message.
 
+  
+
   constructor(
     private fb: FormBuilder,
     private authService: Authentication, // Inject the authentication service.
@@ -45,10 +47,22 @@ export class Registeration {
       this.isSubmitting = true;
       this.errorMessage = '';
       // get the form values and create the user object:
-      const newUser: User = this.form.value;
-      console.log("The new created user is: " , newUser);
+      // const newUser: User = this.form.value;
+      // console.log("The new created user is: " , newUser);
+      const formData = new FormData();
+formData.append("email", this.form.value.email);
+formData.append("password", this.form.value.password);
+formData.append("firstName", this.form.value.firstName);
+formData.append("lastName", this.form.value.lastName);
+formData.append("nickname", this.form.value.nickname);
+formData.append("dateOfBirth", this.form.value.dateOfBirth);
+
+if (this.selectedFile) {
+  formData.append("avatar", this.selectedFile);
+}
+
       // call the authentication service to register the user:
-      this.authService.register(newUser).subscribe({
+      this.authService.register(formData).subscribe({
         // Success handler:
         next: (res => {
           console.log("successful registration: ", res);

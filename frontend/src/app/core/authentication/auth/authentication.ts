@@ -3,11 +3,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environment/environment'
-import { LoginPayload, User, UserResponse } from '../../../types/user';
+import { LoginPayload, User, UserResponse, RegistrationFormData } from '../../../types/user';
 
 
 export interface AuthenticationService {
-  register(user: User): Observable<UserResponse>
+  register(user: RegistrationFormData): Observable<UserResponse>
   login(payload: LoginPayload): Observable<UserResponse>
 }
 
@@ -65,8 +65,9 @@ export class Authentication {
    */
 
   // register the user:
-  register(user: User): Observable<UserResponse> {
+  register(user: RegistrationFormData): Observable<UserResponse> {
     console.log('[AuthService] Registering user: ', user);
+
     return this.http.post<UserResponse>(`${this.apiUrl}/register`, user).pipe(
       tap(response => {
         // store the token and user data:

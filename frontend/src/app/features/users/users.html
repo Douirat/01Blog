@@ -1,5 +1,16 @@
 <div class="container">
     <div class="user-card" *ngFor="let user of users()">
-        <p><strong>Name:</strong> {{ user.firstName }}</p>
+        <img class="profile-image" *ngIf="user.avatar" [src]="user.avatar" alt="user-avatar">
+        <p>{{ user.firstName }} {{ user.lastName }}</p>
     </div>
 </div>
+<!-- export interface UserDTO {
+    readonly id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string; 
+    avatar?: File;
+    nickname: string;
+    isAdmin?: boolean;
+} -->

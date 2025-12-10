@@ -49,11 +49,14 @@ class UserServiceImpl implements UserService {
                 || user.getLastName() == null || user.getNickname() == null || user.getDateOfBirth() == null) {
             return Optional.empty(); // Required fields are missing
         }
+    
 
         String avatarPath = null;
         if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
             avatarPath = fileStorage.saveFile(user.getAvatar(), FileTypeConstants.AVATAR_DIR,
                     FileTypeConstants.IMAGE_TYPES);
+        } else {
+            avatarPath = "./uploads/default-avatar.jpg";
         }
 
         User newUser = new User();

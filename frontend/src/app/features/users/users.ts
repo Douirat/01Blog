@@ -24,7 +24,6 @@ export class Users {
   // get all users:
   loadUsers() {
     this.usersService.fetchUsers(this.page()).subscribe((data: PaginatedUsers) => {
-      console.log("The loaded users: ", data);
       this.users.set(data.content);
       this.lastUsers.set(data.last);
       this.totalUser.set(data.totalPages);
