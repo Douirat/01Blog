@@ -37,7 +37,9 @@
 }
 
 @mixin container-display($gap: 1vmin){
+  width: 100%;
   display: flex;
+  flex-direction: row;
   justify-content: space-evenly;
   flex-wrap: wrap;
   gap: $gap;

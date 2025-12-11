@@ -1,8 +1,9 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Authentication } from '../../core/authentication/auth/authentication';
 import { UserDTO, PaginatedUsers } from '../../types/user';
 import { UsersService } from '../../core/users/users-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -11,7 +12,7 @@ import { UsersService } from '../../core/users/users-service';
   styleUrl: './users.scss',
 })
 export class Users {
-  constructor(private auth: Authentication, private usersService: UsersService) { }
+  constructor(private auth: Authentication, private usersService: UsersService, private router: Router) { }
   page = signal(0);
   users = signal<UserDTO[] | []>([])
   lastUsers = signal(false);
@@ -32,9 +33,6 @@ export class Users {
 
   visiteProfile(user: UserDTO): void {
     console.log(`User ID clicked: ${user.id}`);
-    
-    // Now you can use the ID to navigate or perform an action
-    // Example: Navigate to the user's profile using a router service
-    // this.router.navigate(['/profile', user.id]);
+    this.router.navigate(['/profile'], { state: { user } });
   }
 }

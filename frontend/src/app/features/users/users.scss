@@ -3,6 +3,7 @@
 @use "sass:color";
 
 .links-container{
+    width: variables.$body-width;
     @include mixins.container-display(variables.$gap-size);
 }
 
@@ -10,10 +11,14 @@
 .user-card{
     width: variables.$link-width;
     height: fit-content;
+    border: 1px variables.$border-default solid;
+    border-radius: variables.$border-radius-sm;
+    box-shadow: 6px 2px 2px #ccc;
     @include mixins.center-elements-raw(variables.$gap-size);
     .profile-image{
         width: variables.$link-image-size;
         height: 100%;
+        border-radius: variables.$circle-link-image;
     }
    &:hover {
     cursor: pointer;

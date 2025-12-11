@@ -6,11 +6,14 @@ import { Login } from './features/authentication/login/login';
 import { Dashboard } from './features/dashboard/dashboard';
 import { authGuard } from './core/authentication/guards/auth-guard';
 import { Users } from './features/users/users';
+import { Profile } from './features/profile/profile';
 
 
 export const routes: Routes = [
     //   { path: 'admin', component: AdminComponent, canActivate: [roleGuard] }, // the admin panel with its gate keeper.
     // other routes...
+
+
     { path: 'login', component: Login },
     { path: 'register', component: Registeration },
 
@@ -20,20 +23,16 @@ export const routes: Routes = [
         // canActivate: [authGuard]
     },
     {
-        path: '',
-        redirectTo: '/dashboard',
-        pathMatch: 'full'
+        path: 'profile',
+        component: Profile,
+        // canActivate: [authGuard]  // Protected route
     },
-      {
+    {
         path: 'users',
         component: Users,
         // canActivate: [authGuard]
     },
     // Fallback route (optional)
-    { path: '**', redirectTo: '/dashboard' }
-    //   { 
-    //     path: 'profile', 
-    //     component: ProfileComponent,
-    //     canActivate: [httpInterceptor]  // Protected route
-    //   }
+    { path: '**', redirectTo: '/dashboard' },
+
 ];
