@@ -36,6 +36,13 @@
   height: fit-content;
 }
 
+@mixin container-display($gap: 1vmin){
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: $gap;
+}
+
 @mixin card-image(){
   width: 50%;
 }

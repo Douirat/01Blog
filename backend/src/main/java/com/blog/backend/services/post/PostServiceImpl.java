@@ -81,7 +81,8 @@ public class PostServiceImpl implements PostService {
     public Post createPost(Long userId, PostInputDTO post) {
         String mediaUrl = null;
         // Logic to handle media upload and set mediaUrl accordingly would go here:
-        if (post.getMediaType() != null && !post.getMediaType().isEmpty()) {
+        if (post.getMediaType() != null && !post.getMediaType().isEmpty()
+                && post.getMedia() != null && !post.getMedia().isEmpty()) {
             mediaUrl = fileStorageService.saveFile(post.getMedia(), FileTypeConstants.POST_MEDIA_DIR,
                     FileTypeConstants.MEDIA_TYPES);
         }

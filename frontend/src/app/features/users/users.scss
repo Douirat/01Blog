@@ -1,0 +1,22 @@
+@use '../../styles/mixins' as mixins;
+@use '../../styles/variables' as variables;
+@use "sass:color";
+
+.links-container{
+    @include mixins.container-display(variables.$gap-size);
+}
+
+
+.user-card{
+    width: variables.$link-width;
+    height: fit-content;
+    @include mixins.center-elements-raw(variables.$gap-size);
+    .profile-image{
+        width: variables.$link-image-size;
+        height: 100%;
+    }
+   &:hover {
+    cursor: pointer;
+    background-color: variables.$over-all-color;
+  }
+}

@@ -29,4 +29,12 @@ export class Users {
       this.totalUser.set(data.totalPages);
     })
   }
+
+  visiteProfile(user: UserDTO): void {
+    console.log(`User ID clicked: ${user.id}`);
+    
+    // Now you can use the ID to navigate or perform an action
+    // Example: Navigate to the user's profile using a router service
+    // this.router.navigate(['/profile', user.id]);
+  }
 }
