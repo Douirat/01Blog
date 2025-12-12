@@ -3,3 +3,13 @@
   <h2>{{ user()?.firstName }} {{ user()?.lastName }}</h2>
   <p>{{ user()?.email }}</p>
 </div>
+<div *ngFor="let post of posts()" class="post-card">
+  <img class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl" alt="Post media">
+  <div class="post-content">
+    <span>By {{ post.user.nickName }}</span>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.content }}</p>
+
+    <!-- other functionalities -->
+    <hr>
+    </div>

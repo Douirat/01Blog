@@ -12,6 +12,7 @@ import { VoteRequest, VoteResponse } from '../../types/vote';
 
 export class PostService {
   private readonly apiUrl = `${environment.apiUrl}/api/posts`
+  private readonly apiUrlProfile = `${environment.apiUrl}/api/posts/profile`
   private readonly voteApiUrl = `${environment.apiUrl}/api/votes`
 
   constructor(private http: HttpClient) { }
@@ -33,9 +34,13 @@ export class PostService {
   }
 
   // A general full accessed method to fetch posts from backend:
-  fetchPosts(page: number): Observable<PaginatedPosts> {
-    const params = new HttpParams()
-      .set('page', page.toString());
+  fetchPosts(page: number, userId: number | undefined = undefined): Observable<PaginatedPosts> {
+    let params = new HttpParams().set('page', page.toString());
+
+    if (userId !== undefined) {
+      params = params.set('userId', userId.toString());
+      return this.http.get<PaginatedPosts>(this.apiUrlProfile, { params });
+    }
     return this.http.get<PaginatedPosts>(this.apiUrl, { params });
   }
 
