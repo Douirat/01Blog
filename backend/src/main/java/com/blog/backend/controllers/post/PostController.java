@@ -31,43 +31,63 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class PostController {
 
     private final PostService postService;
-  
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> createPost(
             @ModelAttribute PostInputDTO dto) {
-
-        PrincipalUser currentUser = (PrincipalUser) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-
-        Post saved = postService.createPost(currentUser.getId(), dto);
+        Long user_id = this.getUserIdFromContext();
+        Post saved = postService.createPost(user_id, dto);
         return ResponseEntity.ok(saved);
 
     }
 
-// Get all the posts component:
-@GetMapping
-public ResponseEntity<PaginatedPostsDTO> getPosts(
-        @RequestParam(defaultValue = "0") int page) {
-    if (page < 0) {
-        return ResponseEntity.badRequest().build();
+    // Get all the posts component:
+    @GetMapping
+    public ResponseEntity<PaginatedPostsDTO> getPosts(
+            @RequestParam(defaultValue = "0") int page) {
+        if (page < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Page<PostDetailDTO> posts = postService.getAllPosts(page);
+
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        PaginatedPostsDTO response = new PaginatedPostsDTO(
+                posts.getContent(),
+                posts.isLast(),
+                posts.getTotalPages(),
+                posts.getTotalElements());
+
+        return ResponseEntity.ok(response);
     }
-    
-    Page<PostDetailDTO> posts = postService.getAllPosts(page);
-    
-    if (posts.isEmpty()) {
-        return ResponseEntity.noContent().build();
+
+    // get posts for a specific user.
+    @GetMapping("/profile")
+    public ResponseEntity<PaginatedPostsDTO> getUserPosts(@RequestParam(defaultValue = "0") int page) {
+        if (page < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        Long user_id = this.getUserIdFromContext();
+        Page<PostDetailDTO> posts = postService.getUserPosts(user_id);
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        PaginatedPostsDTO response = new PaginatedPostsDTO(
+                posts.getContent(),
+                posts.isLast(),
+                posts.getTotalPages(),
+                posts.getTotalElements());
+        return ResponseEntity.ok(response);
     }
-    
-    PaginatedPostsDTO response = new PaginatedPostsDTO(
-        posts.getContent(),
-        posts.isLast(),
-        posts.getTotalPages(),
-        posts.getTotalElements()
-    );
-    
-    return ResponseEntity.ok(response);
-}
+
+    private Long getUserIdFromContext() {
+        PrincipalUser currentUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return currentUser.getId();
+    }
 }

@@ -25,12 +25,12 @@ export const routes: Routes = [
     {
         path: 'profile',
         component: Profile,
-        // canActivate: [authGuard]  // Protected route
+        canActivate: [authGuard]  // Protected route
     },
     {
         path: 'users',
         component: Users,
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
     },
     // Fallback route (optional)
     { path: '**', redirectTo: '/dashboard' },
