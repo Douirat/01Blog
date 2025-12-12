@@ -79,7 +79,7 @@ public class VoteServiceImpl implements VoteService {
                 likes,
                 dislikes,
                 0,
-                post.getCreatedAt().toString());
+                post.getCreatedAt());
         return new VoteResponseDTO(postDTO, true, message);
     }
 }

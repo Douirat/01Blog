@@ -66,21 +66,33 @@ public class PostController {
 
     // get posts for a specific user.
     @GetMapping("/profile")
-    public ResponseEntity<PaginatedPostsDTO> getUserPosts(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<PaginatedPostsDTO> getUserPosts(
+            @RequestParam("userId") Long userId,
+            @RequestParam(value = "page", defaultValue = "0") int page) {
+
         if (page < 0) {
             return ResponseEntity.badRequest().build();
         }
-        Long user_id = this.getUserIdFromContext();
-        Page<PostDetailDTO> posts = postService.getUserPosts(user_id);
+
+        System.out.println("postId: " + userId);
+        System.out.println("page: " + page);
+
+        // Long user_id = this.getUserIdFromContext();
+
+        Page<PostDetailDTO> posts = postService.getUserPosts(page, userId);
+
         if (posts.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+
         PaginatedPostsDTO response = new PaginatedPostsDTO(
                 posts.getContent(),
                 posts.isLast(),
                 posts.getTotalPages(),
                 posts.getTotalElements());
+
         return ResponseEntity.ok(response);
+
     }
 
     private Long getUserIdFromContext() {

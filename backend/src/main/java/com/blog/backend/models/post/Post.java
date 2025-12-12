@@ -1,14 +1,13 @@
-
 package com.blog.backend.models.post;
 
-import com.blog.backend.models.post.Post;
 import com.blog.backend.models.comment.Comment;
 import com.blog.backend.models.user.User;
-
 import com.blog.backend.models.vote.Vote;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,11 @@ public class Post {
     private String mediaType;
     private String mediaUrl;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    // @ManyToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "user_id", nullable = false)
+    // private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY) // ⬅ changed from EAGER → LAZY
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -41,8 +44,13 @@ public class Post {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
+    private Set<Comment> comments = new HashSet<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Vote> votes;
+    private Set<Vote> votes = new HashSet<>();
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

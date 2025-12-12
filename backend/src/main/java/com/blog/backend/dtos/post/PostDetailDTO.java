@@ -1,5 +1,7 @@
 package com.blog.backend.dtos.post;
 
+import java.time.LocalDateTime;
+
 public record PostDetailDTO(
         Long id,
         String title,
@@ -10,5 +12,5 @@ public record PostDetailDTO(
         Integer likes,
         Integer dislikes,
         Integer commentsCount,
-        String createdAt) {
+        LocalDateTime createdAt) {
 }

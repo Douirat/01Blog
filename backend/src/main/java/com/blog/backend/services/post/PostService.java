@@ -12,14 +12,14 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.Optional;
 
-
-
-
 public interface PostService {
     Page<PostDetailDTO> getAllPosts(int page);
+
+    Page<PostDetailDTO> getUserPosts(int page, Long userId);
+
     // Optional<Post> getPostById(Long id);
     Post createPost(Long userId, PostInputDTO post);
+
     // Post updatePost(Long id, PostInputDTO post);
     // void deletePost(Long id);
-} 
-
+}
