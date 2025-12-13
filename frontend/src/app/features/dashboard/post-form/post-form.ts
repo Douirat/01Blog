@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { PostService } from '../../../core/post/post-service';
 import { Post, PostInput } from '../../../types/post';
-
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -79,30 +79,40 @@ ngOnInit(): void {
     this.fileName = file.name;
   }
 
-  onSubmit() {
-    if (this.form.invalid) return;
+onSubmit() {
+  if (this.form.invalid) return;
 
-    this.isSubmitting = true;
+  this.isSubmitting = true;
 
-    const postData: PostInput = {
-      title: this.form.controls.title.value,
-      content: this.form.controls.content.value,
-      mediaType: this.form.controls.mediaType.value || undefined,
-      media: this.form.controls.media.value || undefined,
-    };
+const postData: PostInput = {
+  title: this.form.controls.title.value!,
+  content: this.form.controls.content.value!,
+  mediaType: this.form.controls.mediaType.value || undefined,
+  media: this.form.controls.media.value || undefined
+};
 
-    this.postService.createPost(postData).subscribe({
-      next: (post: Post) => {
+  const request$ = this.updateState()
+    ? this.postService.updatePost(this.post()?.id!, postData)
+    : this.postService.createPost(postData);
 
-        this.form.reset();         // reset form
-        this.fileName = '';
-        this.isSubmitting = false;
-      },
-      error: (err: any) => {
-        console.error('Failed to create post', err);
-        this.isSubmitting = false;
+  request$.pipe(
+    finalize(() => this.isSubmitting = false)
+  ).subscribe({
+    next: () => {
+      this.handlePostSuccess();
+      if (this.updateState()) {
+        this.updateState.set(false);
+        this.post.set(null);
       }
-    });
-  }
+    },
+    error: (err) => console.error('Failed to save post', err)
+  });
+}
+
+private handlePostSuccess() {
+  this.form.reset();
+  this.fileName = '';
+}
+
 
 }

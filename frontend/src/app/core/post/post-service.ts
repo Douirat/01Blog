@@ -4,6 +4,7 @@ import { environment } from '../../environment/environment';
 import { PostInput, PaginatedPosts } from '../../types/post';
 import { Observable } from 'rxjs';
 import { VoteRequest, VoteResponse } from '../../types/vote';
+import { Post } from '../../types/post';
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class PostService {
   constructor(private http: HttpClient) { }
 
   // method to create a post:
-  createPost(postData: PostInput): Observable<any> { // TODO: don't forget to enforce types on the returned value as well.
+  createPost(postData: PostInput): Observable<Post> {
     const formData = new FormData();
     formData.append('title', postData.title);
     formData.append('content', postData.content);
@@ -30,7 +31,7 @@ export class PostService {
       formData.append('media', postData.media);
     }
 
-    return this.http.post(`${this.apiUrl}`, formData);
+    return this.http.post<Post>(`${this.apiUrl}`, formData);
   }
 
   // A general full accessed method to fetch posts from backend:
@@ -44,8 +45,24 @@ export class PostService {
     return this.http.get<PaginatedPosts>(this.apiUrl, { params });
   }
 
+  //  a method to update a post:
+  updatePost(postId: number, postData: PostInput): Observable<Post> {
+    const formData = new FormData();
+    formData.append('title', postData.title);
+    formData.append('content', postData.content);
+
+    if (postData.mediaType) {
+      formData.append('mediaType', postData.mediaType);
+    }
+    if (postData.media) {
+      formData.append('media', postData.media);
+    }
+
+    return this.http.post<Post>(`${this.apiUrl}`, formData);
+  }
+
   createVote(vote: VoteRequest): Observable<VoteResponse> {
-    return this.http.post<VoteResponse>(this.voteApiUrl, vote);
+    return this.http.post<VoteResponse>(this.apiUrl + "/update", vote);
   }
 
 }
