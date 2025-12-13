@@ -64,7 +64,7 @@ export class Dashboard implements OnInit, OnDestroy {
     });
   }
 
-  // ✅ Toggle single post comment form:
+  //  Toggle single post comment form:
   toggleCommentForm(postId: number) {
     this.commentVisibility.update(state => {
       const newState: { [id: number]: boolean } = {};
@@ -82,7 +82,7 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
 
-  // ✅ Read from the signal:
+  // Read from the signal:
   showCommentForm(postId: number) {
     return this.commentVisibility()[postId] === true;
   }

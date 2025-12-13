@@ -4,16 +4,20 @@ import { Router } from '@angular/router';
 import { UserDTO } from '../../types/user';
 import { PostService } from '../../core/post/post-service';
 import { PaginatedPosts, Post } from '../../types/post';
+import { PostForm } from '../dashboard/post-form/post-form';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, PostForm],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
 export class Profile implements OnInit {
 
   user = signal<UserDTO | null>(null);
+
+  postToUpdate = signal<number | null>(null);
 
   // paginated related input:
   posts = signal<Post[]>([]);
@@ -42,5 +46,10 @@ export class Profile implements OnInit {
         this.totalPages.set(data.totalPages);
       }
     })
+  }
+
+  toggleUpdate(postId: number) {
+    console.log("posts ---------> ", postId);
+    this.postToUpdate.set(postId);
   }
 }

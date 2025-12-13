@@ -5,8 +5,10 @@ import { PostService } from '../../../core/post/post-service';
 import { Post, PostInput } from '../../../types/post';
 
 
+
 @Component({
   selector: 'app-post-form',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
@@ -19,7 +21,7 @@ import { Post, PostInput } from '../../../types/post';
   mediaType?: 'image' | 'video';
   media?: File;
 } 
-  */
+*/
 
 export class PostForm {
   
