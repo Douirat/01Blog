@@ -1,10 +1,11 @@
 <div class="form-container">
+<h3>{{updateState() ? 'update post' : 'create post'}}</h3>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="post-form">
-    
+
     <div class="form-group">
       <label for="post-title">Title</label>
       <input id="post-title" type="text" formControlName="title" placeholder="Title"
-             [class.error]="form.controls.title.invalid && form.controls.title.touched" />
+        [class.error]="form.controls.title.invalid && form.controls.title.touched" />
       <span class="error" *ngIf="form.controls.title.invalid && form.controls.title.touched">
         Title is required
       </span>
@@ -13,7 +14,7 @@
     <div class="form-group">
       <label for="post-content">Content</label>
       <textarea id="post-content" formControlName="content" placeholder="Content" rows="5"
-                [class.error]="form.controls.content.invalid && form.controls.content.touched"></textarea>
+        [class.error]="form.controls.content.invalid && form.controls.content.touched"></textarea>
       <span class="error" *ngIf="form.controls.content.invalid && form.controls.content.touched">
         Content is required
       </span>

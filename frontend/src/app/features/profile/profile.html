@@ -10,6 +10,6 @@
     <h3>{{ post.title }}</h3>
     <p>{{ post.content }}</p>
     <button (click)="toggleUpdate(post.id)">update</button>
-    <app-post-form *ngIf="postToUpdate() === post.id"></app-post-form>
+    <app-post-form [postToUpdate]="post" *ngIf="postToUpdate() === post.id"></app-post-form>
     <hr>
   </div>

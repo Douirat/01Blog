@@ -42,9 +42,9 @@ export class Dashboard implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.user.set(this.authentication.user())
-    console.log('Current user changed:', this.user);
+    console.log('Current user changed:', this.user());
     this.loadPosts();
-    console.log("The loaded posts: ", this.posts);
+    console.log("The loaded posts: ", this.posts());
   }
 
 

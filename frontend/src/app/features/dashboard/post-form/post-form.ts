@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PostService } from '../../../core/post/post-service';
@@ -23,7 +23,9 @@ import { Post, PostInput } from '../../../types/post';
 } 
 */
 
-export class PostForm {
+export class PostForm implements OnInit {
+
+@Input() postToUpdate: Post | null = null;
   
   form: FormGroup<{
     title: FormControl<string>;
@@ -33,7 +35,8 @@ export class PostForm {
   }>;
   isSubmitting = false;
   fileName = ''
-
+  updateState = signal(false)
+  post = signal<Post | null>(null)
 
   constructor(private postService: PostService) {
     this.form = new FormGroup({
@@ -43,6 +46,28 @@ export class PostForm {
       media: new FormControl<File | null>(null),
     });
   }
+
+ngOnInit(): void {
+  if (this.postToUpdate) {
+    this.updateState.set(true);
+    console.log("POST TO UPDATE: ", this.postToUpdate);
+    this.post.set(this.postToUpdate);
+
+    // Patch the form so the input fields show the existing values
+    this.form.patchValue({
+      title: this.postToUpdate.title,
+      content: this.postToUpdate.content,
+      mediaType: this.postToUpdate.mediaType || null,
+      media: null, // file input cannot be pre-filled
+    });
+
+    // Show current media file name if exists
+    if (this.postToUpdate.mediaUrl) {
+      this.fileName = this.postToUpdate.mediaUrl.split('/').pop() || '';
+    }
+  }
+}
+
 
   // handle file input change
   onFileSelected(event: Event) {
