@@ -58,11 +58,11 @@ export class PostService {
       formData.append('media', postData.media);
     }
 
-    return this.http.post<Post>(`${this.apiUrl}`, formData);
+    return this.http.post<Post>(`${this.apiUrl}` + "/update", formData);
   }
 
   createVote(vote: VoteRequest): Observable<VoteResponse> {
-    return this.http.post<VoteResponse>(this.apiUrl + "/update", vote);
+    return this.http.post<VoteResponse>(this.voteApiUrl, vote);
   }
 
 }
