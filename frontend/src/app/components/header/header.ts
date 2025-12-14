@@ -2,8 +2,7 @@ import { Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Authentication } from '../../core/authentication/auth/authentication';
 import { Router } from '@angular/router';
-import { UserResponse } from '../../types/user';
-
+import { Store } from '../../core/store/store';
 
 @Component({
   selector: 'app-header',
@@ -13,12 +12,13 @@ import { UserResponse } from '../../types/user';
   styleUrl: './header.scss',
 })
 export class Header {
-  // Keep auth private
-  constructor(private auth: Authentication, private router: Router) { }
+  // Keep auth private:
+  constructor(private auth: Authentication, private store: Store, private router: Router) { }
 
   isAdmin = computed(() => this.auth.user()?.user?.isAdmin);
   isLoggedIn = computed(() => this.auth.user() != null);
   user = computed(() => this.auth.user());
+
 
   // Wrapper method for template
   logout() {
@@ -39,6 +39,7 @@ export class Header {
     console.log('Login clicked');
     this.router.navigate(['/login']);
   }
+
   register() {
     console.log('Register clicked');
     this.router.navigate(['/register']);
@@ -50,8 +51,8 @@ export class Header {
   }
 
   goToProfile() {
-   console.log('Pogin clicked');
-    this.router.navigate(['/profile']);
+    console.log('Profile clicked', this.user());
+  this.router.navigate(['/profile'], { state: { profileOwner: true } });
   }
 
   seeUsers(){

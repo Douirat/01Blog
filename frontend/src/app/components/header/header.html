@@ -19,7 +19,7 @@
       <a class="clickable" (click)="seeUsers()" routerLink="/users">users</a>
     </div>
     <div class="nav-section">
-      <a class="clickable" routerLink="/profile">Profile <span>Welcome, {{ user()?.user?.firstName + ' ' +
+      <a class="clickable" (click)="goToProfile()" >Profile <span>Welcome, {{ user()?.user?.firstName + ' ' +
           user()?.user?.lastName }}
         </span></a>
       <button (click)="logout()">Logout</button>

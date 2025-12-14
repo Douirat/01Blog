@@ -9,7 +9,7 @@
     <span>By {{ post.user.nickName }}</span>
     <h3>{{ post.title }}</h3>
     <p>{{ post.content }}</p>
-    <button (click)="toggleUpdate(post.id)">update</button>
+    <button *ngIf="profileOwner()" (click)="toggleUpdate(post.id)">update</button>
     <app-post-form [postToUpdate]="post" *ngIf="postToUpdate() === post.id"></app-post-form>
     <hr>
   </div>
