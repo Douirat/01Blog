@@ -78,6 +78,10 @@ export class Profile implements OnInit {
   }
 
   toggleUpdate(postId: number) {
+    if (this.postToUpdate() === postId) {
+      this.postToUpdate.set(null);
+      return;
+    }
     this.postToUpdate.set(postId);
   }
 }
