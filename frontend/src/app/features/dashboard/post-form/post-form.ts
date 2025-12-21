@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, Input, OnInit, signal, output } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PostService } from '../../../core/post/post-service';
@@ -26,6 +26,7 @@ import { finalize } from 'rxjs/operators';
 export class PostForm implements OnInit {
 
 @Input() postToUpdate: Post | null = null;
+postSaved = output<Post>();
   
   form: FormGroup<{
     title: FormControl<string>;
@@ -33,6 +34,7 @@ export class PostForm implements OnInit {
     mediaType: FormControl<'image' | 'video' | null>;
     media: FormControl<File | null>;
   }>;
+  
   isSubmitting = false;
   fileName = ''
   updateState = signal(false)
@@ -98,11 +100,12 @@ const postData: PostInput = {
   request$.pipe(
     finalize(() => this.isSubmitting = false)
   ).subscribe({
-    next: () => {
+    next: (post) => {
       this.handlePostSuccess();
+      this.postSaved.emit(post); 
       if (this.updateState()) {
         this.updateState.set(false);
-        this.post.set(null);
+        this.post.set(null);        
       }
     },
     error: (err) => console.error('Failed to save post', err)

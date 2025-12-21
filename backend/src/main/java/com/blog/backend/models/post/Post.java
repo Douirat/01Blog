@@ -3,6 +3,8 @@ package com.blog.backend.models.post;
 import com.blog.backend.models.comment.Comment;
 import com.blog.backend.models.user.User;
 import com.blog.backend.models.vote.Vote;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties; // ⬅ add this line
+
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -38,6 +40,7 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY) // ⬅ changed from EAGER → LAZY
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     @Column(nullable = false)

@@ -40,7 +40,6 @@ export class Profile implements OnInit {
     this.route.params.subscribe(params => {
       const userId = params['id'];
 
-      console.log("the profile is for the owner '''''''''''",  typeof userId,  typeof this.loggedUser()?.id);
       this.userId.set(userId);
       if (this.loggedUser()?.id.toString() === userId) {
 
@@ -84,4 +83,16 @@ export class Profile implements OnInit {
     }
     this.postToUpdate.set(postId);
   }
+
+  onPostUpdated(updatedPost: Post) {
+  this.posts.update(posts =>
+    posts.map(p =>
+      p.id === updatedPost.id ? updatedPost : p
+    )
+  );
+
+  // close the form
+  this.postToUpdate.set(null);
+}
+
 }

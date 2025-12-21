@@ -19,7 +19,7 @@ public interface PostService {
 
     // Optional<Post> getPostById(Long id);
     Post createPost(Long userId, PostInputDTO post);
-
-    // Post updatePost(Long id, PostInputDTO post);
+    Post updatePost(Long userId, Long postId, PostInputDTO dto);;
+    
     // void deletePost(Long id);
 }

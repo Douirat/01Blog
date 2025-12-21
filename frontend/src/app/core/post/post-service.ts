@@ -48,6 +48,8 @@ export class PostService {
   //  a method to update a post:
   updatePost(postId: number, postData: PostInput): Observable<Post> {
     const formData = new FormData();
+
+
     formData.append('title', postData.title);
     formData.append('content', postData.content);
 
@@ -57,8 +59,12 @@ export class PostService {
     if (postData.media) {
       formData.append('media', postData.media);
     }
+    console.log("the post to updat ---> : ", postData);
 
-    return this.http.post<Post>(`${this.apiUrl}` + "/update", formData);
+    return this.http.put<Post>(
+      `${this.apiUrl}/${postId}`,
+      formData
+    );
   }
 
   createVote(vote: VoteRequest): Observable<VoteResponse> {

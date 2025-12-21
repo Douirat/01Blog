@@ -2,7 +2,9 @@ package com.blog.backend.controllers.post;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
@@ -38,8 +40,23 @@ public class PostController {
         Long user_id = this.getUserIdFromContext();
         Post saved = postService.createPost(user_id, dto);
         return ResponseEntity.ok(saved);
-
     }
+    /**
+     * Update an existing post:
+     */
+
+ @PutMapping(value = "/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+public ResponseEntity<Post> updatePost(
+        @PathVariable Long postId,
+        @ModelAttribute PostInputDTO dto
+) {
+    Long userId = this.getUserIdFromContext();
+
+    System.out.println("postId: " + postId + ", user id: " + userId);
+
+    Post saved = postService.updatePost(userId, postId, dto);
+    return ResponseEntity.ok(saved);
+}
 
     // Get all the posts component:
     @GetMapping

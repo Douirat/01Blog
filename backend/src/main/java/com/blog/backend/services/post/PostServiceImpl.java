@@ -28,6 +28,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.io.IOException;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
+
 
 
 @Service // ← This tells Spring: "I'm the implementation!"
@@ -152,16 +154,28 @@ public class PostServiceImpl implements PostService {
                 return postRepository.save(newPost);
         }
 
-        // @Override
-        // public Post updatePost(Long id, Post post) {
-        // return postRepository.findById(id)
-        // .map(existingPost -> {
-        // existingPost.setTitle(post.getTitle());
-        // existingPost.setContent(post.getContent());
-        // return postRepository.save(existingPost);
-        // })
-        // .orElseThrow(() -> new RuntimeException("Post not found"));
-        // }
+@Override
+@Transactional
+public Post updatePost(Long userId, Long postId, PostInputDTO postInput) {
+      Post existingPost = postRepository.findByIdAndUserId(postId, userId)
+        .orElseThrow(() -> new RuntimeException("Post not found or not owned by you"));
+
+
+    existingPost.setTitle(postInput.getTitle());
+    existingPost.setContent(postInput.getContent());
+
+    if (postInput.getMediaType() != null) {
+        existingPost.setMediaType(postInput.getMediaType());
+    }
+    if (postInput.getMedia() != null) {
+        String mediaUrl = fileStorageService.saveFile(postInput.getMedia(), 
+                        FileTypeConstants.POST_MEDIA_DIR, FileTypeConstants.MEDIA_TYPES);
+        existingPost.setMediaUrl(mediaUrl);
+    }
+
+    return postRepository.save(existingPost);
+}
+
 
         // @Override
         // public void deletePost(Long id) {
