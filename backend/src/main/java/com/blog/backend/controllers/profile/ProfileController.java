@@ -51,4 +51,15 @@ public ResponseEntity<PaginatedUsersDTO> getProfiles(@RequestParam(defaultValue 
     return ResponseEntity.ok(response);
 }
 
+/**
+ * Get a specific user's profile by user id:
+*/
+GetMapping("/user")
+public ResponseEntity<UserDTO> getUserProfile(@RequestParam Long userId){
+    UserDTO userProfile = profileService.fetchUserProfile(userId);
+    if (userProfile == null){
+        return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(userProfile)
+}
 }

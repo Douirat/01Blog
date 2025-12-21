@@ -1,20 +1,19 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserDTO } from '../../types/user';
 import { PostService } from '../../core/post/post-service';
 import { PaginatedPosts, Post } from '../../types/post';
 import { PostForm } from '../dashboard/post-form/post-form';
 import { Authentication } from '../../core/authentication/auth/authentication';
-import { filter } from 'rxjs/operators';
-import { computed } from '@angular/core';
+import { UsersService } from "../../core/users/users-service";
 
 
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, PostForm ],
+  imports: [CommonModule, PostForm],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
@@ -22,6 +21,7 @@ export class Profile implements OnInit {
 
   user = signal<UserDTO | undefined>(undefined);
   profileOwner = signal<boolean>(false);
+  loggedUser = signal<UserDTO | undefined>(undefined);
 
   postToUpdate = signal<number | null>(null);
 
@@ -31,38 +31,36 @@ export class Profile implements OnInit {
   currentPage = signal(0);
   totalPages = signal(0);
 
-  constructor(private postService: PostService, private auth: Authentication, private router: Router) { }
+  constructor(private route: ActivatedRoute, private postService: PostService, private auth: Authentication, private router: Router, private usersServ: UsersService) { }
 
   ngOnInit(): void {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.handleNavigation();
+    this.loggedUser.set(this.auth.user()?.user);
+
+    this.route.params.subscribe(params => {
+      const userId = params['id'];
+
+      if (this.loggedUser()?.id === userId) {
+        this.profileOwner.set(true);
+        this.user.set(this.loggedUser());
+      } else {
+        this.usersServ.getUserById(userId).subscribe({
+          next: userData => {
+            this.user.set(userData);
+          },
+          error: err => {
+            console.error('Failed to load user', err);
+          },
+          complete: () => {
+            console.log('User fetch completed');
+          }
+        });
+      }
+
+      console.log('Navigated user:', userId);
     });
-
-    // Initial load
-    this.handleNavigation();
   }
 
-  handleNavigation() {
-    const loggedUser =  computed(() => this.auth.user());
-    const state = window.history.state;
 
-    if (state?.profileOwner) {
-      this.user.set(loggedUser()?.user);
-      this.profileOwner.set(true);
-      console.log("pofiiiiiiiiiiiiiiiiile", this.profileOwner(), ' user:', this.user());
-
-      
-    } else if (state?.user) {
-      this.user.set(state.user);
-      this.profileOwner.set(false);
-    } else {
-      console.warn('No user passed and no logged-in user!');
-    }
-
-    this.loadPosts();
-  }
 
 
   loadPosts() {

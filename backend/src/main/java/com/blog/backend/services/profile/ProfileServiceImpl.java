@@ -34,4 +34,19 @@ public class ProfileServiceImpl implements ProfileService {
                     user.isAdmin())
         );
     }
+
+    @Override
+    public UserDTO fetchUserProfile(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return new UserDTO(
+                user.getId(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAvatar(),
+                user.getNickname(),
+                user.getDateOfBirth(),
+                user.isAdmin()
+        );
+    }
 }

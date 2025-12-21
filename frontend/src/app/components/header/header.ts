@@ -50,10 +50,10 @@ export class Header {
     this.router.navigate(['/']);
   }
 
-  goToProfile() {
-    console.log('Profile clicked', this.user());
-  this.router.navigate(['/profile'], { state: { profileOwner: true } });
-  }
+goToProfile() {
+  console.log('Profile clicked', this.user());
+  this.router.navigate(['/profile', this.user()?.user?.id]);
+}
 
   seeUsers(){
     console.log('Pogin clicked');

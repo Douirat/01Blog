@@ -1,7 +1,9 @@
-<div class="links-container">
-    <!-- Pass the current 'user' object to the visiteProfile method -->
-    <div (click)="visiteProfile(user)" class="user-card" *ngFor="let user of users()">
-        <img class="profile-image" *ngIf="user.avatar" [src]="user.avatar" alt="user-avatar">
-        <p>{{ user.firstName }} {{ user.lastName }}</p>
-    </div>
-</div>
+<ng-container *ngFor="let user of users()">
+  <div 
+       (click)="visiteProfile(user)" 
+       class="user-card" 
+       *ngIf="loggedUserId() != undefined && user.id !== loggedUserId() ">
+    <img class="profile-image" *ngIf="user.avatar" [src]="user.avatar" alt="user-avatar">
+    <p>{{ user.firstName }} {{ user.lastName }}</p>
+  </div>
+</ng-container>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PaginatedUsers } from '../../types/user';
+import { PaginatedUsers, UserDTO } from '../../types/user';
 
 @Injectable({
   providedIn: 'root',
@@ -12,13 +12,18 @@ export class UsersService {
 
 
   constructor(private http: HttpClient) { }
+  fetchUsers(page: number): Observable<PaginatedUsers> {
+    const params = new HttpParams().set('page', page.toString());
 
-  fetchUsers(page: number):Observable<PaginatedUsers>{
-    console.log("fuck what is the error?");
-    
-        const params = new HttpParams()
-      .set('page', page.toString());
-    return this.http.get<PaginatedUsers>(this.apiUrl);
+    return this.http.get<PaginatedUsers>(this.apiUrl, { params });
   }
-  
+
+
+  // get a user by id:
+  getUserById(userId: number): Observable<UserDTO> {
+    const params = new HttpParams().set('userId', userId.toString());
+
+    return this.http.get<UserDTO>(this.apiUrl + '/user', { params });
+  }
+
 }
