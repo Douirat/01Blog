@@ -20,6 +20,7 @@ import { UsersService } from "../../core/users/users-service";
 export class Profile implements OnInit {
 
   user = signal<UserDTO | undefined>(undefined);
+  userId = signal<number | null>(null);
   profileOwner = signal<boolean>(false);
   loggedUser = signal<UserDTO | undefined>(undefined);
 
@@ -39,8 +40,12 @@ export class Profile implements OnInit {
     this.route.params.subscribe(params => {
       const userId = params['id'];
 
-      if (this.loggedUser()?.id === userId) {
+      console.log("the profile is for the owner '''''''''''",  typeof userId,  typeof this.loggedUser()?.id);
+      this.userId.set(userId);
+      if (this.loggedUser()?.id.toString() === userId) {
+
         this.profileOwner.set(true);
+        
         this.user.set(this.loggedUser());
       } else {
         this.usersServ.getUserById(userId).subscribe({
@@ -55,17 +60,15 @@ export class Profile implements OnInit {
           }
         });
       }
-
-      console.log('Navigated user:', userId);
+      this.loadPosts();
     });
   }
 
 
 
-
   loadPosts() {
     let user = this.user()
-    this.postService.fetchPosts(this.currentPage(), Number(user?.id)).subscribe((data: PaginatedPosts) => {
+    this.postService.fetchPosts(this.currentPage(), Number(this.userId())).subscribe((data: PaginatedPosts) => {
       if (data) {
         this.posts.set(data.content);
         this.lastPage.set(data.last);

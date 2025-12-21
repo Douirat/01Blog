@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import org.springframework.data.domain.Page;
+import java.util.Optional;
+
 
 
 
@@ -54,12 +56,11 @@ public ResponseEntity<PaginatedUsersDTO> getProfiles(@RequestParam(defaultValue 
 /**
  * Get a specific user's profile by user id:
 */
-GetMapping("/user")
-public ResponseEntity<UserDTO> getUserProfile(@RequestParam Long userId){
-    UserDTO userProfile = profileService.fetchUserProfile(userId);
-    if (userProfile == null){
-        return ResponseEntity.notFound().build();
-    }
-    return ResponseEntity.ok(userProfile)
+@GetMapping("/user")
+public ResponseEntity<UserDTO> getUserProfile(@RequestParam Long userId) {
+    return Optional.ofNullable(profileService.fetchUserProfile(userId))
+                   .map(ResponseEntity::ok)
+                   .orElseGet(() -> ResponseEntity.notFound().build());
 }
+
 }
