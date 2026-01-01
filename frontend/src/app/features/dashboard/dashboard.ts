@@ -9,12 +9,13 @@ import { Subscription } from 'rxjs';
 import { CommentForm } from './comment-form/comment-form';
 import { PostComments } from './post-comments/post-comments';
 import { VoteRequest } from '../../types/vote';
+import {Report} from './report/report'
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, PostForm, CommentForm, PostComments],
+  imports: [CommonModule, PostForm, CommentForm, PostComments, Report],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -28,11 +29,10 @@ export class Dashboard implements OnInit, OnDestroy {
   lastPage = signal(false);
   currentPage = signal(0);
   totalPages = signal(0);
+  postToUpdate = signal(0)
 
 
   commentVisibility = signal<{ [postId: number]: boolean }>({});
-
-
 
 
   constructor(private authentication: Authentication,
@@ -136,5 +136,14 @@ export class Dashboard implements OnInit, OnDestroy {
         console.error('Vote failed', err);
       }
     });
+  }
+
+  // create a method to report a post:
+  reportPost(postId: number) {
+    if (postId == this.postToUpdate()) {
+      this.postToUpdate.set(0)
+    } else {
+      this.postToUpdate.set(postId)
+    }
   }
 }
