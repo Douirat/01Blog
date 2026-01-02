@@ -29,7 +29,7 @@ export class Dashboard implements OnInit, OnDestroy {
   lastPage = signal(false);
   currentPage = signal(0);
   totalPages = signal(0);
-  postToUpdate = signal(0)
+  postToReport = signal(0)
 
 
   commentVisibility = signal<{ [postId: number]: boolean }>({});
@@ -54,6 +54,8 @@ export class Dashboard implements OnInit, OnDestroy {
 
 
   loadPosts() {
+    console.log("the loged user is: ", this.user());
+    
     this.postService.fetchPosts(this.currentPage()).subscribe((data: PaginatedPosts) => {
       console.log("The loaded posts: ", data);
       if( data ){
@@ -140,10 +142,10 @@ export class Dashboard implements OnInit, OnDestroy {
 
   // create a method to report a post:
   reportPost(postId: number) {
-    if (postId == this.postToUpdate()) {
-      this.postToUpdate.set(0)
+    if (postId == this.postToReport()) {
+      this.postToReport.set(0)
     } else {
-      this.postToUpdate.set(postId)
+      this.postToReport.set(postId)
     }
   }
 }

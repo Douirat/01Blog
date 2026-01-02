@@ -1,8 +1,8 @@
 // Report input interface:
 export interface ReportInput{
-    postId: number
-    reporterId: number
-    reason: string
+    postId: number | null
+    reporterId: number | null
+    reason: string | null
 }
 
 // Report interface:

@@ -23,11 +23,11 @@
         <button (click)="vote(post.id, 'dislike')">Dislike</button> {{ post.dislikes }}
       </small>
       <small>
-        <button (click)="reportPost(post.id)">report</button>
+        <button *ngIf="user()" (click)="reportPost(post.id)">report</button>
       </small>
     </div>
     <hr />
-    <app-report *ngIf="postToUpdate() > 0 && postToUpdate() == post.id"></app-report>
+      <app-report *ngIf="postToReport() > 0 && postToReport() == post.id && user()" [postId]="post.id" [reporterId]="user()?.user?.id as number|| 0" ></app-report>
     <hr />
     <!-- Comment form -->
     <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-comment-form>

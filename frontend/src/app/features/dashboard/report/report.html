@@ -1,3 +1,26 @@
-<form >
-    
+<form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+    <h2>Report post</h2>
+    <label>Reason</label>
+
+    <!-- The reason is obvious -->
+    <select formControlName="reason">
+        <option value="">select a reason</option>
+        <option value="spam">spam</option>
+        <option value="inappropriate">Inapropriate content</option>
+        <option value="harassment">Harassment</option>
+        <option value="other">Other</option>
+    </select>
+
+    <!-- In case the reason was diffrent -->
+    <div *ngIf="reportForm.get('reason')?.value === 'other'">
+        <label>Details</label>
+        <textarea formControlName="details" placeholder="Provide additional details...">
+        </textarea>
+    </div>
+
+    <!-- The submit button -->
+    <button type="submit">
+        submit report
+    </button>
+
 </form>
