@@ -27,7 +27,9 @@
       </small>
     </div>
     <hr />
-      <app-report *ngIf="postToReport() > 0 && postToReport() == post.id && user()" [postId]="post.id" [reporterId]="user()?.user?.id as number|| 0" ></app-report>
+    <app-report *ngIf="postToReport() > 0 && postToReport() == post.id && user()" [postId]="post.id"
+        [reporterId]="+user()!.user!.id">
+    </app-report>
     <hr />
     <!-- Comment form -->
     <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-comment-form>

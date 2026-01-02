@@ -13,8 +13,9 @@ export class Report implements OnChanges {
 
   reportReason = signal<string | null>(null);
 
-  @Input() postId?: number;
-  @Input() reporterId?: number;
+  @Input() postId!: number;
+  @Input() reporterId!: number;
+
 
   reportForm: FormGroup<{
     postId: FormControl<number | null>;
@@ -29,11 +30,11 @@ export class Report implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     // Update values dynamically when inputs change
     if (changes['postId'] && this.postId != null) {
-      this.reportForm.get('postId')?.setValue(this.postId);
+      this.reportForm.get('postId')?.setValue(Number(this.postId));
     }
 
     if (changes['reporterId'] && this.reporterId != null) {
-      this.reportForm.get('reporterId')?.setValue(this.reporterId);
+      this.reportForm.get('reporterId')?.setValue(Number(this.reporterId));
     }
   }
 
