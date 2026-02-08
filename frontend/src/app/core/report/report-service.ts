@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Report } from '../../features/dashboard/report/report';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environment/environment';
+import { Report, ReportInput } from '../../types/report';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { environment } from '../../environment/environment';
 export class ReportService {
    private readonly reportApiUrl = `${environment.apiUrl}/api/report`
   constructor(private http: HttpClient){}
-  post_report(report: Report):Observable<Report>{
+  postReport(report: ReportInput):Observable<Report>{
     return this.http.post<Report>(this.reportApiUrl, report)
   }
 }

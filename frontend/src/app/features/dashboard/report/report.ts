@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges, signal } from '@angular/cor
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReportInput } from '../../../types/report';
 import { CommonModule } from '@angular/common';
+import { ReportService } from '../../../core/report/report-service';
 
 @Component({
   selector: 'app-report',
@@ -10,6 +11,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./report.scss'],
 })
 export class Report implements OnChanges {
+
+  constructor(private reportService: ReportService){}
 
   reportReason = signal<string | null>(null);
 
@@ -40,8 +43,9 @@ export class Report implements OnChanges {
 
   onSubmit() {
     if (this.reportForm.valid) {
-      const value: ReportInput = this.reportForm.getRawValue(); // plain object
-      console.log('Submitted Report:', value);
+      const report: ReportInput = this.reportForm.getRawValue();
+     
+      this.reportService.postReport(report).subscribe(res =>  console.log('Submitted Report:', res))
     } else {
       console.log('Form invalid');
       this.reportForm.markAllAsTouched();
