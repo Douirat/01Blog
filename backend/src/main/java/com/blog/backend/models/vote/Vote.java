@@ -1,10 +1,12 @@
+
 package com.blog.backend.models.vote;
 
 import com.blog.backend.models.user.User;
 import com.blog.backend.models.post.Post;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 // Removed @Data
@@ -13,7 +15,8 @@ import lombok.AllArgsConstructor;
 @Table(name = "votes", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"post_id", "user_id"})
 })
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Vote {
@@ -31,7 +34,7 @@ public class Vote {
     private User user;
 
     private boolean liked = true;
-    
+
     // Optional: constructor without id
     public Vote(Post post, User user, boolean liked) {
         this.post = post;

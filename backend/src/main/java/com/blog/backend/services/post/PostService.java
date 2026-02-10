@@ -10,7 +10,7 @@ import com.blog.backend.services.file.FileStorageService;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Optional;
+// import java.util.Optional;
 
 public interface PostService {
     Page<PostDetailDTO> getAllPosts(int page);
