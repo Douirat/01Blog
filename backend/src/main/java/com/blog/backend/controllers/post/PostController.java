@@ -52,7 +52,6 @@ public ResponseEntity<Post> updatePost(
 ) {
     Long userId = this.getUserIdFromContext();
 
-    System.out.println("postId: " + postId + ", user id: " + userId);
 
     Post saved = postService.updatePost(userId, postId, dto);
     return ResponseEntity.ok(saved);

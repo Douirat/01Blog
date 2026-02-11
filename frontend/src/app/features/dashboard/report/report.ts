@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, signal } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReportInput } from '../../../types/report';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { ReportService } from '../../../core/report/report-service';
   templateUrl: './report.html',
   styleUrls: ['./report.scss'],
 })
-export class Report implements OnChanges {
+export class Report  {
 
   constructor(private reportService: ReportService){}
 
@@ -21,29 +21,33 @@ export class Report implements OnChanges {
 
 
   reportForm: FormGroup<{
-    postId: FormControl<number | null>;
-    reporterId: FormControl<number | null>;
+    // postId: FormControl<number | null>;
+    // reporterId: FormControl<number | null>;
     reason: FormControl<string | null>;
   }> = new FormGroup({
-    postId: new FormControl(0, Validators.required),   // placeholder, will update in ngOnChanges
-    reporterId: new FormControl(0, Validators.required),
+    // postId: new FormControl(0, Validators.required),   // placeholder, will update in ngOnChanges
+    // reporterId: new FormControl(0, Validators.required),
     reason: new FormControl('', Validators.required)
   });
 
-  ngOnChanges(changes: SimpleChanges) {
-    // Update values dynamically when inputs change
-    if (changes['postId'] && this.postId != null) {
-      this.reportForm.get('postId')?.setValue(Number(this.postId));
-    }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   // Update values dynamically when inputs change
+  //   if (changes['postId'] && this.postId != null) {
+  //     this.reportForm.get('postId')?.setValue(Number(this.postId));
+  //   }
 
-    if (changes['reporterId'] && this.reporterId != null) {
-      this.reportForm.get('reporterId')?.setValue(Number(this.reporterId));
-    }
-  }
+  //   if (changes['reporterId'] && this.reporterId != null) {
+  //     this.reportForm.get('reporterId')?.setValue(Number(this.reporterId));
+  //   }
+  // }
 
   onSubmit() {
     if (this.reportForm.valid) {
-      const report: ReportInput = this.reportForm.getRawValue();
+      const report: ReportInput = {
+        postId: this.postId,
+        reporterId: this.reporterId,
+        reason: this.reportForm.value.reason!
+      }
      
       this.reportService.postReport(report).subscribe(res =>  console.log('Submitted Report:', res))
     } else {

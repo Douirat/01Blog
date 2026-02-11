@@ -1,6 +1,9 @@
 package com.blog.backend.services.report;
 
 import com.blog.backend.models.report.Report;
+import com.blog.backend.models.user.User;
+import com.blog.backend.models.;
+
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Optional;
@@ -16,6 +19,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Optional<Report> save(Report report) {
-        return Optional.of(reportRepository.save(report));
+        Report new_report = new Report()
+
+        return reportRepository.save(report);
     }
 }
