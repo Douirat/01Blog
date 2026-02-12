@@ -21,7 +21,7 @@ private final ReportService reportService;
     // Create a report:
     @PostMapping
     public ResponseEntity<Report> createReport(@RequestBody ReportInputDTO reportInput){
-        Report saved = this.reportService.save(report);
+        Report saved = this.reportService.save(reportInput);
         return ResponseEntity
         .status(HttpStatus.CREATED)
         .body(saved);

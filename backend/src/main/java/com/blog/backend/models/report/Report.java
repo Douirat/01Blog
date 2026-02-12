@@ -27,13 +27,11 @@ public class Report {
     // Many reports can belong to one user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reporter_id", nullable = false)
-    @JsonProperty("reporterId") // matches TS interface
     private User reporter;
 
     // Many reports can belong to one post
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
-    @JsonProperty("postId") // matches TS interface
     private Post post;
 
     @Column(nullable = false)
