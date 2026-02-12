@@ -24,12 +24,12 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Many reports can belong to one user
+    // Many reports can belong to one user:
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reporter_id", nullable = false)
     private User reporter;
 
-    // Many reports can belong to one post
+    // Many reports can belong to one post:
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
@@ -39,7 +39,7 @@ public class Report {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ReportStatus status = ReportStatus.PENDING; // default value
+    private ReportStatus status = ReportStatus.PENDING; // default value.
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

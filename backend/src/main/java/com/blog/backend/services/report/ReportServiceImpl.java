@@ -11,6 +11,10 @@ import com.blog.backend.repositories.user.UserRepository;
 import com.blog.backend.repositories.post.PostRepository;
 
 
+// Import the necessary dtos:
+import com.blog.backend.dtos.report.ReportInputDTO;
+import com.blog.backend.dtos.report.ReportResponseDTO;
+
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Optional;
@@ -26,20 +30,29 @@ public class ReportServiceImpl implements ReportService {
     private final PostRepository postRepository;
 
     @Override
-    public Report save(ReportInputDTO report){
-
+    public ReportResponseDTO save(ReportInputDTO report){
         // fetch the reporter:
-        User reporter = userRepository.findById(report.reporterId());
-        .orElseThrow(() -> new RuntimeException("User not found"));
+        User reporter = userRepository.findById(report.reporterId())
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Fetch the reported post:
         Post reportedPost = postRepository.findById(report.postId())
-        .orElseThrow(() => new RuntimeException("Post not found"));
+            .orElseThrow(() -> new RuntimeException("Post not found"));
 
-        Report new_report = new Report();
-        new_report.set    
+        Report newReport = new Report();
+        newReport.setReporter(reporter);
+        newReport.setPost(reportedPost);
+        newReport.setReason(report.reason());
+        
+        Report saved = reportRepository.save(newReport);
 
-
-        return reportRepository.save(report);
+        return new ReportResponseDTO(
+            saved.getId(),
+            saved.getPost().getId(),
+            saved.getReporter().getId(),
+            saved.getReason(),
+            saved.getStatus(),
+            saved.getCreatedAt()
+        );
     }
 }

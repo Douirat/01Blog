@@ -1,9 +1,10 @@
 package com.blog.backend.services.report;
 
-import com.blog.backend.models.report.Report;
+
 import com.blog.backend.dtos.report.ReportInputDTO;
+import com.blog.backend.dtos.report.ReportResponseDTO;
 
 
 public interface ReportService {
-    Report save(ReportInputDTO report);
+  ReportResponseDTO save(ReportInputDTO report);
 }
