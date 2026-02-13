@@ -22,7 +22,7 @@
       <small>
         <button (click)="vote(post.id, 'dislike')">Dislike</button> {{ post.dislikes }}
       </small>
-      <small>
+   <small *ngIf="user() && +user()!.user.id !== post.user.id">
         <button *ngIf="user()" (click)="reportPost(post.id)">report</button>
       </small>
     </div>
