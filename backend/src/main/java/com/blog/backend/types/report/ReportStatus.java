@@ -2,6 +2,7 @@ package com.blog.backend.types.report;
 
 public enum ReportStatus {
     PENDING,
+    REVIEWED,
     RESOLVED,
-    DISMISSED
+    REJECTED
 }

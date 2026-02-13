@@ -1,12 +1,7 @@
 package com.blog.backend.dtos.report;
-package com.blog.backend.types.report.ReportStatus;
+import com.blog.backend.types.report.ReportStatus;
+import java.time.LocalDateTime;
 
-
-public record ReportInputDTO(
-Long postId,
-Long reporterId,
-String reason
-){}
 
 public record ReportResponseDTO(
         Long id,

@@ -5,7 +5,9 @@ import com.blog.backend.models.user.User;
 import com.blog.backend.models.post.Post;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+// import lombok.Getter;
+// import lombok.Setter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
@@ -15,7 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Report {

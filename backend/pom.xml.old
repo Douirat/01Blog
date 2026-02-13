@@ -37,18 +37,17 @@
             <artifactId>spring-context</artifactId>
         </dependency>
 
-        <!-- Spring Data JPA -->
+        <!-- Spring Data JPA - THIS WAS MISSING! -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Lombok - SINGLE DECLARATION -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- Spring Security -->
@@ -95,6 +94,14 @@
             <version>${mapstruct.version}</version>
         </dependency>
 
+        <!-- Lombok (duplicate removed - already declared above) -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Validation -->
         <dependency>
             <groupId>jakarta.validation</groupId>
@@ -123,29 +130,26 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <release>21</release>
+                    <release>21</release> 
                     <annotationProcessorPaths>
-                        <!-- Lombok MUST come before MapStruct -->
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                        <!-- Lombok-MapStruct binding -->
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>0.2.0</version>
-                        </path>
-                        <!-- MapStruct comes after -->
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
                         </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
                     </annotationProcessorPaths>
                     <compilerArgs>
-                        <arg>-parameters</arg>
+                        <arg>--enable-preview</arg> 
                     </compilerArgs>
                 </configuration>
             </plugin>
