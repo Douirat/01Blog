@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class UserRegistrationDTO {
 
     private String email;
-    private String password;          // ✅ add this
+    private String password;          // add this
     private String firstName;
     private String lastName;
     private String nickname;

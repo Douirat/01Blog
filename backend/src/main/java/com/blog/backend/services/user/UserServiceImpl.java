@@ -49,7 +49,8 @@ class UserServiceImpl implements UserService {
                 || user.getLastName() == null || user.getNickname() == null || user.getDateOfBirth() == null) {
             return Optional.empty(); // Required fields are missing
         }
-    
+
+  
 
         String avatarPath = null;
         if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
@@ -68,7 +69,12 @@ class UserServiceImpl implements UserService {
         newUser.setDateOfBirth(user.getDateOfBirth());
         newUser.setAvatar(avatarPath);
         newUser.setNickname(user.getNickname());
+              // Determine the admin by first insertion:
+        if (userRepository.count() == 0){
+        newUser.setAdmin(true);        
+        } else {
         newUser.setAdmin(false);
+        }
         
         User savedUser = userRepository.save(newUser);
         UserDTO userDTO = new UserDTO(
