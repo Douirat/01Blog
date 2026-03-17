@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 import com.blog.backend.dtos.user.AuthResponseDTO;
 
-import com.blog.backend.models.user.User;
+// import com.blog.backend.models.user.User;
 import com.blog.backend.services.user.UserService;
-import org.springframework.web.multipart.MultipartFile;
+// import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.ModelAttribute; // This maps the http request data to a java object.
 
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 
-import java.util.Optional;
-import java.util.Map;
-import java.util.HashMap;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+// import java.util.Optional;
+// import java.util.Map;
+// import java.util.HashMap;
+// import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @RestController
 @RequestMapping("/api/users")

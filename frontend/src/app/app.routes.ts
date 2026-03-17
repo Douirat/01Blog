@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
 // import { AdminComponent } from './features/admin/admin.component'; TODO: when you want to add the admine component it should be guarded using the role guard!
-// import { roleGuard } from './core/auth/role.guard'; // import the admin panel guarder.
+import { roleGuard } from './core/authentication/guards/role-guard'; // import the admin panel guarder.
 import { Registeration } from './features/authentication/registeration/registeration';
 import { Login } from './features/authentication/login/login';
 import { Dashboard } from './features/dashboard/dashboard';
 import { authGuard } from './core/authentication/guards/auth-guard';
 import { Users } from './features/users/users';
 import { Profile } from './features/profile/profile';
+import { AdminDashboard } from './features/admin-dashboard/admin-dashboard';
 
 
 export const routes: Routes = [
-    //   { path: 'admin', component: AdminComponent, canActivate: [roleGuard] }, // the admin panel with its gate keeper.
-    // other routes...
+      { path: 'admin', component: AdminDashboard, canActivate: [roleGuard] }, // the admin panel with its gate keeper.
 
 
     { path: 'login', component: Login },
@@ -20,7 +20,7 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: Dashboard,
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
     },
     {
         path: 'profile/:id',

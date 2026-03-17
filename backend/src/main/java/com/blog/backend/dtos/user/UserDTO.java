@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Data // Lombok annotation to generate getters, setters, toString, etc.
 // this the data structure frontend sends with server controlled data flow.
 @AllArgsConstructor // generates constructor with all fields as parameters.
@@ -16,6 +18,7 @@ public class UserDTO {
     private String avatar;
     private String nickname;
     private LocalDate dateOfBirth;
+    @JsonProperty("isAdmin")
     private boolean isAdmin;
 
     // Constructor that maps User -> UserDTO

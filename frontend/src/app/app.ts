@@ -10,5 +10,5 @@ import {Header} from './components/header/header'
   styleUrls: ['./app.scss'],
 })
 export class App {
-  protected readonly title = signal('frontend');
+  protected readonly title = signal('01blog');
 }
