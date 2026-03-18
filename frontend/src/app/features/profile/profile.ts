@@ -32,7 +32,12 @@ export class Profile implements OnInit {
   currentPage = signal(0);
   totalPages = signal(0);
 
-  constructor(private route: ActivatedRoute, private postService: PostService, private auth: Authentication, private router: Router, private usersServ: UsersService) { }
+  constructor(private route: ActivatedRoute,
+      private postService: PostService,
+      private auth: Authentication,
+      private router: Router,
+      private usersServ: UsersService
+      ) { }
 
   ngOnInit(): void {
     this.loggedUser.set(this.auth.user()?.user);
