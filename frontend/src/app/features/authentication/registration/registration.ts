@@ -7,13 +7,13 @@ import { RegistrationFormData } from '../../../types/user'; // adjust to your pa
 
 
 @Component({
-  selector: 'app-registeration',
+  selector: 'app-registration',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './registeration.html',
-  styleUrls: ['./registeration.scss'],
+  templateUrl: './registration.html',
+  styleUrls: ['./registration.scss'],
 })
-export class Registeration {
+export class Registration {
   form: FormGroup;
   isSubmitting = false; // Track the submission state.
   errorMessage = ''; // Store error message.

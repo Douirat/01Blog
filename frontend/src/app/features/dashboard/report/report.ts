@@ -21,13 +21,15 @@ export class Report  {
 
 
   reportForm: FormGroup<{
-    // postId: FormControl<number | null>;
+    // postId: FormControl<number |  null>;
     // reporterId: FormControl<number | null>;
     reason: FormControl<string | null>;
+    details: FormControl<string | null>;
   }> = new FormGroup({
     // postId: new FormControl(0, Validators.required),   // placeholder, will update in ngOnChanges
     // reporterId: new FormControl(0, Validators.required),
-    reason: new FormControl('', Validators.required)
+    reason: new FormControl('', Validators.required),
+    details: new FormControl('', Validators.required)
   });
 
   // ngOnChanges(changes: SimpleChanges) {
@@ -41,12 +43,13 @@ export class Report  {
   //   }
   // }
 
+
   onSubmit() {
     if (this.reportForm.valid) {
       const report: ReportInput = {
         postId: this.postId,
         reporterId: this.reporterId,
-        reason: this.reportForm.value.reason!
+        reason: this.reportForm.value.reason! == "other" ? this.reportForm.value.details! :  this.reportForm.value.reason!
       }
      
       this.reportService.postReport(report).subscribe(res =>  console.log('Submitted Report:', res))
