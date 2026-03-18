@@ -1,1 +1,39 @@
-<p>admin-dashboard works!</p>
+<div class="users-table-container">
+
+  <table>
+    <thead>
+      <tr>
+        <th>Avatar</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Nickname</th>
+        <th>Admin</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users()">
+        <td>
+          <img *ngIf="user.avatar" [src]="user.avatar" alt="Avatar" width="50">
+          <span *ngIf="!user.avatar">No Avatar</span>
+        </td>
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.nickname }}</td>
+        <td>{{ user.isAdmin ? 'Yes' : 'No' }}</td>
+        <td>
+          <button (click)="visitProfile(user)">View Profile</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page() === 0">Previous</button>
+    <span>Page {{ page() + 1 }} of {{ totalPages() }}</span>
+    <button (click)="nextPage()" [disabled]="last()">Next</button>
+  </div>
+  
+</div>

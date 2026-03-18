@@ -49,4 +49,6 @@ export class Users {
     console.log(`User ID clicked: ${user.id}`);
     this.router.navigate(['/profile', user.id]);
   }
+
+  // TODO: the navigation between pages is not fixed yet:
 }

@@ -24,7 +24,7 @@ export class Authentication {
   // observe the current subject to react properly to change:
   // hhh the dolar sign is just a convention to specify the observable
   public currentUser$ = this.currentUser.asObservable();
-  public user = signal<UserResponse | null>(null)
+  public user = signal<UserResponse | null>(null);
   public isAdmin = computed(() => this.user()?.user?.isAdmin)
 
 

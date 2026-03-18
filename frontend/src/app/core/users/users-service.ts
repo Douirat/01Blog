@@ -7,22 +7,19 @@ import { PaginatedUsers, UserDTO } from '../../types/user';
 @Injectable({
   providedIn: 'root',
 })
+
 export class UsersService {
   private readonly apiUrl = `${environment.apiUrl}/api/profiles`
-
 
   constructor(private http: HttpClient) { }
   fetchUsers(page: number): Observable<PaginatedUsers> {
     const params = new HttpParams().set('page', page.toString());
-
     return this.http.get<PaginatedUsers>(this.apiUrl, { params });
   }
-
 
   // get a user by id:
   getUserById(userId: number): Observable<UserDTO> {
     const params = new HttpParams().set('userId', userId.toString());
-
     return this.http.get<UserDTO>(this.apiUrl + '/user', { params });
   }
 
