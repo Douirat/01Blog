@@ -25,7 +25,7 @@ export const routes: Routes = [
     {
         path: 'profile/:id',
         component: Profile,
-        canActivate: [authGuard]  // Protected route
+        canActivate: []  // TODO: create another auth-guard to protect paths from non authenticated access.
     },
     {
         path: 'users',
