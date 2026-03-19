@@ -7,13 +7,13 @@ AVATAR_PATH="./image_test/Test-Logo.svg.png"
 URL="http://localhost:8080/api/users/register"
 
 # User data
-EMAIL="john1@example.com"
+EMAIL="john@example.com"
 PASSWORD="password123"
 FIRST_NAME="John1"
 LAST_NAME="Doe1"
 NICKNAME="johnny1"
 DATE_OF_BIRTH="1990-01-01"
-IS_ADMIN="false"
+IS_ADMIN="true"
 
 # Send multipart/form-data request
 curl -v -X POST "$URL" \

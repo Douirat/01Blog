@@ -1,6 +1,7 @@
 package com.blog.backend.security;
 
 import com.blog.backend.util.JwtUtil;
+import com.blog.backend.security.PrincipalUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -13,11 +14,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.security.core.GrantedAuthority;
-import java.util.stream.Collectors;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -36,51 +37,65 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
+        System.out.println(">>> [JWT Filter] URI: " + request.getRequestURI());
+        System.out.println(">>> [JWT Filter] Auth header: " + authHeader);
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
+
+            System.out.println(">>> [JWT Filter] Token length: " + token.length());
+            System.out.println(">>> [JWT Filter] validateToken: " + jwtUtil.validateToken(token));
 
             try {
                 if (jwtUtil.validateToken(token)) {
                     Claims claims = jwtUtil.getClaims(token);
+
                     String email = claims.getSubject();
-                    Long userId = Long.valueOf(claims.get("id").toString());
 
-                    // ⬅ FIXED: Extract roles from JWT
-                    List<String> roles = (List<String>) claims.get("roles");
+                    Object idClaim = claims.get("id");
+                    if (idClaim == null) {
+                        throw new IllegalArgumentException("Missing 'id' claim in JWT");
+                    }
+                    Long userId = Long.valueOf(idClaim.toString());
 
-                    // Extract roles from JWT
+                    Object rawRoles = claims.get("roles");
+                    System.out.println(">>> [JWT Filter] Raw roles: " + rawRoles);
+
+                    List<String> roles = rawRoles instanceof List<?>
+                            ? ((List<?>) rawRoles).stream()
+                                    .filter(r -> r instanceof String)
+                                    .map(Object::toString)
+                                    .collect(Collectors.toList())
+                            : List.of();
+
                     Collection<? extends GrantedAuthority> authorities = roles.stream()
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList());
 
-                    // Create PrincipalUser
+                    System.out.println(">>> [JWT Filter] Authorities: " + authorities);
+
                     PrincipalUser principal = new PrincipalUser(userId, email, authorities);
 
-                    // authenticate the user
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            principal, null, principal.getAuthorities());
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
 
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                    System.out.println("JWT Filter passed: email=" + email + ", userId=" + userId + "user role: "+ authorities);
+                    System.out.println(">>> [JWT Filter] Auth set successfully for: " + email);
+
+                } else {
+                    System.out.println(">>> [JWT Filter] validateToken returned FALSE — token rejected");
                 }
+
             } catch (Exception e) {
-                System.out.println("Invalid JWT: " + e.getMessage());
+                System.out.println(">>> [JWT Filter] Exception: " + e.getClass().getName() + " — " + e.getMessage());
             }
+
+        } else {
+            System.out.println(">>> [JWT Filter] No Bearer token — skipping auth");
         }
+
         filterChain.doFilter(request, response);
     }
 }
-/**
- * 
- * In controllers/services, you can safely do:
- * 
- * PrincipalUser currentUser = (PrincipalUser) SecurityContextHolder
- * .getContext()
- * .getAuthentication()
- * .getPrincipal();
- * 
- * boolean isAdmin = currentUser.getAuthorities().stream()
- * .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
- */
