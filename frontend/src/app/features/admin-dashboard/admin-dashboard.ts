@@ -49,5 +49,8 @@ export class AdminDashboard implements OnInit {
   prevPage(): void { if (this.page() > 0) { this.page.update(p => p - 1); } this.loadUsers(); }
 
   // Navigate to a user's profile
-  visitProfile(user: UserDTO): void { this.router.navigate(['/profile', user.id]); }
+  adminVisitProfile(user: UserDTO): void { 
+    console.log("uuuu", user);
+    this.router.navigate(['/profile-admin', user.id]); 
+  }
 }

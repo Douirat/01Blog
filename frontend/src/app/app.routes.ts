@@ -11,7 +11,11 @@ import { AdminDashboard } from './features/admin-dashboard/admin-dashboard';
 import { ProfileAdmin } from './features/profile-admin/profile-admin';
 
 export const routes: Routes = [
-      { path: 'admin', component: AdminDashboard, canActivate: [roleGuard] }, // the admin panel with its gate keeper.
+    { path: 'admin',
+        component: AdminDashboard,
+        canActivate: [roleGuard],
+        data: { role: 'ADMIN' }
+    }, // the admin panel with its gate keeper.
 
 
     { path: 'login', component: Login },
@@ -25,12 +29,13 @@ export const routes: Routes = [
     {
         path: 'profile/:id',
         component: Profile,
-        canActivate: []  // TODO: create another auth-guard to protect paths from non authenticated access.
+        canActivate: [authGuard]  // TODO: create another auth-guard to protect paths from non authenticated access.
     },
     {
         path: 'profile-admin/:id',
         component: ProfileAdmin,
-        canActivate: []  // TODO: create another auth-guard to protect paths from non authenticated access.
+        canActivate: [roleGuard],  // TODO: create another auth-guard to protect paths from non authenticated access.
+        data: { role: 'ADMIN' }
     },
     {
         path: 'users',

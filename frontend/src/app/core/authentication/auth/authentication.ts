@@ -98,7 +98,7 @@ export class Authentication {
    */
 
   login(payload: LoginPayload): Observable<UserResponse> {
-    console.log('[AuthService]: loggin in user', payload);
+    console.log('[AuthService]: login in user', payload);
     return this.http.post<UserResponse>(`${this.apiUrl}/login`, payload).pipe(
       tap(response => {
         this.setSession(response)
