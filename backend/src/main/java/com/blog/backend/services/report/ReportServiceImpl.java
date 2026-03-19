@@ -14,6 +14,7 @@ import com.blog.backend.repositories.post.PostRepository;
 // Import the necessary dtos:
 import com.blog.backend.dtos.report.ReportInputDTO;
 import com.blog.backend.dtos.report.ReportResponseDTO;
+import com.blog.backend.types.report.ReportStatus;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +56,7 @@ public class ReportServiceImpl implements ReportService {
             saved.getCreatedAt()
         );
     }
+  public long getReportsCount(){
+    return this.reportRepository.countByStatus(ReportStatus.PENDING);
+  }
 }

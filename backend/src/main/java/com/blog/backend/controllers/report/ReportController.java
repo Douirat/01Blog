@@ -1,10 +1,11 @@
 package com.blog.backend.controllers.report;
 
+import java.util.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 // import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import com.blog.backend.services.report.ReportService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/report")
+@RequestMapping("/api/reports")
 @RequiredArgsConstructor
 public class ReportController{
 private final ReportService reportService;
@@ -27,4 +28,10 @@ private final ReportService reportService;
             .status(HttpStatus.CREATED)
             .body(saved);
     }
+
+// Get reports' count based on pending reports.
+@GetMapping
+public Map<String, Long> getReportsCount(){
+    return Map.of("count", this.reportService.getReportsCount());
+}
 }
