@@ -55,8 +55,8 @@ goToProfile() {
   this.router.navigate(['/profile', this.user()?.user?.id]);
 }
 
-  seeUsers(){
-    console.log('Pogin clicked');
-    this.router.navigate(['/users']);
+  goToUsersOrReports(){
+    const path = this.isAdmin() ? "/reports" : "/users";
+    this.router.navigate([path]);
   }
 }

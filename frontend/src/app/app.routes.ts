@@ -9,6 +9,7 @@ import { Users } from './features/users/users';
 import { Profile } from './features/profile/profile';
 import { AdminDashboard } from './features/admin-dashboard/admin-dashboard';
 import { ProfileAdmin } from './features/profile-admin/profile-admin';
+import { Reports } from './features/reports/reports';
 
 export const routes: Routes = [
     { path: 'admin',
@@ -34,6 +35,12 @@ export const routes: Routes = [
     {
         path: 'profile-admin/:id',
         component: ProfileAdmin,
+        canActivate: [roleGuard],  // TODO: create another auth-guard to protect paths from non authenticated access.
+        data: { role: 'ADMIN' }
+    },
+    {
+        path: 'reports',
+        component: Reports,
         canActivate: [roleGuard],  // TODO: create another auth-guard to protect paths from non authenticated access.
         data: { role: 'ADMIN' }
     },

@@ -16,11 +16,12 @@
       <a class="clickable" routerLink="/" (click)="goHome()">01 Blog</a>
     </div>
     <div class="nav-section">
-      <a class="clickable" (click)="seeUsers()" routerLink="/users">users</a>
+      <a class="clickable" (click)="goToUsersOrReports()">
+        {{ isAdmin() ? 'reports' : 'users' }}
+      </a>
     </div>
     <div class="nav-section">
-      <a class="clickable" (click)="goToProfile()" >Profile <span>Welcome, {{ user()?.user?.firstName + ' ' +
-          user()?.user?.lastName }}
+      <a class="clickable" (click)="goToProfile()">Profile <span>Welcome, {{ user()?.user?.nickname }}
         </span></a>
       <button (click)="logout()">Logout</button>
     </div>

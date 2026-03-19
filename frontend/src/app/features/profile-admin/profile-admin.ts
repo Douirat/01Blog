@@ -14,7 +14,7 @@ export class ProfileAdmin implements OnInit {
 
 user = signal<UserDTO | undefined>(undefined);
 userId = signal<number | null>(null);
-
+// TODO: i will have to bring all the reports for this specific profile.
 constructor(
   private route: ActivatedRoute,
   private auth: Authentication,
