@@ -16,7 +16,7 @@ import com.blog.backend.services.report.ReportService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/api/report")
 @RequiredArgsConstructor
 public class ReportController{
 private final ReportService reportService;

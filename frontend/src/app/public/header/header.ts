@@ -1,8 +1,9 @@
-import { Component, computed } from '@angular/core';
+import { Component, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Authentication } from '../../core/authentication/auth/authentication';
 import { Router } from '@angular/router';
 import { Store } from '../../core/store/store';
+import { ReportService } from '../../core/report/report-service';
 
 @Component({
   selector: 'app-header',
@@ -11,14 +12,33 @@ import { Store } from '../../core/store/store';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {
+export class Header implements OnInit {
   // Keep auth private:
-  constructor(private auth: Authentication, private store: Store, private router: Router) { }
+  constructor(private auth: Authentication, private reportService: ReportService, private store: Store, private router: Router) { }
+
+  reportsNumber = signal(0);
 
   isAdmin = computed(() => this.auth.user()?.user?.isAdmin);
   isLoggedIn = computed(() => this.auth.user() != null);
   user = computed(() => this.auth.user());
 
+  ngOnInit(): void {
+    this.updateReportsCount();
+  }
+
+updateReportsCount(): void {
+  this.reportService.getReportsCount().subscribe({
+    next: (data) => {
+      this.reportsNumber.set(data['count']);
+      console.log("the reports number is ----->", this.reportsNumber);
+      
+    },
+    error: (err) => {
+      console.error(err);
+    }
+  });
+}
+  
 
   // Wrapper method for template
   logout() {
@@ -46,6 +66,7 @@ export class Header {
   }
 
   goHome() {
+    if(this.isAdmin()){ this.updateReportsCount()};
     console.log('Home clicked');
     this.router.navigate(['/']);
   }
@@ -56,6 +77,7 @@ goToProfile() {
 }
 
   goToUsersOrReports(){
+     if(this.isAdmin()){ this.updateReportsCount()};
     const path = this.isAdmin() ? "/reports" : "/users";
     this.router.navigate([path]);
   }

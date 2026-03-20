@@ -17,7 +17,7 @@
     </div>
     <div class="nav-section">
       <a class="clickable" (click)="goToUsersOrReports()">
-        {{ isAdmin() ? 'reports' : 'users' }}
+        {{ isAdmin() ? ('reports: ' + reportsNumber()) : 'users' }}
       </a>
     </div>
     <div class="nav-section">
