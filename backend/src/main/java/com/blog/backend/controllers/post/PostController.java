@@ -12,16 +12,16 @@ import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.services.post.PostService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestHeader;
+// import org.springframework.web.bind.annotation.RequestHeader;
 import com.blog.backend.models.post.Post;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import io.jsonwebtoken.JwtException;
-import org.springframework.http.HttpStatus;
-import java.lang.RuntimeException;
-import java.lang.Exception;
+// import io.jsonwebtoken.JwtException;
+// import org.springframework.http.HttpStatus;
+// import java.lang.RuntimeException;
+// import java.lang.Exception;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+// import org.springframework.data.domain.Pageable;
 import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.dtos.post.PaginatedPostsDTO;
 import com.blog.backend.security.PrincipalUser;
@@ -76,7 +76,6 @@ public ResponseEntity<Post> updatePost(
                 posts.isLast(),
                 posts.getTotalPages(),
                 posts.getTotalElements());
-
         return ResponseEntity.ok(response);
     }
 

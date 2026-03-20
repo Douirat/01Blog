@@ -1,5 +1,5 @@
 #!/bin/bash
-TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huMUBleGFtcGxlLmNvbSIsImlkIjo0LCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzczOTMzOTEwLCJleHAiOjE3NzQwMjAzMTB9.u33WGKHOAJk6oxpuDNyuRPgul1-QEadlFZf4FeuZrvg"
+TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huQGV4YW1wbGUuY29tIiwiaWQiOjIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3NzQwMzQ2NzMsImV4cCI6MTc3NDEyMTA3M30.LTO2onB5C2Gn1MKZr69ctdP9OMeM3jOCyhxQ9BDizcc"
 
 response=$(curl -s -w "\n%{http_code}" \
   -H "Authorization: Bearer $TOKEN" \

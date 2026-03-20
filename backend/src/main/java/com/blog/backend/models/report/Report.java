@@ -11,12 +11,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+// import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "reports")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

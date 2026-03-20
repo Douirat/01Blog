@@ -28,7 +28,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/register", "/api/users/login").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
-                        // .requestMatchers(HttpMethod.GET,"/api/reports/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/reports/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter,
                         org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
