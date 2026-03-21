@@ -8,7 +8,7 @@ import { Report, ReportInput } from '../../types/report';
   providedIn: 'root',
 })
 export class ReportService {
-   private readonly reportApiUrl = `${environment.apiUrl}/api/report`
+   private readonly reportApiUrl = `${environment.apiUrl}/api/reports`
   constructor(private http: HttpClient){}
   // create a report:
   postReport(report: ReportInput):Observable<Report>{
@@ -17,7 +17,7 @@ export class ReportService {
 
   // get reports count for notification:
   getReportsCount():Observable<Record<string, number>>{
-    return this.http.get<Record<string, number>>(this.reportApiUrl);
+    return this.http.get<Record<string, number>>(this.reportApiUrl+"/count");
   }
 }
 
