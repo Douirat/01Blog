@@ -8,8 +8,8 @@ echo "Authorization: Bearer $TOKEN"
 
 echo "Test 1: Get first page (page=0)"
 
-# curl -X GET "${BASE_URL}?page=0" \
-curl -X GET "${BASE_URL}/user?userId=3&page=0" \
+curl -X GET "${BASE_URL}?page=0" \
+# curl -X GET "${BASE_URL}/user?userId=3&page=0" \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -s | jq '.' \

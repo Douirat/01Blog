@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
+import { Report } from '../../types/report';
 
 @Component({
   selector: 'app-reports',
@@ -6,6 +7,13 @@ import { Component } from '@angular/core';
   templateUrl: './reports.html',
   styleUrl: './reports.scss',
 })
-export class Reports {
+export class Reports implements OnInit{
+reports = signal<Report[]>([]);
+ngOnInit(): void {
+  
+}
 
+loadReports(){
+  
+}
 }

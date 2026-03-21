@@ -40,7 +40,6 @@ export class PostService {
 
     if (userId !== undefined) {
       params = params.set('userId', userId.toString());
-      return this.http.get<PaginatedPosts>(this.apiUrlProfile, { params });
     }
     return this.http.get<PaginatedPosts>(this.apiUrl, { params });
   }

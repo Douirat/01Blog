@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environment/environment';
-import { Report, ReportInput } from '../../types/report';
+import { Paginatedreports, Report, ReportInput } from '../../types/report';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,23 @@ export class ReportService {
   // get reports count for notification:
   getReportsCount():Observable<Record<string, number>>{
     return this.http.get<Record<string, number>>(this.reportApiUrl+"/count");
+  }
+
+  // get all reports:
+  getAllReports(page: number):Observable<Paginatedreports>{
+    let params = new HttpParams();
+    params.set("page", page.toString());
+    return this.http.get<Paginatedreports>(this.reportApiUrl, {params});
+  }
+
+  // get all reports for a specific user:
+  getUserReports(userId:number | undefined = undefined, page: number ):Observable<Paginatedreports>{
+    let params = new HttpParams();
+    params.set("page", page.toString());
+    if(userId != undefined){
+      params.set("userId", userId?.toString());
+    }
+    return this.http.get<Paginatedreports>(this.reportApiUrl+"/user", {params});
   }
 }
 
