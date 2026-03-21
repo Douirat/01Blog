@@ -1,1 +1,64 @@
-<p>reports works!</p>
+<!-- reports.html -->
+<div class="reports-container">
+    <!-- Summary Header -->
+    <div class="reports-header">
+        <h2>Reports ({{ totalReports() }} total)</h2>
+        <div class="stats">
+            <span>Page {{ page() + 1 }} of {{ total() }}</span>
+            <span [class]="isLast() ? 'status-complete' : 'status-pending'">
+                {{ isLast() ? 'All loaded' : 'More available' }}
+            </span>
+        </div>
+    </div>
+
+    <!-- Reports Table -->
+    <div class="table-container">
+        <table class="reports-table" *ngIf="reports().length > 0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Post ID</th>
+                    <th>Reporter ID</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let report of reports()">
+                    <td>{{ report.id }}</td>
+                    <td>{{ report.postId }}</td>
+                    <td>{{ report.reporterId }}</td>
+                    <td>{{ report.reason }}</td>
+                    <td>
+                        <span class="status-badge status-{{ report.status | lowercase }}">
+                            {{ report.status }}
+                        </span>
+                    </td>
+                    <td>{{ report.createdAt | date:'short' }}</td>
+                    <td>
+                        <button (click)="gotoTheReported(report.postId)" class="btn btn-primary">
+                            view
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="reports().length === 0">
+            <p>No reports found</p>
+        </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination" *ngIf="!isLast()">
+        <button (click)="loadPrevPage()" [disabled]="page()==0" class="btn btn-primary">
+            Prev
+        </button>
+        <button (click)="loadNextPage()" [disabled]="isLast()" class="btn btn-primary">
+            Next
+        </button>
+    </div>
+</div>

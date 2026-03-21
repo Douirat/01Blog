@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environment/environment';
-import { Paginatedreports, Report, ReportInput } from '../../types/report';
+import { PaginatedReports, Report, ReportInput } from '../../types/report';
 
 @Injectable({
   providedIn: 'root',
@@ -21,20 +21,20 @@ export class ReportService {
   }
 
   // get all reports:
-  getAllReports(page: number):Observable<Paginatedreports>{
+  getAllReports(page: number):Observable<PaginatedReports>{
     let params = new HttpParams();
     params.set("page", page.toString());
-    return this.http.get<Paginatedreports>(this.reportApiUrl, {params});
+    return this.http.get<PaginatedReports>(this.reportApiUrl, {params});
   }
 
   // get all reports for a specific user:
-  getUserReports(userId:number | undefined = undefined, page: number ):Observable<Paginatedreports>{
+  getUserReports(userId:number | undefined = undefined, page: number ):Observable<PaginatedReports>{
     let params = new HttpParams();
     params.set("page", page.toString());
     if(userId != undefined){
       params.set("userId", userId?.toString());
     }
-    return this.http.get<Paginatedreports>(this.reportApiUrl+"/user", {params});
+    return this.http.get<PaginatedReports>(this.reportApiUrl+"/user", {params});
   }
 }
 

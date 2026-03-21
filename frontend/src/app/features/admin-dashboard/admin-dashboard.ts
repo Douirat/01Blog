@@ -50,7 +50,7 @@ export class AdminDashboard implements OnInit {
 
   // Navigate to a user's profile
   adminVisitProfile(user: UserDTO): void { 
-    console.log("uuuu", user);
+    // console.log("uuuu", user);
     this.router.navigate(['/profile-admin', user.id]); 
   }
 }

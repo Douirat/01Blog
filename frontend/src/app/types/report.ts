@@ -1,6 +1,6 @@
 // Report input interface:
 export interface ReportInput{
-    reportId: number | null
+    postId: number | null
     reporterId: number | null
     reason: string | null
 }
@@ -8,7 +8,7 @@ export interface ReportInput{
 // Report interface:
 export interface Report {
   id: number
-  reportId: number        // what was reported
+  postId: number        // what was reported
   reporterId: number   // who reported it
   reason: string       // free text
   status: "PENDING" | "RESOLVED" | "DISMISSED"
@@ -19,7 +19,7 @@ export interface Report {
  * Represents a paginated response from the backend for a list of reports.
  * This maps closely to Spring Data's Page<T> structure.
  */
-export interface Paginatedreports {
+export interface PaginatedReports {
 
   /**
    * The actual reports returned in the current page.
@@ -52,3 +52,5 @@ export interface Paginatedreports {
 
   totalElements: number;
 }
+
+

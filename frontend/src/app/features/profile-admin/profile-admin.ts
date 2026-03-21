@@ -26,8 +26,7 @@ ngOnInit() {
    this.userService.getUserById(id).subscribe({
           next: userData => {
             console.log("the admin wants to visit the profile of: ", userData);
-            
-            // this.user.set(userData);
+            this.user.set(userData);
           },
           error: err => {
             console.error('Failed to load user', err);
@@ -36,5 +35,8 @@ ngOnInit() {
             console.log('User fetch completed');
           }
         });
+}
+loadUserReports():void{
+
 }
 }
