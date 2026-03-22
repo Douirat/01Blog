@@ -6,23 +6,25 @@ import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.repositories.user.UserRepository;
 import com.blog.backend.models.user.User;
 import com.blog.backend.services.file.FileStorageService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.blog.backend.constants.FileTypeConstants;
 import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.dtos.post.UserSummaryDTO;
+import com.blog.backend.dtos.user.UserDTO;
+
 // Pagination imports:
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import com.blog.backend.models.vote.Vote;
-
-
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
-
-
 
 @Service // ← This tells Spring: "I'm the implementation!"
 public class PostServiceImpl implements PostService {
@@ -44,10 +46,9 @@ public class PostServiceImpl implements PostService {
                 int size = 10;
 
                 Pageable pageable = PageRequest.of(
-                        page,
-                        size,
-                        Sort.by(Sort.Direction.DESC, "createdAt")
-                        );
+                                page,
+                                size,
+                                Sort.by(Sort.Direction.DESC, "createdAt"));
 
                 Page<Post> posts = postRepository.findAllByUserId(userId, pageable);
 
@@ -146,28 +147,46 @@ public class PostServiceImpl implements PostService {
                 return postRepository.save(newPost);
         }
 
-@Override
-@Transactional
-public Post updatePost(Long userId, Long postId, PostInputDTO postInput) {
-      Post existingPost = postRepository.findByIdAndUserId(postId, userId)
-        .orElseThrow(() -> new RuntimeException("Post not found or not owned by you"));
+        @Override
+        @Transactional
+        public Post updatePost(Long userId, Long postId, PostInputDTO postInput) {
+                Post existingPost = postRepository.findByIdAndUserId(postId, userId)
+                                .orElseThrow(() -> new RuntimeException("Post not found or not owned by you"));
 
+                existingPost.setTitle(postInput.getTitle());
+                existingPost.setContent(postInput.getContent());
 
-    existingPost.setTitle(postInput.getTitle());
-    existingPost.setContent(postInput.getContent());
+                if (postInput.getMediaType() != null) {
+                        existingPost.setMediaType(postInput.getMediaType());
+                }
+                if (postInput.getMedia() != null) {
+                        String mediaUrl = fileStorageService.saveFile(postInput.getMedia(),
+                                        FileTypeConstants.POST_MEDIA_DIR, FileTypeConstants.MEDIA_TYPES);
+                        existingPost.setMediaUrl(mediaUrl);
+                }
 
-    if (postInput.getMediaType() != null) {
-        existingPost.setMediaType(postInput.getMediaType());
-    }
-    if (postInput.getMedia() != null) {
-        String mediaUrl = fileStorageService.saveFile(postInput.getMedia(), 
-                        FileTypeConstants.POST_MEDIA_DIR, FileTypeConstants.MEDIA_TYPES);
-        existingPost.setMediaUrl(mediaUrl);
-    }
+                return postRepository.save(existingPost);
+        }
 
-    return postRepository.save(existingPost);
-}
+        @Override
+        public UserDTO getUserByPostId(long postId) {
+                return postRepository.findById(postId)
+                                .map(Post::getUser)
+                                .map(this::toDTO) // Assume you have a mapper method
+                                .orElse(null);
+        }
 
+        private UserDTO toDTO(User user) {
+                return new UserDTO(
+                                user.getId(),
+                                user.getEmail(),
+                                user.getFirstName(),
+                                user.getLastName(),
+                                user.getAvatar(),
+                                user.getNickname(),
+                                user.getDateOfBirth(),
+                                user.isAdmin());
+        }
 
         // @Override
         // public void deletePost(Long id) {

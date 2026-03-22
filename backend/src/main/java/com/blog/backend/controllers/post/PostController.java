@@ -2,6 +2,7 @@ package com.blog.backend.controllers.post;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,19 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
 import com.blog.backend.dtos.post.PostInputDTO;
+import com.blog.backend.dtos.user.UserDTO;
 import com.blog.backend.services.post.PostService;
-
 import lombok.RequiredArgsConstructor;
-// import org.springframework.web.bind.annotation.RequestHeader;
 import com.blog.backend.models.post.Post;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-// import io.jsonwebtoken.JwtException;
-// import org.springframework.http.HttpStatus;
-// import java.lang.RuntimeException;
-// import java.lang.Exception;
 import org.springframework.data.domain.Page;
-// import org.springframework.data.domain.Pageable;
 import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.dtos.post.PaginatedPostsDTO;
 import com.blog.backend.security.PrincipalUser;
@@ -41,21 +35,20 @@ public class PostController {
         Post saved = postService.createPost(user_id, dto);
         return ResponseEntity.ok(saved);
     }
+
     /**
      * Update an existing post:
      */
 
- @PutMapping(value = "/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<Post> updatePost(
-        @PathVariable Long postId,
-        @ModelAttribute PostInputDTO dto
-) {
-    Long userId = this.getUserIdFromContext();
+    @PutMapping(value = "/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Post> updatePost(
+            @PathVariable Long postId,
+            @ModelAttribute PostInputDTO dto) {
+        Long userId = this.getUserIdFromContext();
 
-
-    Post saved = postService.updatePost(userId, postId, dto);
-    return ResponseEntity.ok(saved);
-}
+        Post saved = postService.updatePost(userId, postId, dto);
+        return ResponseEntity.ok(saved);
+    }
 
     // Get all the posts component:
     @GetMapping
@@ -117,4 +110,17 @@ public ResponseEntity<Post> updatePost(
                 .getPrincipal();
         return currentUser.getId();
     }
+
+    /**
+     * Get the user by postId:
+     */
+    @GetMapping("/user")
+    public ResponseEntity<UserDTO> getUserByPostId(@RequestParam("postId") Long postId) {
+        UserDTO user = this.postService.getUserByPostId(postId);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
+    }
+
 }

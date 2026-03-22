@@ -3,12 +3,12 @@ package com.blog.backend.repositories.post;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.blog.backend.models.post.Post;
-
-import io.micrometer.common.lang.NonNull;
+import com.blog.backend.models.user.User;
 import jakarta.annotation.Nonnull;
 
 // import com.blog.backend.models.user.User;
@@ -21,12 +21,14 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
   @EntityGraph(attributePaths = { "user", "comments", "votes" })
-  Page<Post> findAllByUserId(@NonNull Long userId, Pageable pageable);
+  Page<Post> findAllByUserId(@Nonnull Long userId, Pageable pageable);
 
   @EntityGraph(attributePaths = { "user" })
   Page<Post> findAll(Pageable pageable);
   List<Post> findByTitleContaining(String keyword);
   Optional<Post> findByIdAndUserId(@Nonnull Long id, Long userId);
+  @Query("SELECT p.user FROM Post p WHERE p.id = :postId")
+  Optional<User> findUserByPostId(@Param("postId") Long postId);
 }
 
 /*
