@@ -26,6 +26,8 @@ ngOnInit() {
    this.userService.getUserById(id).subscribe({
           next: userData => {
             this.user.set(userData);
+            console.log("the is is the user the admin wants to inestigate: ", this.user());
+            
           },
           error: err => {
             console.error('Failed to load user', err);
