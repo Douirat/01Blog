@@ -25,7 +25,6 @@ ngOnInit() {
   const id = this.route.snapshot.params['id'];
    this.userService.getUserById(id).subscribe({
           next: userData => {
-            console.log("the admin wants to visit the profile of: ", userData);
             this.user.set(userData);
           },
           error: err => {

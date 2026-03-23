@@ -2,6 +2,8 @@ import {Component, signal, OnInit } from '@angular/core';
 import { Report } from '../../types/report';
 import { ReportService } from '../../core/report/report-service';
 import { CommonModule } from '@angular/common';
+import { PostService } from '../../core/post/post-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reports',
@@ -18,7 +20,7 @@ total = signal(0);
 totalReports = signal(0);
 
 
-public constructor(private reportService: ReportService){}
+public constructor(private reportService: ReportService, private postService: PostService, private router: Router){}
 
 ngOnInit(): void {
   this.loadAllReports()
@@ -32,7 +34,6 @@ this.reportService.getAllReports(this.page()).subscribe({
             this.isLast.set(res.last);
             this.total.set(res.totalPages);
             this.totalReports.set(res.totalElements);
-            console.log("the admin want to see all reports: ", this.reports(), this.totalReports(), this.isLast(), this.total());
           },
           error: err => {
             console.error('Failed to load reports', err);
@@ -52,6 +53,17 @@ loadPrevPage(){
 }
 
 gotoTheReported(postId: number){
-    console.log("the reported post is: ", postId);
+    this.postService.getUserByPostId(postId).subscribe({
+      next: u => {
+        
+         this.router.navigate(['/profile-admin', u.id]); 
+      },
+      error: e =>{
+        console.log("TODO: i will have to create the pop up mechanism for error visibility.");
+        
+      },
+    }
+    )
+    
 }
 }

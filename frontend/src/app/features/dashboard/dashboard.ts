@@ -42,9 +42,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.user.set(this.authentication.user())
-    console.log('Current user changed:', this.user());
     this.loadPosts();
-    console.log("The loaded posts: ", this.posts());
   }
 
 
@@ -54,10 +52,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
 
   loadPosts() {
-    console.log("the loged user is: ", this.user());
-    
     this.postService.fetchPosts(this.currentPage()).subscribe((data: PaginatedPosts) => {
-      console.log("The loaded posts: ", data);
       if( data ){
         this.posts.set(data.content);
         this.lastPage.set(data.last);
@@ -116,7 +111,6 @@ export class Dashboard implements OnInit, OnDestroy {
     }
     this.postService.createVote(voteRequest).subscribe({
       next: (response) => {
-        console.log('Vote response:', response.message);
         if (response.success) {
           this.posts
 
@@ -125,8 +119,6 @@ export class Dashboard implements OnInit, OnDestroy {
               if (post.id === postId) {
                 post.likes = response.postDTO.likes;
                 post.dislikes = response.postDTO.dislikes;
-                console.log("vote response: ----> ", response);
-                console.log("post after update: ---> ", post);
               }
               return post;
 

@@ -48,13 +48,10 @@ export class Registration {
       this.errorMessage = '';
       // get the form values and create the user object:
       const newUser: RegistrationFormData = this.form.value;
-      // console.log("The new created user is: " , newUser);
-
       // call the authentication service to register the user:
       this.authService.register(newUser).subscribe({
         // Success handler:
         next: (res => {
-          console.log("successful registration: ", res);
           // navigation to a successful page or login if the registration doesnt create session
           this.router.navigate(['/login'])
           // Or you could show a success message

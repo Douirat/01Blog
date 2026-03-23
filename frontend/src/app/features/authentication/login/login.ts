@@ -60,7 +60,6 @@ export class Login {
 
     this.authService.login(loginPayload).subscribe({
       next: res => {
-        console.log('Login successful:', res);
         this.router.navigate(['/dashboard']);
       },
       error: err => {

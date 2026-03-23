@@ -30,11 +30,8 @@ export class PostComments {
 
   //  Load comments:
   loadComments() {
-    console.log("______-__-______", this.postId);
     this.commentService.getComments(this.postId, this.page()).subscribe(res => {
       this.comments.set(res?.content);
-      console.log("___ - - ___", res);
-      
       this.totalPages.set(res.totalPages);
       this.lastPage.set(res.last);
     })

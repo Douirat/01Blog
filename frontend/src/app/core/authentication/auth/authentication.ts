@@ -64,7 +64,6 @@ export class Authentication {
 
   // register the user:
   register(user: RegistrationFormData): Observable<UserResponse> {
-    console.log('[AuthService] Registering user: ', user);
     const formData = new FormData();
     formData.append("email", user.email);
     formData.append("password", user.password);
@@ -81,7 +80,6 @@ export class Authentication {
       tap(response => {
         // store the token and user data:
         this.setSession(response)
-        console.log('[AuthService] Registration successful');
       }),
       catchError(this.handleError('register'))
     )
@@ -98,11 +96,9 @@ export class Authentication {
    */
 
   login(payload: LoginPayload): Observable<UserResponse> {
-    console.log('[AuthService]: login in user', payload);
     return this.http.post<UserResponse>(`${this.apiUrl}/login`, payload).pipe(
       tap(response => {
         this.setSession(response)
-        console.log('[AuthService] Login successful')
       }),
       catchError(this.handleError('login'))
     )
@@ -116,7 +112,6 @@ export class Authentication {
  * but doesn't wait for response since JWT is stateless.
  */
   logout(): Observable<void> {
-    console.log('[AuthService] Logging out user');
 
     // Call backend logout endpoint (for any server-side cleanup)
     return this.http.delete<void>(`${this.apiUrl}/logout`).pipe(

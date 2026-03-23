@@ -5,15 +5,20 @@ import { signal } from '@angular/core';
   providedIn: 'root',
 })
 export class Store {
-  private _user = signal<any | null>(null);
+  private user = signal<any | null>(null);
 
-  readonly user = this._user.asReadonly();
+  readonly _user = this.user.asReadonly();
 
   set(user: any) {
-    this._user.set(user);
+    this.user.set(user);
+  }
+
+  get():any{
+    return this._user();
   }
 
   clear() {
-    this._user.set(null);
+    this.user.set(null);
   }
 }
+// TODO: user the single tone to inhance authentication later:

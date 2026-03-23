@@ -5,7 +5,7 @@ import { PostInput, PaginatedPosts } from '../../types/post';
 import { Observable } from 'rxjs';
 import { VoteRequest, VoteResponse } from '../../types/vote';
 import { Post } from '../../types/post';
-
+import { UserDTO } from '../../types/user';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +58,6 @@ export class PostService {
     if (postData.media) {
       formData.append('media', postData.media);
     }
-    console.log("the post to updat ---> : ", postData);
 
     return this.http.put<Post>(
       `${this.apiUrl}/${postId}`,
@@ -70,4 +69,9 @@ export class PostService {
     return this.http.post<VoteResponse>(this.voteApiUrl, vote);
   }
 
+  // Get user by postId:
+getUserByPostId(postId: number): Observable<UserDTO> {
+  let params = new HttpParams().set("postId", postId.toString());
+  return this.http.get<UserDTO>(this.apiUrl + "/user", { params });
+}
 }

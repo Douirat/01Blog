@@ -115,7 +115,7 @@ public class PostController {
      * Get the user by postId:
      */
     @GetMapping("/user")
-    public ResponseEntity<UserDTO> getUserByPostId(@RequestParam("postId") Long postId) {
+    public ResponseEntity<UserDTO> getUserByPostId(@RequestParam("postId") long postId) {
         UserDTO user = this.postService.getUserByPostId(postId);
         if (user == null) {
             return ResponseEntity.notFound().build();

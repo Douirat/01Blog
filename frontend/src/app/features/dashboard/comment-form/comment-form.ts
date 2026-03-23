@@ -51,7 +51,6 @@ export class CommentForm implements OnChanges {
 
 
   onSubmit() {
-    console.log("the comment ---> ", this.form.getRawValue());
 
 
     if (this.form.valid) {

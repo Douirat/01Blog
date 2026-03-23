@@ -22,7 +22,6 @@ export class Users {
 
 
   ngOnInit(): void {
-    console.log("????");
     const currentUser = this.auth.user();
     this.loggedUserId.set(currentUser?.user?.id);
     this.loadUsers()
@@ -37,16 +36,12 @@ export class Users {
       this.users.set(
         this.users().filter(user => user.id !== this.loggedUserId())
       );
-
       this.lastUsers.set(data.last);
       this.totalUser.set(data.totalPages);
-      console.log("the current user: ", this.loggedUserId());
-
     })
   }
 
   visiteProfile(user: UserDTO): void {
-    console.log(`User ID clicked: ${user.id}`);
     this.router.navigate(['/profile', user.id]);
   }
 

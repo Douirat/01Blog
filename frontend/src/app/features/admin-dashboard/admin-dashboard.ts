@@ -26,7 +26,6 @@ export class AdminDashboard implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("admin component has started. <><><><>");
     const currentUser = this.auth.user();
     this.loggedUserId.set(currentUser?.user?.id);
     this.loadUsers();
@@ -37,8 +36,6 @@ export class AdminDashboard implements OnInit {
       this.users.set(data.content.filter(user => user.id !== this.loggedUserId()));
       this.last.set(data.last);
       this.totalPages.set(data.totalPages);
-
-      console.log("Logged user ID:", this.loggedUserId());
     }
     );
   }
@@ -50,7 +47,6 @@ export class AdminDashboard implements OnInit {
 
   // Navigate to a user's profile
   adminVisitProfile(user: UserDTO): void { 
-    // console.log("uuuu", user);
     this.router.navigate(['/profile-admin', user.id]); 
   }
 }

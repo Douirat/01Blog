@@ -30,7 +30,6 @@ updateReportsCount(): void {
   this.reportService.getReportsCount().subscribe({
     next: (data) => {
       this.reportsNumber.set(data['count']);
-      console.log("the reports number is ----->", this.reportsNumber);
       
     },
     error: (err) => {
@@ -44,7 +43,6 @@ updateReportsCount(): void {
   logout() {
     this.auth.logout().subscribe({
       next: () => {
-        console.log('User logged out');
         this.router.navigate(['/login']);
       },
       error: (err) => {
@@ -56,23 +54,19 @@ updateReportsCount(): void {
 
 
   login() {
-    console.log('Login clicked');
     this.router.navigate(['/login']);
   }
 
   register() {
-    console.log('Register clicked');
     this.router.navigate(['/register']);
   }
 
   goHome() {
     if(this.isAdmin()){ this.updateReportsCount()};
-    console.log('Home clicked');
     this.router.navigate(['/']);
   }
 
 goToProfile() {
-  console.log('Profile clicked', this.user());
   this.router.navigate(['/profile', this.user()?.user?.id]);
 }
 

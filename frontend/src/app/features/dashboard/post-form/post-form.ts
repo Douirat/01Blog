@@ -52,7 +52,6 @@ postSaved = output<Post>();
 ngOnInit(): void {
   if (this.postToUpdate) {
     this.updateState.set(true);
-    console.log("POST TO UPDATE: ", this.postToUpdate);
     this.post.set(this.postToUpdate);
 
     // Patch the form so the input fields show the existing values
