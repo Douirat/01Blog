@@ -34,15 +34,13 @@ public class PostServiceImpl implements PostService {
         private PostRepository postRepository;
         @Autowired
         private UserRepository userRepository;
-        // private static final String UPLOAD_DIR = "uploads/";
-        // private static final String BASE_URL = "http://localhost:8080/";
 
         @Autowired
         private FileStorageService fileStorageService;
 
         // get posts for a specific user:
         @Override
-        public Page<PostDetailDTO> getUserPosts(int page, Long userId) {
+        public Page<PostDetailDTO> getUserPosts(int page, long userId) {
                 int size = 10;
 
                 Pageable pageable = PageRequest.of(
@@ -119,11 +117,6 @@ public class PostServiceImpl implements PostService {
 
         }
 
-        // @Override
-        // public Optional<Post> getPostById(Long id) {
-        // return postRepository.findById(id);
-        // }
-
         @Override
         public Post createPost(Long userId, PostInputDTO post) {
                 String mediaUrl = null;
@@ -188,8 +181,37 @@ public class PostServiceImpl implements PostService {
                                 user.isAdmin());
         }
 
-        // @Override
-        // public void deletePost(Long id) {
-        // postRepository.deleteById(id);
-        // }
+        @Override
+        public Page<PostDetailDTO> getReportedPosts(int page, long userId) {
+                int size = 10;
+                Pageable pageable = PageRequest.of(
+                                page,
+                                size,
+                                Sort.by(Sort.Direction.DESC, "createdAt"));
+                Page<Post> posts = this.postRepository.findAllReportedPosts(pageable, userId);
+                return posts.map(post -> {
+
+                        UserSummaryDTO userSummary = new UserSummaryDTO(
+                                        post.getUser().getId(),
+                                        post.getUser().getNickname() // matches DTO
+                        );
+
+                        int likes = (int) post.getVotes().stream().filter(Vote::isLiked).count();
+                        int dislikes = (int) post.getVotes().stream().filter(v -> !v.isLiked()).count();
+
+                        int commentsCount = post.getComments().size();
+
+                        return new PostDetailDTO(
+                                        post.getId(),
+                                        post.getTitle(),
+                                        post.getContent(),
+                                        post.getMediaType(),
+                                        post.getMediaUrl(),
+                                        userSummary,
+                                        likes,
+                                        dislikes,
+                                        commentsCount,
+                                        post.getCreatedAt());
+                });
+        }
 }

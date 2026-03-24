@@ -123,4 +123,24 @@ public class PostController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/reports")
+    public ResponseEntity<PaginatedPostsDTO> getReportedPosts(@RequestParam("page") int page,
+            @RequestParam("userId") long userId) {
+        if (page < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        Page<PostDetailDTO> posts = postService.getAllPosts(page);
+
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        PaginatedPostsDTO response = new PaginatedPostsDTO(
+                posts.getContent(),
+                posts.isLast(),
+                posts.getTotalPages(),
+                posts.getTotalElements());
+        return ResponseEntity.ok(response);
+    }
+
 }

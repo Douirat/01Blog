@@ -1,1 +1,15 @@
-<p>profile-admin works!</p>
+<div class="profile_info">
+    <div id="img_container">
+        <img [src]="user()?.avatar" alt="profile">
+    </div>
+    <div id="about">
+        <p>{{user()?.firstName}} {{user()?.lastName}}</p>
+        <small>{{user()?.email}}</small>
+    </div>
+    <div id="admin_deisions">
+        <button (click)="banUser(+user()?.id!)">ban</button>
+    </div>
+    <div id="banned_posts">
+    
+    </div>
+</div>
