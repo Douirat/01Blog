@@ -6,8 +6,10 @@
         <p>{{user()?.firstName}} {{user()?.lastName}}</p>
         <small>{{user()?.email}}</small>
     </div>
-    <div id="admin_deisions">
-        <button (click)="banUser(+user()?.id!)">ban</button>
+    <div class="moderation">
+        <button class="ban-btn" (click)="banUser(+user()?.id!)">
+            🚫 Ban user
+        </button>
     </div>
 
     <div id="banned_posts">
@@ -15,8 +17,31 @@
         <h3>Reported posts</h3>
 
         @for (post of reportedPosts(); track post.id) {
-        <div class="post_card">
-            <p>{{ post.content }}</p>
+        <div class="post-card">
+
+            <div class="post-header">
+                <span class="author">@{{ post.user.nickName }}</span>
+                <span class="date">{{ post.createdAt | date:'medium' }}</span>
+            </div>
+
+            <h3 class="title">{{ post.title }}</h3>
+
+            <p class="content">
+                {{ post.content }}
+            </p>
+
+            <!-- show media only if exists -->
+            <img style="width: 200px; height: auto;" *ngIf="post.mediaType === 'image'" [src]="post.mediaUrl"
+                class="post-image">
+
+            <div class="post-stats">
+                <span>👍 {{ post.likes }}</span>
+                <span>👎 {{ post.dislikes }}</span>
+                <span>💬 {{ post.commentsCount }}</span>
+            </div>
+            <div class="moderation">
+                <button class="ban-btn" (click)="banPost(+post.id)">🚫 Ban post</button>
+            </div>
         </div>
         }
         }

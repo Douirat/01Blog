@@ -55,7 +55,9 @@ export class ProfileAdmin implements OnInit {
   loadReportedPosts(): void {
     this.postService.getReportedPosts(this.page(), this.userId()).subscribe({
       next: res => {
-        if(res != null){
+        console.log("res ", res);
+
+        if (res != null) {
           this.reportedPosts.set(res.content);
           this.isLast.set(res.last);
           this.totalElements.set(res.totalElements);
@@ -72,5 +74,9 @@ export class ProfileAdmin implements OnInit {
 
   banUser(userId: number | undefined): void {
     console.log("the admin wants to ban this user: ", userId);
+  }
+
+  banPost(postId: number):void {
+    console.log("the admin wants to ban this post: ", postId);
   }
 }
