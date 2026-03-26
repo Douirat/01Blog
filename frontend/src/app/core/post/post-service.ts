@@ -74,4 +74,17 @@ getUserByPostId(postId: number): Observable<UserDTO> {
   let params = new HttpParams().set("postId", postId.toString());
   return this.http.get<UserDTO>(this.apiUrl + "/user", { params });
 }
+
+// get reported posts:
+getReportedPosts(page: number, userId: number | undefined): Observable<PaginatedPosts> {
+  let params = new HttpParams()
+    .set("page", page.toString());
+
+  if (userId) {
+    params = params.set("userId", userId.toString());
+  }
+
+  return this.http.get<PaginatedPosts>(this.apiUrl + "/reports", { params });
+}
+
 }

@@ -129,7 +129,7 @@ public class PostController {
         if (page < 0) {
             return ResponseEntity.badRequest().build();
         }
-        Page<PostDetailDTO> posts = postService.getAllPosts(page);
+        Page<PostDetailDTO> posts = postService.getReportedPosts(page, userId);
 
         if (posts.isEmpty()) {
             return ResponseEntity.noContent().build();

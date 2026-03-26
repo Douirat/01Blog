@@ -1,28 +1,17 @@
 package com.blog.backend.services.report;
 
-// import necessary models:
+
 import com.blog.backend.models.report.Report;
 import com.blog.backend.models.user.User;
 import com.blog.backend.models.post.Post;
-
-// import the necessary repositories:
 import com.blog.backend.repositories.report.ReportRepository;
 import com.blog.backend.repositories.user.UserRepository;
 import com.blog.backend.repositories.post.PostRepository;
-
-// Import the necessary dtos:
 import com.blog.backend.dtos.report.ReportInputDTO;
 import com.blog.backend.dtos.report.ReportResponseDTO;
 import com.blog.backend.types.report.ReportStatus;
-
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-
-// Pagination imports:
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;

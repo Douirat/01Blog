@@ -57,7 +57,6 @@ public class ReportController {
         
         @GetMapping("/user")
         public ResponseEntity<PaginatedReportsDTO> getUserReports(@RequestParam("userId") Long userId, @RequestParam(value = "page", defaultValue = "0") int page) {
-        System.err.println("called -------> om");
         if(page < 0) return ResponseEntity.badRequest().build();
         Page<ReportResponseDTO> reports = this.reportService.getUserReports(page, userId);
         if(reports.isEmpty())return ResponseEntity.noContent().build();

@@ -1,27 +1,23 @@
 package com.blog.backend.services.post;
 
+
 import com.blog.backend.models.post.Post;
 import com.blog.backend.repositories.post.PostRepository;
+import com.blog.backend.repositories.report.ReportRepository;
 import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.repositories.user.UserRepository;
 import com.blog.backend.models.user.User;
 import com.blog.backend.services.file.FileStorageService;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.blog.backend.constants.FileTypeConstants;
 import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.dtos.post.UserSummaryDTO;
 import com.blog.backend.dtos.user.UserDTO;
-
-// Pagination imports:
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import com.blog.backend.models.vote.Vote;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +33,9 @@ public class PostServiceImpl implements PostService {
 
         @Autowired
         private FileStorageService fileStorageService;
+
+        @Autowired
+        private ReportRepository reportRepository;
 
         // get posts for a specific user:
         @Override
@@ -183,12 +182,13 @@ public class PostServiceImpl implements PostService {
 
         @Override
         public Page<PostDetailDTO> getReportedPosts(int page, long userId) {
+                System.out.println("the user i: " + userId + " the page: " + page);
                 int size = 10;
                 Pageable pageable = PageRequest.of(
                                 page,
                                 size,
                                 Sort.by(Sort.Direction.DESC, "createdAt"));
-                Page<Post> posts = this.postRepository.findAllReportedPosts(pageable, userId);
+                Page<Post> posts = this.reportRepository.findAllReportedPosts(pageable, userId);
                 return posts.map(post -> {
 
                         UserSummaryDTO userSummary = new UserSummaryDTO(

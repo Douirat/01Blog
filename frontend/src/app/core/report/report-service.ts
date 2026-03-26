@@ -36,5 +36,6 @@ export class ReportService {
     }
     return this.http.get<PaginatedReports>(this.reportApiUrl+"/user", {params});
   }
+
 }
 

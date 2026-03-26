@@ -9,7 +9,16 @@
     <div id="admin_deisions">
         <button (click)="banUser(+user()?.id!)">ban</button>
     </div>
+
     <div id="banned_posts">
-    
+        @if (totalPages() > 0) {
+        <h3>Reported posts</h3>
+
+        @for (post of reportedPosts(); track post.id) {
+        <div class="post_card">
+            <p>{{ post.content }}</p>
+        </div>
+        }
+        }
     </div>
 </div>

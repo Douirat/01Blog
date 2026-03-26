@@ -1,7 +1,6 @@
 package com.blog.backend.security;
 
 import com.blog.backend.util.JwtUtil;
-import com.blog.backend.security.PrincipalUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -14,7 +13,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.security.core.GrantedAuthority;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;

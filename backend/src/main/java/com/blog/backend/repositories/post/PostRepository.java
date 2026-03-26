@@ -17,15 +17,12 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
   @EntityGraph(attributePaths = { "user", "comments", "votes" })
   Page<Post> findAllByUserId(@Nonnull Long userId, Pageable pageable);
-
   @EntityGraph(attributePaths = { "user" })
   Page<Post> findAll(Pageable pageable);
   List<Post> findByTitleContaining(String keyword);
   Optional<Post> findByIdAndUserId(@Nonnull Long id, Long userId);
   @Query("SELECT p.user FROM Post p WHERE p.id = :postId")
   Optional<User> findUserByPostId(@Param("postId") Long postId);
-  @Query("SELECT p FROM Post p JOIN p.reports WHERE p.user.id = :userId")
-  Page<Post> findAllReportedPosts(@Nonnull Pageable page, long userId);
 }
 
 /*

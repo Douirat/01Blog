@@ -3,17 +3,11 @@ package com.blog.backend.models.report;
 import com.blog.backend.types.report.ReportStatus;
 import com.blog.backend.models.user.User;
 import com.blog.backend.models.post.Post;
-
 import jakarta.persistence.*;
-// import lombok.Getter;
-// import lombok.Setter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-
-// import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.LocalDateTime;
 
 @Entity
