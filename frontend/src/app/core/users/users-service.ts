@@ -23,4 +23,10 @@ export class UsersService {
     return this.http.get<UserDTO>(this.apiUrl + '/user', { params });
   }
 
+  banUser(userId:number):Observable<string>{
+    let params = new HttpParams();
+    params.set("id", userId);
+    return this.http.patch<string>(this.apiUrl, {params})
+  }
+
 }

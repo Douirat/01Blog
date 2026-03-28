@@ -153,7 +153,7 @@ public class PostController {
      * @return the ok response is a boolean in it selfe
      */
     @PatchMapping
-    public ResponseEntity<?> banPost(@RequestParam long id) {
+    public ResponseEntity<String> banPost(@RequestParam long id) {
 
         boolean banned = postService.banPost(id);
 

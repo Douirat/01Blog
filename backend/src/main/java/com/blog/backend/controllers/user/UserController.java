@@ -172,7 +172,7 @@ public class UserController {
         }
 
         @PatchMapping
-        public ResponseEntity<?> banUser(@RequestParam long id) {
+        public ResponseEntity<String> banUser(@RequestParam long id) {
                 if(id == 1){
                          return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                         .body("Admin ban not allowed");

@@ -87,4 +87,11 @@ getReportedPosts(page: number, userId: number | undefined): Observable<Paginated
   return this.http.get<PaginatedPosts>(this.apiUrl + "/reports", { params });
 }
 
+// ban a post:
+banPost(postId: number):Observable<string>{
+let params = new HttpParams();
+params.set("id", postId);
+return this.http.patch<string>(this.apiUrl, {params});
+}
+
 }
