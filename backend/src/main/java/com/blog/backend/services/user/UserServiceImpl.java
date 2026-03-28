@@ -11,6 +11,9 @@ import com.blog.backend.dtos.user.UserRegistrationDTO;
 
 import com.blog.backend.models.user.User;
 import com.blog.backend.util.JwtUtil;
+
+import jakarta.transaction.Transactional;
+
 import com.blog.backend.services.file.FileStorageService;
 import com.blog.backend.constants.FileTypeConstants;
 
@@ -126,11 +129,6 @@ class UserServiceImpl implements UserService {
         });
     };
 
-    // @Override
-    // public Optional<User> logoutUser(Long userId) {
-    // // Implementation for logging out a user
-    // return Optional.empty();
-    // }
 
     @Override
     public Optional<AuthResponseDTO> checkStatus(String token) {
@@ -161,4 +159,15 @@ class UserServiceImpl implements UserService {
             return authResponse;
         });
     }
+
+    
+@Transactional
+public boolean banUser(long userId){
+    Optional<User> optUser = this.userRepository.findById(userId);
+    if(optUser.isEmpty()) return false;
+    User user = optUser.get();
+    if(user.isBanned()) return true;
+    user.setBanned(true);
+    return true;
+}
 }

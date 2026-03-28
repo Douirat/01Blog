@@ -2,25 +2,15 @@ package com.blog.backend.controllers.user;
 
 import com.blog.backend.dtos.user.LoginRequestDTO;
 import com.blog.backend.dtos.user.UserRegistrationDTO;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+// This maps the http request data to a java object.
 import org.springframework.web.bind.annotation.*;
-
 import com.blog.backend.dtos.user.AuthResponseDTO;
-
-// import com.blog.backend.models.user.User;
 import com.blog.backend.services.user.UserService;
-// import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.ModelAttribute; // This maps the http request data to a java object.
 
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
-
-// import java.util.Optional;
-// import java.util.Map;
-// import java.util.HashMap;
-// import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @RestController
 @RequestMapping("/api/users")
@@ -179,5 +169,16 @@ public class UserController {
                 // .badRequest()
                 // .body(new ErrorResponseDTO("Validation failed", errors));
                 // }
+        }
+
+        @PatchMapping
+        public ResponseEntity<?> banUser(@RequestParam long userId) {
+                boolean banned = this.userService.banUser(userId);
+                if (!banned) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                        .body("User not found");
+                }
+                return ResponseEntity.ok().body("User banned successfully");
+
         }
 }
