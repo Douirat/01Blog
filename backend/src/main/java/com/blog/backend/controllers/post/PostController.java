@@ -17,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import com.blog.backend.models.post.Post;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
+
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.dtos.post.PaginatedPostsDTO;
@@ -152,15 +155,16 @@ public class PostController {
      *           return this.http.patch(this.baseUrl, {params});
      * @return the ok response is a boolean in it selfe
      */
-    @PatchMapping
-    public ResponseEntity<String> banPost(@RequestParam long id) {
 
+    @PatchMapping
+    public ResponseEntity<Map<String, String>> banPost(@RequestParam long id) {
         boolean banned = postService.banPost(id);
 
         if (!banned) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Post not found");
+                    .body(Map.of("message", "Post not found"));
         }
-        return ResponseEntity.ok().body("Post banned successfully");
+
+        return ResponseEntity.ok(Map.of("message", "Post banned successfully"));
     }
 }

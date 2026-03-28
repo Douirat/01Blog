@@ -67,16 +67,27 @@ export class ProfileAdmin implements OnInit {
     })
   }
 
-  // Load all user's posts:
-  // loadUserPosts(): void {
-  // }
 
-  banUser(userId: number | undefined): void {
-    console.log("the admin wants to ban this user: ", userId);
+  banUser(userId: number): void {
+    this.userService.banUser(userId).subscribe({
+      next: res => {
+        console.log(res);
+      },
+      error: err => {
+        console.log(err);
+      },
+    });
   }
 
   banPost(postId: number): void {
-    console.log("the admin wants to ban this post: ", postId);
+    this.postService.banPost(postId).subscribe({
+      next: res => {
+        console.log(res);
+      },
+      error: err => {
+        console.log(err);
+      },
+    });
   }
 
   rejectReport(postId: number): void {

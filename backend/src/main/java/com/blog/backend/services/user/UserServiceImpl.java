@@ -2,25 +2,17 @@ package com.blog.backend.services.user;
 
 import org.springframework.stereotype.Service;
 import com.blog.backend.repositories.user.UserRepository;
-import com.blog.backend.services.user.UserService;
 import com.blog.backend.dtos.user.AuthResponseDTO;
-
 import com.blog.backend.dtos.user.UserDTO;
 import com.blog.backend.dtos.user.LoginRequestDTO;
 import com.blog.backend.dtos.user.UserRegistrationDTO;
-
 import com.blog.backend.models.user.User;
 import com.blog.backend.util.JwtUtil;
-
-import jakarta.transaction.Transactional;
-
 import com.blog.backend.services.file.FileStorageService;
 import com.blog.backend.constants.FileTypeConstants;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
 import java.util.Optional;
 
 @Service
@@ -160,14 +152,5 @@ class UserServiceImpl implements UserService {
         });
     }
 
-    
-@Transactional
-public boolean banUser(long userId){
-    Optional<User> optUser = this.userRepository.findById(userId);
-    if(optUser.isEmpty()) return false;
-    User user = optUser.get();
-    if(user.isBanned()) return true;
-    user.setBanned(true);
-    return true;
-}
+
 }

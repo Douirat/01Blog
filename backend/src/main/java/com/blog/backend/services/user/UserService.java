@@ -13,5 +13,5 @@ public interface UserService {
 
     Optional<AuthResponseDTO> checkStatus(String token);
 
-    boolean banUser(long userId);
+   
 }

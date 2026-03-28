@@ -6,4 +6,5 @@ import org.springframework.data.domain.Page;
 public interface ProfileService {
 Page<UserDTO> fetchUsers(int page);
 UserDTO fetchUserProfile(Long userId);
+ boolean banUser(long userId);
 }

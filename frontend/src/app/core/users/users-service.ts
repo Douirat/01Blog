@@ -24,9 +24,8 @@ export class UsersService {
   }
 
   banUser(userId:number):Observable<string>{
-    let params = new HttpParams();
-    params.set("id", userId);
-    return this.http.patch<string>(this.apiUrl, {params})
+    let params = new HttpParams().set("id", userId);
+    return this.http.patch<string>(this.apiUrl, null,{params})
   }
 
 }

@@ -88,10 +88,14 @@ getReportedPosts(page: number, userId: number | undefined): Observable<Paginated
 }
 
 // ban a post:
-banPost(postId: number):Observable<string>{
-let params = new HttpParams();
-params.set("id", postId);
-return this.http.patch<string>(this.apiUrl, {params});
+banPost(postId: number): Observable<string> {
+  const params = new HttpParams().set("id", postId.toString());
+
+  return this.http.patch<string>(
+    this.apiUrl,
+    null,
+    { params }
+  );
 }
 
 }

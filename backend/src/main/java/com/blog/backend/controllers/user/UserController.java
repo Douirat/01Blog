@@ -2,6 +2,9 @@ package com.blog.backend.controllers.user;
 
 import com.blog.backend.dtos.user.LoginRequestDTO;
 import com.blog.backend.dtos.user.UserRegistrationDTO;
+
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 // This maps the http request data to a java object.
@@ -171,18 +174,5 @@ public class UserController {
                 // }
         }
 
-        @PatchMapping
-        public ResponseEntity<String> banUser(@RequestParam long id) {
-                if(id == 1){
-                         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                        .body("Admin ban not allowed");
-                }
-                boolean banned = this.userService.banUser(id);
-                if (!banned) {
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                        .body("User not found");
-                }
-                return ResponseEntity.ok().body("User banned successfully");
 
-        }
 }

@@ -1,6 +1,11 @@
 package com.blog.backend.services.profile;
 
 import com.blog.backend.services.profile.ProfileService;
+
+import jakarta.transaction.Transactional;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import com.blog.backend.dtos.user.PaginatedUsersDTO;
 import com.blog.backend.dtos.user.UserDTO;
@@ -52,4 +57,15 @@ public class ProfileServiceImpl implements ProfileService {
                 user.isBanned()
         );
     }
+
+       
+@Transactional
+public boolean banUser(long userId){
+    Optional<User> optUser = this.userRepository.findById(userId);
+    if(optUser.isEmpty()) return false;
+    User user = optUser.get();
+    if(user.isBanned()) return true;
+    user.setBanned(true);
+    return true;
+}
 }
