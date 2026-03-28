@@ -172,8 +172,12 @@ public class UserController {
         }
 
         @PatchMapping
-        public ResponseEntity<?> banUser(@RequestParam long userId) {
-                boolean banned = this.userService.banUser(userId);
+        public ResponseEntity<?> banUser(@RequestParam long id) {
+                if(id == 1){
+                         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                        .body("Admin ban not allowed");
+                }
+                boolean banned = this.userService.banUser(id);
                 if (!banned) {
                         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                                         .body("User not found");
