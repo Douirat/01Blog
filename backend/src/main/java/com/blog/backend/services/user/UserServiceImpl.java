@@ -30,9 +30,9 @@ class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(FileStorageService fileStorage,
-                           UserRepository userRepository,
-                           JwtUtil jwtUtil,
-                           PasswordEncoder encoder) {
+            UserRepository userRepository,
+            JwtUtil jwtUtil,
+            PasswordEncoder encoder) {
         this.fileStorage = fileStorage;
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
@@ -49,8 +49,6 @@ class UserServiceImpl implements UserService {
                 || user.getLastName() == null || user.getNickname() == null || user.getDateOfBirth() == null) {
             return Optional.empty(); // Required fields are missing
         }
-
-  
 
         String avatarPath = null;
         if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
@@ -69,13 +67,13 @@ class UserServiceImpl implements UserService {
         newUser.setDateOfBirth(user.getDateOfBirth());
         newUser.setAvatar(avatarPath);
         newUser.setNickname(user.getNickname());
-              // Determine the admin by first insertion:
-        if (userRepository.count() == 0){
-        newUser.setAdmin(true);        
+        // Determine the admin by first insertion:
+        if (userRepository.count() == 0) {
+            newUser.setAdmin(true);
         } else {
-        newUser.setAdmin(false);
+            newUser.setAdmin(false);
         }
-        
+
         User savedUser = userRepository.save(newUser);
         UserDTO userDTO = new UserDTO(
                 savedUser.getId(),
@@ -85,7 +83,8 @@ class UserServiceImpl implements UserService {
                 savedUser.getAvatar(),
                 savedUser.getNickname(),
                 savedUser.getDateOfBirth(),
-                savedUser.isAdmin());
+                savedUser.isAdmin(),
+                savedUser.isBanned());
 
         String token = jwtUtil.generateToken(userDTO);
 
@@ -114,7 +113,8 @@ class UserServiceImpl implements UserService {
                     user.getAvatar(),
                     user.getNickname(),
                     user.getDateOfBirth(),
-                    user.isAdmin());
+                    user.isAdmin(),
+                    user.isBanned());
 
             String token = jwtUtil.generateToken(userDTO);
 
@@ -149,7 +149,8 @@ class UserServiceImpl implements UserService {
                     user.getAvatar(),
                     user.getNickname(),
                     user.getDateOfBirth(),
-                    user.isAdmin());
+                    user.isAdmin(),
+                    user.isBanned());
 
             String newToken = jwtUtil.generateToken(userDTO);
 

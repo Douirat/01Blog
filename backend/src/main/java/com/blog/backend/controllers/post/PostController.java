@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.dtos.user.UserDTO;
@@ -15,6 +16,7 @@ import com.blog.backend.services.post.PostService;
 import lombok.RequiredArgsConstructor;
 import com.blog.backend.models.post.Post;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.data.domain.Page;
 import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.dtos.post.PaginatedPostsDTO;
@@ -143,4 +145,22 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * 
+     * @param id
+     *           the frontend will be handled normally using:
+     *           return this.http.patch(this.baseUrl, {params});
+     * @return the ok response is a boolean in it selfe
+     */
+    @PatchMapping
+    public ResponseEntity<?> banPost(@RequestParam long id) {
+
+        boolean banned = postService.banPost(id);
+
+        if (!banned) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Post not found");
+        }
+        return ResponseEntity.ok().body("Post banned successfully");
+    }
 }

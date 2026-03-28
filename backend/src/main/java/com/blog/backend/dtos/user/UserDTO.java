@@ -20,6 +20,7 @@ public class UserDTO {
     private LocalDate dateOfBirth;
     @JsonProperty("isAdmin")
     private boolean isAdmin;
+    private boolean isBanned;
 
     // Constructor that maps User -> UserDTO
     // public UserDTO(User user) {

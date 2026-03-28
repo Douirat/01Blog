@@ -3,6 +3,7 @@
         <img [src]="user()?.avatar" alt="profile">
     </div>
     <div id="about">
+        <span><small>{{user()?.nickname}}</small></span>
         <p>{{user()?.firstName}} {{user()?.lastName}}</p>
         <small>{{user()?.email}}</small>
     </div>
@@ -41,6 +42,7 @@
             </div>
             <div class="moderation">
                 <button class="ban-btn" (click)="banPost(+post.id)">🚫 Ban post</button>
+                <button class="ban-btn" (click)="rejectReport(+post.id)">Reject ban</button>
             </div>
         </div>
         }

@@ -2,7 +2,6 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserDTO } from '../../types/user';
 import { ActivatedRoute } from '@angular/router';
-// import { Authentication } from '../../core/authentication/auth/authentication';
 import { UsersService } from '../../core/users/users-service';
 import { PostService } from '../../core/post/post-service';
 import { Post } from '../../types/post';
@@ -69,14 +68,18 @@ export class ProfileAdmin implements OnInit {
   }
 
   // Load all user's posts:
-  loadUserPosts(): void {
-  }
+  // loadUserPosts(): void {
+  // }
 
   banUser(userId: number | undefined): void {
     console.log("the admin wants to ban this user: ", userId);
   }
 
-  banPost(postId: number):void {
+  banPost(postId: number): void {
     console.log("the admin wants to ban this post: ", postId);
+  }
+
+  rejectReport(postId: number): void {
+    console.log("the admin wants to reject ban of this post: ", postId);
   }
 }

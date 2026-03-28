@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import com.blog.backend.dtos.report.ReportInputDTO;
 import com.blog.backend.dtos.report.ReportResponseDTO;
-import com.blog.backend.dtos.post.PaginatedPostsDTO;
 import com.blog.backend.dtos.report.PaginatedReportsDTO;
 import com.blog.backend.services.report.ReportService;
 import lombok.RequiredArgsConstructor;

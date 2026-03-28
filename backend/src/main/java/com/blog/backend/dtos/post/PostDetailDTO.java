@@ -12,5 +12,7 @@ public record PostDetailDTO(
         Integer likes,
         Integer dislikes,
         Integer commentsCount,
-        LocalDateTime createdAt) {
+        LocalDateTime createdAt,
+        boolean isBanned
+) {
 }

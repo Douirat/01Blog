@@ -28,6 +28,7 @@ export interface Post {
   dislikes: number;
   commentsCount: number;
   createdAt: string;
+  isBanned: boolean;
 }
 
 /*

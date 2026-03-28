@@ -1,6 +1,5 @@
 package com.blog.backend.services.post;
 
-
 import com.blog.backend.models.post.Post;
 import com.blog.backend.repositories.post.PostRepository;
 import com.blog.backend.repositories.report.ReportRepository;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import com.blog.backend.models.vote.Vote;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Sort;
@@ -70,7 +70,8 @@ public class PostServiceImpl implements PostService {
                                         likes,
                                         dislikes,
                                         commentsCount,
-                                        post.getCreatedAt());
+                                        post.getCreatedAt(),
+                                        post.isBanned());
 
                 });
 
@@ -111,7 +112,8 @@ public class PostServiceImpl implements PostService {
                                         likes,
                                         dislikes,
                                         commentsCount,
-                                        post.getCreatedAt());
+                                        post.getCreatedAt(),
+                                        post.isBanned());
                 });
 
         }
@@ -177,7 +179,8 @@ public class PostServiceImpl implements PostService {
                                 user.getAvatar(),
                                 user.getNickname(),
                                 user.getDateOfBirth(),
-                                user.isAdmin());
+                                user.isAdmin(),
+                                user.isBanned());
         }
 
         @Override
@@ -211,7 +214,30 @@ public class PostServiceImpl implements PostService {
                                         likes,
                                         dislikes,
                                         commentsCount,
-                                        post.getCreatedAt());
+                                        post.getCreatedAt(),
+                                        post.isBanned());
                 });
+        }
+
+        @Transactional
+        public boolean banPost(long id) {
+
+                Optional<Post> optionalPost = postRepository.findById(id);
+
+                if (optionalPost.isEmpty()) {
+                        return false; // post not found → frontend shows error
+                }
+
+                Post post = optionalPost.get();
+
+                // If already banned, you may decide what to do
+                if (post.isBanned()) {
+                        return true; // already banned → still success from UI POV
+                }
+
+                post.setBanned(true);
+                postRepository.save(post); // explicit save = clearer intent
+
+                return true;
         }
 }

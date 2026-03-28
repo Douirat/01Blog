@@ -21,6 +21,7 @@ export interface UserDTO {
     avatar?: File; // image (optional)
     nickname: string;
     isAdmin?: boolean;
+    banned: boolean;
 }
 
 // create an interface to represent the paginated users:

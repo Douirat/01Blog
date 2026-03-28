@@ -17,4 +17,6 @@ public interface UserService {
 
     Optional<AuthResponseDTO> checkStatus(String token);
 
+    
+
 }

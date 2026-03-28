@@ -43,13 +43,16 @@ public class User {
     private String nickname;
 
     @Column(name = "is_admin", nullable = false)
-    private boolean admin = false;  // Changed from isAdmin to admin
-
+    private boolean admin = false; // Changed from isAdmin to admin
+    
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean banned = false;
 
     @PrePersist
     protected void onCreate() {

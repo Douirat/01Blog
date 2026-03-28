@@ -31,7 +31,9 @@ public class ProfileServiceImpl implements ProfileService {
                     user.getAvatar(),
                     user.getNickname(),
                     user.getDateOfBirth(),
-                    user.isAdmin())
+                    user.isAdmin(),
+                    user.isBanned()
+                )
         );
     }
 
@@ -46,7 +48,8 @@ public class ProfileServiceImpl implements ProfileService {
                 user.getAvatar(),
                 user.getNickname(),
                 user.getDateOfBirth(),
-                user.isAdmin()
+                user.isAdmin(),
+                user.isBanned()
         );
     }
 }

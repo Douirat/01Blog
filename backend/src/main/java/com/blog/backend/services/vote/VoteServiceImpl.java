@@ -3,7 +3,6 @@ package com.blog.backend.services.vote;
 import com.blog.backend.models.vote.Vote;
 import com.blog.backend.models.post.Post;
 import com.blog.backend.models.user.User;
-import com.blog.backend.services.vote.VoteService;
 import com.blog.backend.repositories.vote.VoteRepository;
 import com.blog.backend.repositories.post.PostRepository;
 import com.blog.backend.repositories.user.UserRepository;
@@ -13,8 +12,6 @@ import com.blog.backend.dtos.post.PostDetailDTO;
 import org.springframework.transaction.annotation.Transactional;
 import com.blog.backend.dtos.vote.VoteRequestDTO;
 import java.util.Optional;
-
-import javax.management.RuntimeErrorException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -79,7 +76,9 @@ public class VoteServiceImpl implements VoteService {
                 likes,
                 dislikes,
                 0,
-                post.getCreatedAt());
+                post.getCreatedAt(),
+                post.isBanned()
+            );
         return new VoteResponseDTO(postDTO, true, message);
     }
 }
