@@ -35,14 +35,22 @@ export class PostService {
   }
 
   // A general full accessed method to fetch posts from backend:
-  fetchPosts(page: number, userId: number | undefined = undefined): Observable<PaginatedPosts> {
+  fetchPosts(page: number): Observable<PaginatedPosts> {
+    let params = new HttpParams().set('page', page.toString());
+    return this.http.get<PaginatedPosts>(this.apiUrl, { params });
+  }
+
+  // get posts for a specific profile:
+  getProfilePosts(page: number, userId: number | undefined = undefined): Observable<PaginatedPosts> {
+    console.log("the user id i want to fetch is: -------------->", userId);
     let params = new HttpParams().set('page', page.toString());
 
     if (userId !== undefined) {
       params = params.set('userId', userId.toString());
     }
-    return this.http.get<PaginatedPosts>(this.apiUrl, { params });
+    return this.http.get<PaginatedPosts>(this.apiUrlProfile, { params });
   }
+
 
   //  a method to update a post:
   updatePost(postId: number, postData: PostInput): Observable<Post> {
@@ -70,32 +78,32 @@ export class PostService {
   }
 
   // Get user by postId:
-getUserByPostId(postId: number): Observable<UserDTO> {
-  let params = new HttpParams().set("postId", postId.toString());
-  return this.http.get<UserDTO>(this.apiUrl + "/user", { params });
-}
-
-// get reported posts:
-getReportedPosts(page: number, userId: number | undefined): Observable<PaginatedPosts> {
-  let params = new HttpParams()
-    .set("page", page.toString());
-
-  if (userId) {
-    params = params.set("userId", userId.toString());
+  getUserByPostId(postId: number): Observable<UserDTO> {
+    let params = new HttpParams().set("postId", postId.toString());
+    return this.http.get<UserDTO>(this.apiUrl + "/user", { params });
   }
 
-  return this.http.get<PaginatedPosts>(this.apiUrl + "/reports", { params });
-}
+  // get reported posts:
+  getReportedPosts(page: number, userId: number | undefined): Observable<PaginatedPosts> {
+    let params = new HttpParams()
+      .set("page", page.toString());
 
-// ban a post:
-banPost(postId: number): Observable<string> {
-  const params = new HttpParams().set("id", postId.toString());
+    if (userId) {
+      params = params.set("userId", userId.toString());
+    }
 
-  return this.http.patch<string>(
-    this.apiUrl,
-    null,
-    { params }
-  );
-}
+    return this.http.get<PaginatedPosts>(this.apiUrl + "/reports", { params });
+  }
+
+  // ban a post:
+  banPost(postId: number): Observable<string> {
+    const params = new HttpParams().set("id", postId.toString());
+
+    return this.http.patch<string>(
+      this.apiUrl,
+      null,
+      { params }
+    );
+  }
 
 }

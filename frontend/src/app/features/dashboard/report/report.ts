@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ReportInput } from '../../../types/report';
 import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../core/report/report-service';
+import { ToastService } from '../../../core/toast/toast-service';
 
 @Component({
   selector: 'app-report',
@@ -10,9 +11,9 @@ import { ReportService } from '../../../core/report/report-service';
   templateUrl: './report.html',
   styleUrls: ['./report.scss'],
 })
-export class Report  {
+export class Report {
 
-  constructor(private reportService: ReportService){}
+  constructor(private reportService: ReportService, private toastService: ToastService) { }
 
   reportReason = signal<string | null>(null);
 
@@ -32,30 +33,25 @@ export class Report  {
     details: new FormControl('', Validators.required)
   });
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   // Update values dynamically when inputs change
-  //   if (changes['postId'] && this.postId != null) {
-  //     this.reportForm.get('postId')?.setValue(Number(this.postId));
-  //   }
-
-  //   if (changes['reporterId'] && this.reporterId != null) {
-  //     this.reportForm.get('reporterId')?.setValue(Number(this.reporterId));
-  //   }
-  // }
 
 
   onSubmit() {
-    if (this.reportForm.valid) {
-      const report: ReportInput = {
-        postId: this.postId,
-        reporterId: this.reporterId,
-        reason: this.reportForm.value.reason! == "other" ? this.reportForm.value.details! :  this.reportForm.value.reason!
-      }
-     
-      this.reportService.postReport(report).subscribe(res =>  console.log('Submitted Report:', res))
-    } else {
-      console.log('Form invalid');
-      this.reportForm.markAllAsTouched();
+    const report: ReportInput = {
+      postId: this.postId,
+      reporterId: this.reporterId,
+      reason: this.reportForm.value.reason! == "other" ? this.reportForm.value.details! : this.reportForm.value.reason!
     }
+    if (report.reason == '') {
+      this.toastService.warning(4000, "warning", "failed to create a report")
+      return;
+    };
+    this.reportService.postReport(report).subscribe({
+      next: _ => {
+        this.toastService.success(4000, "report", "report was created successfully");
+      },
+      error: _ => {
+        this.toastService.error(4000, "report", "failed to create a report");
+      }
+    })
   }
 }

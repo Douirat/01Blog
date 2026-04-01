@@ -7,6 +7,7 @@ import { PaginatedPosts, Post } from '../../types/post';
 import { PostForm } from '../dashboard/post-form/post-form';
 import { Authentication } from '../../core/authentication/auth/authentication';
 import { UsersService } from "../../core/users/users-service";
+import { ToastService } from '../../core/toast/toast-service';
 
 
 
@@ -35,7 +36,7 @@ export class Profile implements OnInit {
   constructor(private route: ActivatedRoute,
       private postService: PostService,
       private auth: Authentication,
-      private router: Router,
+      private toastService: ToastService,
       private usersServ: UsersService
       ) { }
 
@@ -43,21 +44,20 @@ export class Profile implements OnInit {
     this.loggedUser.set(this.auth.user()?.user);
 
     this.route.params.subscribe(params => {
-      const userId = params['id'];
-
-      this.userId.set(userId);
-      if (this.loggedUser()?.id.toString() === userId) {
+      const id = params['id'];
+      this.userId.set(id);
+      if (this.loggedUser()?.id.toString() === id) {
 
         this.profileOwner.set(true);
         
         this.user.set(this.loggedUser());
       } else {
-        this.usersServ.getUserById(userId).subscribe({
+        this.usersServ.getUserById(this.userId()).subscribe({
           next: userData => {
             this.user.set(userData);
           },
-          error: err => {
-            console.error('Failed to load user', err);
+          error: _ => {
+            this.toastService.warning(3000, "warning", "Failed to load user")
           },
           complete: () => {
             console.log('User fetch completed');
@@ -72,7 +72,7 @@ export class Profile implements OnInit {
 
   loadPosts() {
     let user = this.user()
-    this.postService.fetchPosts(this.currentPage(), Number(this.userId())).subscribe((data: PaginatedPosts) => {
+    this.postService.getProfilePosts(this.currentPage(), Number(this.userId())).subscribe((data: PaginatedPosts) => {
       if (data) {
         this.posts.set(data.content);
         this.lastPage.set(data.last);

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PostService } from '../../../core/post/post-service';
 import { Post, PostInput } from '../../../types/post';
 import { finalize } from 'rxjs/operators';
+import { ToastService } from '../../../core/toast/toast-service';
 
 
 @Component({
@@ -25,6 +26,8 @@ import { finalize } from 'rxjs/operators';
 
 export class PostForm implements OnInit {
 
+
+
 @Input() postToUpdate: Post | null = null;
 postSaved = output<Post>();
   
@@ -40,7 +43,7 @@ postSaved = output<Post>();
   updateState = signal(false)
   post = signal<Post | null>(null)
 
-  constructor(private postService: PostService) {
+  constructor(private postService: PostService, private toastService: ToastService) {
     this.form = new FormGroup({
       title: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
       content: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
@@ -107,11 +110,14 @@ const postData: PostInput = {
         this.post.set(null);        
       }
     },
-    error: (err) => console.error('Failed to save post', err)
+    error: (_) => this.toastService.error(4000, "Post", 'Failed to save post')
   });
 }
 
 private handlePostSuccess() {
+  console.log("oooooooooooooooo");
+  
+  this.toastService.success(4000, "Post", "Post was created sucessfully");
   this.form.reset();
   this.fileName = '';
 }

@@ -18,14 +18,15 @@ export class UsersService {
   }
 
   // get a user by id:
-  getUserById(userId: number): Observable<UserDTO> {
+  getUserById(userId: number | null): Observable<UserDTO> {
+    if (userId == null) userId = 0;
     const params = new HttpParams().set('userId', userId.toString());
     return this.http.get<UserDTO>(this.apiUrl + '/user', { params });
   }
 
-  banUser(userId:number):Observable<string>{
+  banUser(userId: number): Observable<string> {
     let params = new HttpParams().set("id", userId);
-    return this.http.patch<string>(this.apiUrl, null,{params})
+    return this.http.patch<string>(this.apiUrl, null, { params })
   }
 
 }
