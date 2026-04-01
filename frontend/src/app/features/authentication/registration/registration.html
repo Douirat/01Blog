@@ -1,9 +1,9 @@
 <div class="form-container registration-card" role="region" aria-labelledby="registration-heading">
   <h2 id="registration-heading">Create Your Account</h2>
 
-  <div class="error-message" *ngIf="errorMessage">
+  <!-- <div class="error-message" *ngIf="errorMessage">
     {{ errorMessage }}
-  </div>
+  </div> -->
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { Authentication } from '../../../core/authentication/auth/authentication'; // adjust to your path
 import { RegistrationFormData } from '../../../types/user'; // adjust to your path
+import { ToastService } from '../../../core/toast/toast-service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class Registration {
   constructor(
     private fb: FormBuilder,
     private authService: Authentication, // Inject the authentication service.
-    private router: Router // Inject the router.
+    private router: Router, // Inject the router.
+    private toastService: ToastService
   ) {
     // Initializing the form with validation rules:
     this.form = this.fb.group({
@@ -53,17 +55,16 @@ export class Registration {
         // Success handler:
         next: (res => {
           // navigation to a successful page or login if the registration doesnt create session
+          this.toastService.info(4000, "successful registration", "proceed with login");
           this.router.navigate(['/login'])
           // Or you could show a success message
           // this.showSuccessMessage('Account created successfully!');
         }),
         // Error handler:
         error: (err) => {
-          console.error('Registration error:', err);
-
           // Set error message to display to user
           this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
-
+          this.toastService.error(4000, "Error", this.errorMessage);
           // Reset loading state
           this.isSubmitting = false;
         },
