@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Authentication } from '../../../core/authentication/auth/authentication';
 import { LoginPayload } from '../../../types/user';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../../../core/toast/toast-service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class Login {
   constructor(
     private fb: FormBuilder,
     private authService: Authentication,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {
     this.form = this.fb.group({
       emailOrUsername: ['', [Validators.required, this.usernameOrEmailValidator]],
@@ -59,13 +61,13 @@ export class Login {
     const loginPayload: LoginPayload = this.form.value;
 
     this.authService.login(loginPayload).subscribe({
-      next: res => {
+      next: _ => {
+        this.toastService.success(4000, "", "you logged in successfully.")
         this.router.navigate(['/dashboard']);
       },
-      error: err => {
-        console.error('Login failed:', err);
-        this.errorMessage = err.error?.message || 'Login failed. Check your credentials.';
+      error: _ => {
         this.isSubmitting = false;
+        this.toastService.error(4000, "login failed.", "Check your credentials.")
       },
       complete: () => (this.isSubmitting = false),
     });

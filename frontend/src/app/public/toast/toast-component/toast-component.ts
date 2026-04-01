@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastService } from '../../../core/toast/toast-service';
 import { Toast } from '../../../types/toast';
 import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-toast-component',
-  imports: [ToastService],
+  imports: [CommonModule],
   templateUrl: './toast-component.html',
   styleUrl: './toast-component.scss',
 })
@@ -25,7 +26,9 @@ export class ToastComponent implements OnInit, OnDestroy {
   }
 
   removeToast(id:string):void{
-    this.toasts.filter(t => t.id != id);
+    console.log("here we are again");
+    
+    this.toasts = this.toasts.filter(t => t.id != id);
   }
 
   ngOnDestroy(): void {
