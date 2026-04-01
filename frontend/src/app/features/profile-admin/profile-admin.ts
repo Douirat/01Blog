@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../core/users/users-service';
 import { PostService } from '../../core/post/post-service';
 import { Post } from '../../types/post';
+import { ToastService } from '../../core/toast/toast-service';
 
 @Component({
   selector: 'app-profile-admin',
@@ -26,7 +27,8 @@ export class ProfileAdmin implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userService: UsersService,
-    private postService: PostService
+    private postService: PostService,
+    private toastService:ToastService
   ) { }
 
 
@@ -55,15 +57,16 @@ export class ProfileAdmin implements OnInit {
     this.postService.getReportedPosts(this.page(), this.userId()).subscribe({
       next: res => {
         console.log("res ", res);
-
         if (res != null) {
           this.reportedPosts.set(res.content);
           this.isLast.set(res.last);
           this.totalElements.set(res.totalElements);
           this.totalPages.set(res.totalPages);
+        } else{
+          this.toastService.info(3000, "Information", "No reported reported.")
         }
       },
-      error: err => console.log(err),
+      error: _ => this.toastService.info(3000, "error", "error loading repoted posts."),
     })
   }
 
@@ -71,21 +74,21 @@ export class ProfileAdmin implements OnInit {
   banUser(userId: number): void {
     this.userService.banUser(userId).subscribe({
       next: res => {
-        console.log(res);
+        this.toastService.success(3000,"success", "User banned successfully.");
       },
       error: err => {
-        console.log(err);
+        this.toastService.error(3000,"Error", "Error banning user.");
       },
     });
   }
 
   banPost(postId: number): void {
     this.postService.banPost(postId).subscribe({
-      next: res => {
-        console.log(res);
+      next: _ => {
+        this.toastService.success(3000,"success", "Post banned successfully.");
       },
-      error: err => {
-        console.log(err);
+      error: _ => {
+         this.toastService.error(3000,"Error", "Error banning post.");
       },
     });
   }
