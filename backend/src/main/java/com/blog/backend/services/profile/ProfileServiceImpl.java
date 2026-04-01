@@ -23,23 +23,37 @@ public class ProfileServiceImpl implements ProfileService {
     private UserRepository userRepository;
 
     @Override
+    public Page<UserDTO> fetchUsersContains(int page, String value) {
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> users = userRepository.searchByName(value, pageable);
+        return users.map(user -> new UserDTO(
+                user.getId(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAvatar(),
+                user.getNickname(),
+                user.getDateOfBirth(),
+                user.isAdmin(),
+                user.isBanned()));
+    }
+
+    @Override
     public Page<UserDTO> fetchUsers(int page) {
-        int size = 20;
+        int size = 10;
         Pageable pageable = PageRequest.of(page, size);
         Page<User> users = userRepository.findAll(pageable);
-        return users.map(user ->
-            new UserDTO(
-                    user.getId(),
-                    user.getEmail(),
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getAvatar(),
-                    user.getNickname(),
-                    user.getDateOfBirth(),
-                    user.isAdmin(),
-                    user.isBanned()
-                )
-        );
+        return users.map(user -> new UserDTO(
+                user.getId(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAvatar(),
+                user.getNickname(),
+                user.getDateOfBirth(),
+                user.isAdmin(),
+                user.isBanned()));
     }
 
     @Override
@@ -54,18 +68,18 @@ public class ProfileServiceImpl implements ProfileService {
                 user.getNickname(),
                 user.getDateOfBirth(),
                 user.isAdmin(),
-                user.isBanned()
-        );
+                user.isBanned());
     }
 
-       
-@Transactional
-public boolean banUser(long userId){
-    Optional<User> optUser = this.userRepository.findById(userId);
-    if(optUser.isEmpty()) return false;
-    User user = optUser.get();
-    if(user.isBanned()) return true;
-    user.setBanned(true);
-    return true;
-}
+    @Transactional
+    public boolean banUser(long userId) {
+        Optional<User> optUser = this.userRepository.findById(userId);
+        if (optUser.isEmpty())
+            return false;
+        User user = optUser.get();
+        if (user.isBanned())
+            return true;
+        user.setBanned(true);
+        return true;
+    }
 }

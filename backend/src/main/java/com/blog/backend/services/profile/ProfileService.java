@@ -4,7 +4,13 @@ import com.blog.backend.dtos.user.UserDTO;
 import org.springframework.data.domain.Page;
 
 public interface ProfileService {
-Page<UserDTO> fetchUsers(int page);
-UserDTO fetchUserProfile(Long userId);
- boolean banUser(long userId);
+
+    Page<UserDTO> fetchUsersContains(int page, String value);
+
+    Page<UserDTO> fetchUsers(int page);
+
+    UserDTO fetchUserProfile(Long userId);
+
+    boolean banUser(long userId);
+
 }

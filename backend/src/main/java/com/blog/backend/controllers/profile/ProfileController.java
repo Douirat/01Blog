@@ -26,6 +26,37 @@ public class ProfileController {
     private final ProfileService profileService;
 
     /**
+     * 
+     * @param page
+     * @return paginated users based on a search.
+     */
+    @GetMapping("/search")
+    public ResponseEntity<PaginatedUsersDTO> getProfilesOnSearch(@RequestParam(defaultValue = "0") int page,
+            @RequestParam String value) {
+        if (value == null || value.isEmpty() || page < 0) {
+            PaginatedUsersDTO errorResponse = new PaginatedUsersDTO(
+                    List.of(), // empty content
+                    true, // last page
+                    0, // total pages
+                    0 // total elements
+            );
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+        System.out.println("im fucking this");
+
+        Page<UserDTO> users = profileService.fetchUsersContains(page, value);
+
+        PaginatedUsersDTO response = new PaginatedUsersDTO(
+                users.getContent(),
+                users.isLast(),
+                users.getTotalPages(),
+                users.getTotalElements());
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    /**
      * Get lists of users to allow serching and rendring users' profiles:
      */
     @GetMapping
