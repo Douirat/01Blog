@@ -98,6 +98,11 @@ class UserServiceImpl implements UserService {
         if (userOpt.isEmpty() || !encoder.matches(payload.getPassword(), userOpt.get().getPassword())) {
             return Optional.empty(); // User not found or password mismatch
         }
+        User u = userOpt.get();
+        // Check if user is banned
+        if (u.isBanned()) {
+            throw new IllegalStateException("User is banned and cannot log in.");
+        }
 
         return userOpt.map(user -> {
             UserDTO userDTO = new UserDTO(
@@ -120,7 +125,6 @@ class UserServiceImpl implements UserService {
             return authResponse;
         });
     };
-
 
     @Override
     public Optional<AuthResponseDTO> checkStatus(String token) {
@@ -151,6 +155,5 @@ class UserServiceImpl implements UserService {
             return authResponse;
         });
     }
-
 
 }
