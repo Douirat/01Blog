@@ -28,7 +28,7 @@ export class ProfileAdmin implements OnInit {
     private route: ActivatedRoute,
     private userService: UsersService,
     private postService: PostService,
-    private toastService:ToastService
+    private toastService: ToastService
   ) { }
 
 
@@ -62,7 +62,7 @@ export class ProfileAdmin implements OnInit {
           this.isLast.set(res.last);
           this.totalElements.set(res.totalElements);
           this.totalPages.set(res.totalPages);
-        } else{
+        } else {
           this.toastService.info(3000, "Information", "No reported reported.")
         }
       },
@@ -74,10 +74,10 @@ export class ProfileAdmin implements OnInit {
   banUser(userId: number): void {
     this.userService.banUser(userId).subscribe({
       next: res => {
-        this.toastService.success(3000,"success", "User banned successfully.");
+        this.toastService.success(3000, "success", "User banned successfully.");
       },
       error: err => {
-        this.toastService.error(3000,"Error", "Error banning user.");
+        this.toastService.error(3000, "Error", "Error banning user.");
       },
     });
   }
@@ -85,12 +85,23 @@ export class ProfileAdmin implements OnInit {
   banPost(postId: number): void {
     this.postService.banPost(postId).subscribe({
       next: _ => {
-        this.toastService.success(3000,"success", "Post banned successfully.");
+        this.toastService.success(3000, "success", "Post banned successfully.");
       },
       error: _ => {
-         this.toastService.error(3000,"Error", "Error banning post.");
+        this.toastService.error(3000, "Error", "Error banning post.");
       },
     });
+  }
+
+  activateUser(userId: number): void {
+    this.userService.activateUserAccount(userId).subscribe({
+      next: _ => {
+        this.toastService.success(3000, "success", "user ban was deactivate.");
+      },
+      error: _ => {
+        this.toastService.error(3000, "Error", "you cant activate this account.");
+      }
+    })
   }
 
   rejectReport(postId: number): void {

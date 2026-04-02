@@ -24,18 +24,27 @@ export class UsersService {
     return this.http.get<UserDTO>(this.apiUrl + '/user', { params });
   }
 
+
+  // ban and activate user account:
   banUser(userId: number): Observable<string> {
     let params = new HttpParams().set("id", userId);
     return this.http.patch<string>(this.apiUrl, null, { params })
   }
+
+  activateUserAccount(userId: number): Observable<string> {
+    let params = new HttpParams().set("id", userId);
+    return this.http.patch<string>(this.apiUrl + "/activate", null, { params })
+  }
+
+
   // bring users bases on search
-searchUsers(page: number, term: string): Observable<PaginatedUsers> {
+  searchUsers(page: number, term: string): Observable<PaginatedUsers> {
 
-  let params = new HttpParams();
-  params = params.set('page', page.toString());
-  params = params.set('value', term);   // <-- correctly set the search term
+    let params = new HttpParams();
+    params = params.set('page', page.toString());
+    params = params.set('value', term);   // <-- correctly set the search term
 
-  return this.http.get<PaginatedUsers>(this.apiUrl + '/search', { params });
-}
+    return this.http.get<PaginatedUsers>(this.apiUrl + '/search', { params });
+  }
 
 }

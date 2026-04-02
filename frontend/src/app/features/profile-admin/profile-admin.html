@@ -7,11 +7,18 @@
         <p>{{user()?.firstName}} {{user()?.lastName}}</p>
         <small>{{user()?.email}}</small>
     </div>
-    <div class="moderation">
-        <button class="ban-btn" (click)="banUser(+user()?.id!)">
-            🚫 Ban user
-        </button>
-    </div>
+
+    @if (user(); as u) {
+    @if (!u.banned) {
+    <button class="ban-btn" (click)="banUser(+u.id!)">
+        🚫 Ban user
+    </button>
+    } @else {
+    <button class="unban-btn" (click)="activateUser(+u.id!)">
+        ✅ Unban user
+    </button>
+    }
+    }
 
     <div id="banned_posts">
         @if (totalPages() > 0) {
