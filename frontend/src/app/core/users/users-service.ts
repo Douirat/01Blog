@@ -28,5 +28,14 @@ export class UsersService {
     let params = new HttpParams().set("id", userId);
     return this.http.patch<string>(this.apiUrl, null, { params })
   }
+  // bring users bases on search
+searchUsers(page: number, term: string): Observable<PaginatedUsers> {
+
+  let params = new HttpParams();
+  params = params.set('page', page.toString());
+  params = params.set('value', term);   // <-- correctly set the search term
+
+  return this.http.get<PaginatedUsers>(this.apiUrl + '/search', { params });
+}
 
 }

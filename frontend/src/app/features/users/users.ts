@@ -20,6 +20,9 @@ export class Users {
   totalUser = signal(0);
   loggedUserId = signal<string | undefined>(undefined);
 
+  // Search reliability
+  searchTerm = signal("");
+  searchPage = signal(0);
 
   ngOnInit(): void {
     const currentUser = this.auth.user();
@@ -28,9 +31,9 @@ export class Users {
   }
 
   // get all users:
-  loadUsers() {
+  loadUsers(): void {
     this.usersService.fetchUsers(this.page()).subscribe((data: PaginatedUsers) => {
-     
+
       this.users.set(data.content);
       // Assuming this.users is a WritableSignal<UserDTO[]>
       this.users.set(
@@ -46,4 +49,25 @@ export class Users {
   }
 
   // TODO: the navigation between pages is not fixed yet:
+
+  /**
+   * search for users
+   */
+  searchUsers() {
+    const term = this.searchTerm().trim();
+
+    if (!term) {
+      // empty search → go back to normal feed
+      this.loadUsers();
+      return;
+    }
+
+    this.usersService.searchUsers(this.page(), term).subscribe((data: PaginatedUsers) => {
+      this.users.set(
+        data.content.filter(user => user.id !== this.loggedUserId())
+      );
+      this.lastUsers.set(data.last);
+      this.totalUser.set(data.totalPages);
+    });
+  }
 }
