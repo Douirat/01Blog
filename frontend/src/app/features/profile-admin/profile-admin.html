@@ -8,17 +8,15 @@
         <small>{{user()?.email}}</small>
     </div>
 
-    @if (user(); as u) {
-    @if (!u.banned) {
-    <button class="ban-btn" (click)="banUser(+u.id!)">
-        🚫 Ban user
-    </button>
-    } @else {
-    <button class="unban-btn" (click)="activateUser(+u.id!)">
-        ✅ Unban user
-    </button>
-    }
-    }
+@if (user(); as u) {
+  <button
+    [class.ban-btn]="!isUserBanned()"
+    [class.unban-btn]="isUserBanned()"
+    (click)="isUserBanned() ? activateUser(+u.id) : banUser(+u.id)"
+  >
+    {{ isUserBanned() ? '✅ Unban user' : '🚫 Ban user' }}
+  </button>
+}
 
     <div id="banned_posts">
         @if (totalPages() > 0) {

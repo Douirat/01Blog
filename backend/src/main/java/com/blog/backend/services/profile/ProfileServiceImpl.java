@@ -82,4 +82,16 @@ public class ProfileServiceImpl implements ProfileService {
         user.setBanned(true);
         return true;
     }
+
+    @Transactional
+    public boolean activateUserAccount(long userId) {
+        Optional<User> optUser = this.userRepository.findById(userId);
+        if (optUser.isEmpty())
+            return false;
+        User user = optUser.get();
+        if (!user.isBanned())
+            return true;
+        user.setBanned(false);
+        return true;
+    }
 }

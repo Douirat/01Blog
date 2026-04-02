@@ -93,7 +93,7 @@ public class ProfileController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PatchMapping
+    @PatchMapping("/ban")
     public ResponseEntity<Map<String, String>> banUser(@RequestParam long id) {
 
         if (id == 1) {
@@ -110,5 +110,25 @@ public class ProfileController {
 
         return ResponseEntity.ok(Map.of("message", "User banned successfully"));
     }
+
+    @PatchMapping("/unban")
+    public ResponseEntity<Map<String, String>> activateUserAccount(@RequestParam long id) {
+
+        if (id == 1) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Admin account not allowed"));
+        }
+
+        boolean banned = this.profileService.activateUserAccount(id);
+
+        if (!banned) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "User not found"));
+        }
+
+        return ResponseEntity.ok(Map.of("message", "User account activated successfully"));
+    }
+
+    
 
 }

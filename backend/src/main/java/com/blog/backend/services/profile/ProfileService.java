@@ -13,4 +13,6 @@ public interface ProfileService {
 
     boolean banUser(long userId);
 
+    boolean activateUserAccount(long userId);
+
 }

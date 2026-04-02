@@ -28,12 +28,12 @@ export class UsersService {
   // ban and activate user account:
   banUser(userId: number): Observable<string> {
     let params = new HttpParams().set("id", userId);
-    return this.http.patch<string>(this.apiUrl, null, { params })
+    return this.http.patch<string>(this.apiUrl+"/ban", null, { params })
   }
 
   activateUserAccount(userId: number): Observable<string> {
     let params = new HttpParams().set("id", userId);
-    return this.http.patch<string>(this.apiUrl + "/activate", null, { params })
+    return this.http.patch<string>(this.apiUrl + "/unban", null, { params })
   }
 
 

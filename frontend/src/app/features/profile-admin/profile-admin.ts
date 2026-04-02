@@ -23,6 +23,9 @@ export class ProfileAdmin implements OnInit {
   totalElements = signal(0);
   totalPages = signal(0);
 
+
+  isUserBanned = signal(false);
+
   // TODO: i will have to bring all the reports for this specific profile.
   constructor(
     private route: ActivatedRoute,
@@ -39,6 +42,11 @@ export class ProfileAdmin implements OnInit {
       next: userData => {
         this.user.set(userData);
         console.log("the is is the user the admin wants to investigate: ", this.user());
+        if (this.user()?.banned) {
+          this.isUserBanned.set(true)
+        } else {
+          this.isUserBanned.set(false)
+        }
       },
       error: err => {
         console.error('Failed to load user', err);
@@ -75,6 +83,7 @@ export class ProfileAdmin implements OnInit {
     this.userService.banUser(userId).subscribe({
       next: res => {
         this.toastService.success(3000, "success", "User banned successfully.");
+        this.isUserBanned.set(true)
       },
       error: err => {
         this.toastService.error(3000, "Error", "Error banning user.");
@@ -82,10 +91,23 @@ export class ProfileAdmin implements OnInit {
     });
   }
 
+  activateUser(userId: number): void {
+    this.userService.activateUserAccount(userId).subscribe({
+      next: _ => {
+        this.toastService.success(3000, "success", "user ban was deactivated.");
+        this.isUserBanned.set(false);
+      },
+      error: _ => {
+        this.toastService.error(3000, "Error", "you cant activate this account.");
+      }
+    })
+  }
+
   banPost(postId: number): void {
     this.postService.banPost(postId).subscribe({
       next: _ => {
         this.toastService.success(3000, "success", "Post banned successfully.");
+
       },
       error: _ => {
         this.toastService.error(3000, "Error", "Error banning post.");
@@ -93,16 +115,7 @@ export class ProfileAdmin implements OnInit {
     });
   }
 
-  activateUser(userId: number): void {
-    this.userService.activateUserAccount(userId).subscribe({
-      next: _ => {
-        this.toastService.success(3000, "success", "user ban was deactivate.");
-      },
-      error: _ => {
-        this.toastService.error(3000, "Error", "you cant activate this account.");
-      }
-    })
-  }
+
 
   rejectReport(postId: number): void {
     console.log("the admin wants to reject ban of this post: ", postId);
