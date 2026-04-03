@@ -111,4 +111,6 @@ export class PostService {
     return this.http.patch<string>(this.apiUrl+"/reject",null , {params})
   }
 
+  
+
 }

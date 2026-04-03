@@ -1,3 +1,14 @@
+<div class="search-bar">
+  <input
+    type="text"
+    placeholder="Search users..."
+    [value]="searchTerm()"
+    (input)="searchTerm.set($any($event.target).value)"
+    (keyup.enter)="searchUsers()"
+  />
+  <button (click)="searchUsers()">Search</button>
+</div>
+
 <div class="users-table-container">
 
   <table>

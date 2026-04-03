@@ -19,6 +19,11 @@ export class AdminDashboard implements OnInit {
   loggedUserId = signal<string | undefined>(undefined);
   totalPages = signal(0);
 
+
+  // Search reliability:
+  searchTerm = signal("");
+  searchPage = signal(0);
+
   constructor(
     private auth: Authentication,
     private usersService: UsersService,
@@ -48,5 +53,25 @@ export class AdminDashboard implements OnInit {
   // Navigate to a user's profile
   adminVisitProfile(user: UserDTO): void { 
     this.router.navigate(['/profile-admin', user.id]); 
+  }
+
+  /**
+  * search for users
+  */
+  searchUsers() {
+    const term = this.searchTerm().trim();
+    if (!term) {
+      // empty search → go back to normal feed
+      this.loadUsers();
+      return;
+    }
+
+    this.usersService.searchUsers(this.page(), term).subscribe((data: PaginatedUsers) => {
+      this.users.set(
+        data.content.filter(user => user.id !== this.loggedUserId())
+      );
+      this.last.set(data.last);
+      this.totalPages.set(data.totalPages);
+    });
   }
 }
