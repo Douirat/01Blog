@@ -153,10 +153,10 @@ public class PostController {
      * @param id
      *           the frontend will be handled normally using:
      *           return this.http.patch(this.baseUrl, {params});
-     * @return the ok response is a boolean in it selfe
+     * @return the ok response is a boolean in it self
      */
 
-    @PatchMapping
+    @PatchMapping("/ban")
     public ResponseEntity<Map<String, String>> banPost(@RequestParam long id) {
         boolean banned = postService.banPost(id);
 
@@ -166,5 +166,17 @@ public class PostController {
         }
 
         return ResponseEntity.ok(Map.of("message", "Post banned successfully"));
+    }
+
+    @PatchMapping("/reject")
+    public ResponseEntity<Map<String, String>> unbanPost(@RequestParam long id) {
+        boolean banned = postService.rejectReports(id);
+
+        if (!banned) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Post not found"));
+        }
+
+        return ResponseEntity.ok(Map.of("message", "Post unbanned successfully"));
     }
 }

@@ -115,9 +115,21 @@ export class ProfileAdmin implements OnInit {
     });
   }
 
+  unbanPost(postId: number): void{
+    console.log("the admin wants to anban post with id:", postId);
+  }
 
 
   rejectReport(postId: number): void {
-    console.log("the admin wants to reject ban of this post: ", postId);
+     console.log("the admin wants to reject ost reports: =>", postId);
+    this.postService.rejectReport(postId).subscribe({
+      next: _ =>{
+        this.toastService.success(4000, "success", "all reports were rejected successfully.")
+        this.reportedPosts.set(this.reportedPosts().filter(p => p.id != postId));
+      },
+      error: _=>{
+        this.toastService.error(3000, "error", "Error rejecting post reports.");
+      },
+    })
   }
 }

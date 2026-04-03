@@ -20,4 +20,7 @@ public interface PostService {
     UserDTO getUserByPostId(long postId);
 
     boolean banPost(long id);
+
+    boolean rejectReports(long postId) ;
+
 }

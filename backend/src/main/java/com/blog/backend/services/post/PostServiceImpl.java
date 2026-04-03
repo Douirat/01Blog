@@ -219,6 +219,7 @@ public class PostServiceImpl implements PostService {
                 });
         }
 
+        @Override
         @Transactional
         public boolean banPost(long id) {
 
@@ -239,5 +240,34 @@ public class PostServiceImpl implements PostService {
                 postRepository.save(post); // explicit save = clearer intent
 
                 return true;
+        }
+
+        /**
+         * @Transactional
+         *                Spring does NOT call the method directly.
+         * 
+         *                Instead, Spring creates a proxy around your service and wraps
+         *                the method call like this:
+         * 
+         *                Pseudo-flow:
+         *                open DB transaction
+         *                ↓
+         *                call unbanPost()
+         *                ↓
+         *                if no exception → COMMIT
+         *                if exception → ROLLBACK
+         *                and it goes like:
+         * 
+         *                BEGIN TRANSACTION;
+         *                SELECT * FROM post WHERE id = ?
+         *                UPDATE post SET banned = false WHERE id = ?
+         *                COMMIT;
+         */
+
+        @Override
+        @Transactional
+        public boolean rejectReports(long postId) {
+                int deletedCount = reportRepository.deleteByPostId(postId); // returns number of rows affected
+                return deletedCount > 0;
         }
 }

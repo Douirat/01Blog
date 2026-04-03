@@ -103,11 +103,13 @@ const postData: PostInput = {
     finalize(() => this.isSubmitting = false)
   ).subscribe({
     next: (post) => {
+      console.log("The new create post should be addded immidiately to the posts: ", post);
+      
       this.handlePostSuccess();
       this.postSaved.emit(post); 
       if (this.updateState()) {
         this.updateState.set(false);
-        this.post.set(null);        
+        this.post.set(null);
       }
     },
     error: (_) => this.toastService.error(4000, "Post", 'Failed to save post')
@@ -115,8 +117,6 @@ const postData: PostInput = {
 }
 
 private handlePostSuccess() {
-  console.log("oooooooooooooooo");
-  
   this.toastService.success(4000, "Post", "Post was created sucessfully");
   this.form.reset();
   this.fileName = '';

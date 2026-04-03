@@ -100,10 +100,15 @@ export class PostService {
     const params = new HttpParams().set("id", postId.toString());
 
     return this.http.patch<string>(
-      this.apiUrl,
+      this.apiUrl+"/ban",
       null,
       { params }
     );
+  }
+
+  rejectReport(postId: number): Observable<string>{
+    let params = new HttpParams().set("id", postId.toString());
+    return this.http.patch<string>(this.apiUrl+"/reject",null , {params})
   }
 
 }

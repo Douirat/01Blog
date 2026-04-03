@@ -8,15 +8,12 @@
         <small>{{user()?.email}}</small>
     </div>
 
-@if (user(); as u) {
-  <button
-    [class.ban-btn]="!isUserBanned()"
-    [class.unban-btn]="isUserBanned()"
-    (click)="isUserBanned() ? activateUser(+u.id) : banUser(+u.id)"
-  >
-    {{ isUserBanned() ? '✅ Unban user' : '🚫 Ban user' }}
-  </button>
-}
+    @if (user(); as u) {
+    <button [class.ban-btn]="!isUserBanned()" [class.unban-btn]="isUserBanned()"
+        (click)="isUserBanned() ? activateUser(+u.id) : banUser(+u.id)">
+        {{ isUserBanned() ? '✅ Unban user' : '🚫 Ban user' }}
+    </button>
+    }
 
     <div id="banned_posts">
         @if (totalPages() > 0) {
@@ -46,8 +43,14 @@
                 <span>💬 {{ post.commentsCount }}</span>
             </div>
             <div class="moderation">
-                <button class="ban-btn" (click)="banPost(+post.id)">🚫 Ban post</button>
-                <button class="ban-btn" (click)="rejectReport(+post.id)">Reject ban</button>
+                <ng-container *ngIf="!post.isBanned; else bannedTemplate">
+                    <button (click)="banPost(+post.id)">🚫 Ban Post</button>
+                    <button (click)="rejectReport(+post.id)">✅ Reject Reports</button>
+                </ng-container>
+
+                <ng-template #bannedTemplate>
+                    <button (click)="unbanPost(+post.id)">🔓 Unban Post</button>
+                </ng-template>
             </div>
         </div>
         }
