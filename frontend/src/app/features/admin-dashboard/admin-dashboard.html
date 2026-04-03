@@ -9,7 +9,7 @@
   <button (click)="searchUsers()">Search</button>
 </div>
 
-<div class="users-table-container">
+<div *ngIf="users().length > 0" class="users-table-container">
 
   <table>
     <thead>
