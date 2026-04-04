@@ -272,7 +272,11 @@ public class PostServiceImpl implements PostService {
         }
 
         @Override
-        public boolean deletePost(long postId){
-                return this.postRepository.deleteById(postId) > 0;
+        public boolean deletePost(long postId) {
+                if (!this.postRepository.existsById(postId)) {
+                        return false;
+                }
+                this.postRepository.deleteById(postId);
+                return true;
         }
 }

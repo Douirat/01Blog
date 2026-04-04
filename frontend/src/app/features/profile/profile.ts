@@ -101,7 +101,15 @@ export class Profile implements OnInit {
 }
 
 deletePost(postId: number): void{
-
+this.postService.deletePost(postId).subscribe({
+  next: res =>{
+    this.toastService.success(4000, "success", "Post deleted successfully.");
+    this.posts.set(this.posts().filter(p => p.id != postId));
+  },
+  error: err =>{
+    this.toastService.error(3000, "error", "Error deleting post.")
+  },
+})
 }
 
 }

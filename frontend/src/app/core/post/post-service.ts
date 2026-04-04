@@ -7,6 +7,7 @@ import { VoteRequest, VoteResponse } from '../../types/vote';
 import { Post } from '../../types/post';
 import { UserDTO } from '../../types/user';
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -96,21 +97,26 @@ export class PostService {
   }
 
   // ban a post:
-  banPost(postId: number): Observable<string> {
+  banPost(postId: number): Observable<Record<string, string>> {
     const params = new HttpParams().set("id", postId.toString());
 
-    return this.http.patch<string>(
-      this.apiUrl+"/ban",
+    return this.http.patch<Record<string, string>>(
+      this.apiUrl + "/ban",
       null,
       { params }
     );
   }
 
-  rejectReports(postId: number): Observable<string>{
+  // reject post reports:
+  rejectReports(postId: number): Observable<Record<string, string>> {
     let params = new HttpParams().set("id", postId.toString());
-    return this.http.patch<string>(this.apiUrl+"/reject",null , {params})
+    return this.http.patch<Record<string, string>>(this.apiUrl + "/reject", null, { params })
   }
 
-
+  // delete a post:
+  deletePost(postId: number): Observable<Record<string, string>> {
+    const params = new HttpParams().set('postId', postId.toString());
+    return this.http.delete<Record<string, string>>(this.apiUrl, { params });
+  }
 
 }
