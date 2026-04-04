@@ -106,11 +106,11 @@ export class PostService {
     );
   }
 
-  rejectReport(postId: number): Observable<string>{
+  rejectReports(postId: number): Observable<string>{
     let params = new HttpParams().set("id", postId.toString());
     return this.http.patch<string>(this.apiUrl+"/reject",null , {params})
   }
 
-  
+
 
 }

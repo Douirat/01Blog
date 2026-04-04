@@ -7,6 +7,7 @@ import com.blog.backend.dtos.user.UserDTO;
 import org.springframework.data.domain.Page;
 
 public interface PostService {
+    
     Page<PostDetailDTO> getAllPosts(int page);
 
     Page<PostDetailDTO> getUserPosts(int page, long userId);
@@ -21,6 +22,8 @@ public interface PostService {
 
     boolean banPost(long id);
 
-    boolean rejectReports(long postId) ;
+    boolean rejectReports(long postId);
+
+    boolean deletePost(long postId);
 
 }

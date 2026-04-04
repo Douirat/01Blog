@@ -270,4 +270,9 @@ public class PostServiceImpl implements PostService {
                 int deletedCount = reportRepository.deleteByPostId(postId); // returns number of rows affected
                 return deletedCount > 0;
         }
+
+        @Override
+        public boolean deletePost(long postId){
+                return this.postRepository.deleteById(postId) > 0;
+        }
 }

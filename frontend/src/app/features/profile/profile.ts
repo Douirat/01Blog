@@ -100,4 +100,8 @@ export class Profile implements OnInit {
   this.postToUpdate.set(null);
 }
 
+deletePost(postId: number): void{
+
+}
+
 }

@@ -9,7 +9,17 @@
     <span>By {{ post.user.nickName }}</span>
     <h3>{{ post.title }}</h3>
     <p>{{ post.content }}</p>
-    <button *ngIf="profileOwner()" (click)="toggleUpdate(post.id)">update</button>
+    <div class="actions">
+  <!-- Update button -->
+  <button *ngIf="profileOwner()" (click)="toggleUpdate(+post.id)">
+    ✏️ Update
+  </button>
+
+  <!-- Delete button -->
+  <button *ngIf="profileOwner()" (click)="deletePost(+post.id)">
+    🗑️ Delete
+  </button>
+</div>
     <app-post-form [postToUpdate]="post" *ngIf="postToUpdate() === post.id" (postSaved)="onPostUpdated($event)"></app-post-form>
     <hr>
   </div>

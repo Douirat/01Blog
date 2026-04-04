@@ -122,7 +122,7 @@ export class ProfileAdmin implements OnInit {
 
   rejectReport(postId: number): void {
      console.log("the admin wants to reject ost reports: =>", postId);
-    this.postService.rejectReport(postId).subscribe({
+    this.postService.rejectReports(postId).subscribe({
       next: _ =>{
         this.toastService.success(4000, "success", "all reports were rejected successfully.")
         this.reportedPosts.set(this.reportedPosts().filter(p => p.id != postId));
