@@ -6,6 +6,7 @@ import { UsersService } from '../../core/users/users-service';
 import { PostService } from '../../core/post/post-service';
 import { Post } from '../../types/post';
 import { ToastService } from '../../core/toast/toast-service';
+import { ReportService } from '../../core/report/report-service';
 
 @Component({
   selector: 'app-profile-admin',
@@ -26,12 +27,14 @@ export class ProfileAdmin implements OnInit {
 
   isUserBanned = signal(false);
 
+
   // TODO: i will have to bring all the reports for this specific profile.
   constructor(
     private route: ActivatedRoute,
     private userService: UsersService,
     private postService: PostService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private reportService: ReportService
   ) { }
 
 
@@ -107,7 +110,12 @@ export class ProfileAdmin implements OnInit {
     this.postService.banPost(postId).subscribe({
       next: _ => {
         this.toastService.success(3000, "success", "Post banned successfully.");
-
+        this.reportedPosts.set(
+          this.reportedPosts().map(p => {
+            return p.id == postId ? { ...p, isBanned: true } : p;
+          }
+          )
+        );
       },
       error: _ => {
         this.toastService.error(3000, "Error", "Error banning post.");
@@ -115,19 +123,32 @@ export class ProfileAdmin implements OnInit {
     });
   }
 
-  unbanPost(postId: number): void{
-    console.log("the admin wants to anban post with id:", postId);
+  unbanPost(postId: number): void {
+    this.postService.unbanPost(postId).subscribe({
+      next: _ => {
+        this.toastService.success(3000, "success", "Post unbanned successfully.");
+        this.reportedPosts.set(
+          this.reportedPosts().map(p => {
+            return p.id == postId ? { ...p, isBanned: false } : p;
+          }
+          )
+        );
+      },
+      error: _ => {
+        this.toastService.error(3000, "Error", "Error unbanning post.");
+      },
+    });
   }
 
 
   rejectReport(postId: number): void {
-     console.log("the admin wants to reject ost reports: =>", postId);
-    this.postService.rejectReports(postId).subscribe({
-      next: _ =>{
+    console.log("the admin wants to reject ost reports: =>", postId);
+    this.reportService.rejectReports(postId).subscribe({
+      next: _ => {
         this.toastService.success(4000, "success", "all reports were rejected successfully.")
         this.reportedPosts.set(this.reportedPosts().filter(p => p.id != postId));
       },
-      error: _=>{
+      error: _ => {
         this.toastService.error(3000, "error", "Error rejecting post reports.");
       },
     })

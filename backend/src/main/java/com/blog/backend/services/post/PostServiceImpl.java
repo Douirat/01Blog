@@ -266,9 +266,25 @@ public class PostServiceImpl implements PostService {
 
         @Override
         @Transactional
-        public boolean rejectReports(long postId) {
-                int deletedCount = reportRepository.deleteByPostId(postId); // returns number of rows affected
-                return deletedCount > 0;
+        public boolean unbanPost(long id) {
+
+                Optional<Post> optionalPost = postRepository.findById(id);
+
+                if (optionalPost.isEmpty()) {
+                        return false; // post not found → frontend shows error
+                }
+
+                Post post = optionalPost.get();
+
+                // If already banned, you may decide what to do
+                if (!post.isBanned()) {
+                        return true; // already banned → still success from UI POV
+                }
+
+                post.setBanned(false);
+                postRepository.save(post); // explicit save = clearer intent
+
+                return true;
         }
 
         @Override

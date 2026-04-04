@@ -17,6 +17,7 @@ export class PostService {
   private readonly apiUrlProfile = `${environment.apiUrl}/api/posts/profile`
   private readonly voteApiUrl = `${environment.apiUrl}/api/votes`
 
+
   constructor(private http: HttpClient) { }
 
   // method to create a post:
@@ -106,17 +107,24 @@ export class PostService {
       { params }
     );
   }
+  // unban a post:
+  unbanPost(postId: number): Observable<Record<string, string>> {
+    const params = new HttpParams().set("id", postId.toString());
 
-  // reject post reports:
-  rejectReports(postId: number): Observable<Record<string, string>> {
-    let params = new HttpParams().set("id", postId.toString());
-    return this.http.patch<Record<string, string>>(this.apiUrl + "/reject", null, { params })
+    return this.http.patch<Record<string, string>>(
+      this.apiUrl + "/unban",
+      null,
+      { params }
+    );
   }
+
 
   // delete a post:
   deletePost(postId: number): Observable<Record<string, string>> {
     const params = new HttpParams().set('postId', postId.toString());
     return this.http.delete<Record<string, string>>(this.apiUrl, { params });
   }
+
+
 
 }

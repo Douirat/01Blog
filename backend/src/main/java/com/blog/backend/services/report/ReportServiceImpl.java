@@ -10,6 +10,9 @@ import com.blog.backend.repositories.post.PostRepository;
 import com.blog.backend.dtos.report.ReportInputDTO;
 import com.blog.backend.dtos.report.ReportResponseDTO;
 import com.blog.backend.types.report.ReportStatus;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -98,4 +101,12 @@ public class ReportServiceImpl implements ReportService {
                     report.getCreatedAt());
         });
     }
+
+        @Override
+        @Transactional
+        public boolean rejectReports(long postId) {
+                int deletedCount = reportRepository.deleteByPostId(postId); // returns number of rows affected
+                return deletedCount > 0;
+        }
+
 }

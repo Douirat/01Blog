@@ -169,9 +169,9 @@ public class PostController {
         return ResponseEntity.ok(Map.of("message", "Post banned successfully"));
     }
 
-    @PatchMapping("/reject")
+    @PatchMapping("/unban") // TODO: Unban post and remove the reject report the the report flow.
     public ResponseEntity<Map<String, String>> unbanPost(@RequestParam long id) {
-        boolean banned = postService.rejectReports(id);
+        boolean banned = postService.unbanPost(id);
 
         if (!banned) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
