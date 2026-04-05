@@ -14,12 +14,12 @@
 
 <div class="pagination">
   <button (click)="previousPage()" [disabled]="page() === 0">
-    ⬅ Previous
+    ⏪ Previous
   </button>
 
   <span>Page {{ page() + 1 }} / {{ totalUsers() }}</span>
 
   <button (click)="nextPage()" [disabled]="page() >= totalUsers() - 1">
-    Next ➡
+    Next ⏩
   </button>
 </div>

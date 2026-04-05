@@ -41,13 +41,13 @@
 
 <!-- PAGINATION (only once) -->
 <div class="pagination">
-  <button (click)="previousPage()" [disabled]="currentPage() === 0">
-    ⬅ Previous
+  <button (click)="previousPage()" [disabled]="currentPage() === 0" class="btn btn-primary">
+    ⏪ Previous
   </button>
 
   <span>Page {{ currentPage() + 1 }} / {{ totalPages() }}</span>
 
-  <button (click)="nextPage()" [disabled]="currentPage() >= totalPages() - 1">
-    Next ➡
+  <button (click)="nextPage()" [disabled]="currentPage() >= totalPages() - 1" class="btn btn-primary">
+    Next ⏩
   </button>
 </div>

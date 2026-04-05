@@ -41,10 +41,16 @@
     </tbody>
   </table>
 
-  <div class="pagination">
-    <button (click)="prevPage()" [disabled]="page() === 0">Previous</button>
-    <span>Page {{ page() + 1 }} of {{ totalPages() }}</span>
-    <button (click)="nextPage()" [disabled]="last()">Next</button>
-  </div>
+<div class="pagination">
+  <button (click)="prevPage()" [disabled]="page() === 0">
+    ⏪ Previous
+  </button>
+
+  <span>Page {{ page() + 1 }} of {{ totalPages() }}</span>
+
+  <button (click)="nextPage()" [disabled]="last()">
+    Next ⏩
+  </button>
+</div>
   
 </div>
