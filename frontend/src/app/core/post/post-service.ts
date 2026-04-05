@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environment/environment';
-import { PostInput, PaginatedPosts } from '../../types/post';
-import { Observable } from 'rxjs';
+import { PostInput, PaginatedPosts, Post } from '../../types/post';
+import { Observable, Subject } from 'rxjs';
 import { VoteRequest, VoteResponse } from '../../types/vote';
-import { Post } from '../../types/post';
 import { UserDTO } from '../../types/user';
 
 
@@ -17,6 +16,8 @@ export class PostService {
   private readonly apiUrlProfile = `${environment.apiUrl}/api/posts/profile`
   private readonly voteApiUrl = `${environment.apiUrl}/api/votes`
 
+  private postSource = new Subject<Post>();
+  postSource$ = this.postSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -125,6 +126,9 @@ export class PostService {
     return this.http.delete<Record<string, string>>(this.apiUrl, { params });
   }
 
+
+  // imitate post source:
+  imitatePostSource(post: Post):void{this.postSource.next(post);}
 
 
 }

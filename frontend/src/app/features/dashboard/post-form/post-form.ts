@@ -5,7 +5,7 @@ import { PostService } from '../../../core/post/post-service';
 import { Post, PostInput } from '../../../types/post';
 import { finalize } from 'rxjs/operators';
 import { ToastService } from '../../../core/toast/toast-service';
-import { Dashboard } from '../dashboard';
+
 
 
 @Component({
@@ -35,7 +35,7 @@ export class PostForm implements OnInit {
   updateState = signal(false)
   post = signal<Post | null>(null)
 
-  constructor(private postService: PostService, private toastService: ToastService, private dashboard: Dashboard) {
+  constructor(private postService: PostService, private toastService: ToastService) {
     this.form = new FormGroup({
       title: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
       content: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
@@ -95,11 +95,8 @@ export class PostForm implements OnInit {
       finalize(() => this.isSubmitting = false)
     ).subscribe({
       next: (post) => {
-        console.log("The new create post should be addded immidiately to the posts: ", post);
-        let posts = this.dashboard.posts();
-        this.dashboard.posts.update(posts => [post, ...posts]);
-        
-        // this.handlePostSuccess();
+        console.log("The new create post should be added immediately to the posts: ", post);
+        this.postService.imitatePostSource(post);
         this.toastService.success(4000, "Post", "Post was created successfully");
         this.form.reset();
         this.fileName = '';

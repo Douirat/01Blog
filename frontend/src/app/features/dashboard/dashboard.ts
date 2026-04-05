@@ -19,10 +19,13 @@ import {Report} from './report/report'
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
-export class Dashboard implements OnInit, OnDestroy {
+export class Dashboard implements OnInit {
   user = signal<UserResponse | null>(null);
 
-  private subscription?: Subscription;
+
+
+
+  // TODO: fix he service for passing data beween post form and dashboard.
 
   // pagination related input:
   posts = signal<Post[]>([]);
@@ -41,14 +44,14 @@ export class Dashboard implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    this.postService.postSource$.subscribe(post =>{
+      this.posts.set([post, ...this.posts()]);
+    })
     this.user.set(this.authentication.user())
     this.loadPosts();
   }
 
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe(); // prevent memory leaks.
-  }
 
 
   loadPosts() {
