@@ -4,6 +4,7 @@ import { ReportService } from '../../core/report/report-service';
 import { CommonModule } from '@angular/common';
 import { PostService } from '../../core/post/post-service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../core/toast/toast-service';
 
 @Component({
   selector: 'app-reports',
@@ -20,7 +21,7 @@ total = signal(0);
 totalReports = signal(0);
 
 
-public constructor(private reportService: ReportService, private postService: PostService, private router: Router){}
+public constructor(private reportService: ReportService, private postService: PostService, private router: Router, private toastService: ToastService){}
 
 ngOnInit(): void {
   this.loadAllReports()
@@ -29,14 +30,13 @@ ngOnInit(): void {
 loadAllReports():void{
 this.reportService.getAllReports(this.page()).subscribe({
           next: res => {
-        
             this.reports.set(res.content);
             this.isLast.set(res.last);
             this.total.set(res.totalPages);
             this.totalReports.set(res.totalElements);
           },
-          error: err => {
-            console.error('Failed to load reports', err);
+          error: _ => {
+            this.toastService.info(4000, "info", "No reports were declares.")
           },
           complete: () => {
             console.log('User fetch completed');
@@ -44,23 +44,27 @@ this.reportService.getAllReports(this.page()).subscribe({
         });
 }
 
-loadNextPage(){
-
+  nextPage() {
+  if (this.page() < this.totalReports() - 1) {
+    this.page.update(p => p + 1);
+    this.loadAllReports();
+  }
 }
 
-loadPrevPage(){
-
+previousPage() {
+  if (this.page() > 0) {
+    this.page.update(p => p - 1);
+    this.loadAllReports();
+  }
 }
 
 gotoTheReported(postId: number){
     this.postService.getUserByPostId(postId).subscribe({
       next: u => {
-        
          this.router.navigate(['/profile-admin', u.id]); 
       },
-      error: e =>{
-        console.log("TODO: i will have to create the pop up mechanism for error visibility.");
-        
+      error: _ =>{
+        this.toastService.warning(3000, "warning", "Not found")
       },
     }
     )

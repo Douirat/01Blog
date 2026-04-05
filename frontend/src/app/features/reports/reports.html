@@ -53,11 +53,11 @@
     </div>
 
     <!-- Pagination Controls -->
-    <div class="pagination" *ngIf="!isLast()">
-        <button (click)="loadPrevPage()" [disabled]="page()==0" class="btn btn-primary">
+    <div class="pagination" *ngIf="reports().length > 0">
+        <button (click)="previousPage()" [disabled]="page()==0" class="btn btn-primary">
             Prev
         </button>
-        <button (click)="loadNextPage()" [disabled]="isLast()" class="btn btn-primary">
+        <button (click)="nextPage()"  [disabled]="page() >= totalReports() - 1" class="btn btn-primary">
             Next
         </button>
     </div>
