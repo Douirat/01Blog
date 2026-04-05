@@ -22,8 +22,8 @@ export class ReportService {
 
   // get all reports:
   getAllReports(page: number): Observable<PaginatedReports> {
-    let params = new HttpParams();
-    params.set("page", page.toString());
+    let params = new HttpParams().set("page", page.toString());
+    console.log(page);
     return this.http.get<PaginatedReports>(this.reportApiUrl, { params });
   }
 

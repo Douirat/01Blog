@@ -30,10 +30,15 @@ ngOnInit(): void {
 loadAllReports():void{
 this.reportService.getAllReports(this.page()).subscribe({
           next: res => {
-            this.reports.set(res.content);
-            this.isLast.set(res.last);
-            this.total.set(res.totalPages);
-            this.totalReports.set(res.totalElements);
+            if(res != null){
+              console.log("--------> ", res);
+              this.reports.set(res.content);
+              this.isLast.set(res.last);
+              this.total.set(res.totalPages);
+              this.totalReports.set(res.totalElements);
+            }else{
+              this.toastService.info(4000, "info", "No reports were declares.")
+            }
           },
           error: _ => {
             this.toastService.info(4000, "info", "No reports were declares.")

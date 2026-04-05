@@ -43,6 +43,7 @@ public class ReportController {
         if (page < 0) {
             return ResponseEntity.badRequest().build();
         }
+        System.out.println("the page: "+ page);
         Page<ReportResponseDTO> reports = this.reportService.getAllReports(page);
         if (reports.isEmpty()) {
             return ResponseEntity.noContent().build();
