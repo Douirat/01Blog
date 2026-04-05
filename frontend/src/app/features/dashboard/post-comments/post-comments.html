@@ -1,4 +1,4 @@
-<div class="form-container comments">
+<div class="form-container comments" *ngIf="comments().length > 0">
   <h3>Comments</h3>
 
   <div *ngFor="let c of comments()">
@@ -8,9 +8,15 @@
     <hr />
   </div>
 
-  <div class="pagination">
-    <button (click)="prevPage()" [disabled]="page() === 0">Previous</button>
-    <span>Page {{ page() + 1 }} / {{ totalPages() }}</span>
-    <button (click)="nextPage()" [disabled]="lastPage()">Next</button>
-  </div>
+<div class="pagination" *ngIf="comments().length > 0">
+  <button (click)="prevPage()" [disabled]="page() === 0">
+    ⏪ Previous
+  </button>
+
+  <span>Page {{ page() + 1 }} / {{ totalPages() }}</span>
+
+  <button (click)="nextPage()" [disabled]="lastPage()">
+    Next ⏩
+  </button>
+</div>
 </div>

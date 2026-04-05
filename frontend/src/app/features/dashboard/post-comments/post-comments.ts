@@ -26,6 +26,7 @@ export class PostComments implements OnChanges, OnInit {
   totalPages = signal(0);
   lastPage = signal(false);
 
+
   ngOnInit(): void {
     this.commentService.commentSource$.subscribe(comment => {
       this.comments.set([comment, ...this.comments()])
@@ -44,11 +45,14 @@ export class PostComments implements OnChanges, OnInit {
     this.commentService.getComments(this.postId, this.page()).subscribe({
       next: res => {
         if (res != null) {
+          console.log("res =====>", res);
+          
           this.comments.set(res?.content);
           this.totalPages.set(res.totalPages);
           this.lastPage.set(res.last);
         } else {
           this.toastservice.info(5000, "message", "seems like there are no comments");
+          this.lastPage.set(true);
         }
       },
       error: err => {
