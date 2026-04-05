@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { CommentRequest, CommentResponse, Comment, PaginatedCommentsDTO } from '../../types/comment';
 
@@ -9,12 +9,14 @@ import { CommentRequest, CommentResponse, Comment, PaginatedCommentsDTO } from '
 })
 export class CommentService {
   private readonly apiUrl = `${environment.apiUrl}/api/comments`
+  private commentSource = new Subject<Comment>();
+  commentSource$ = this.commentSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
   // a method to request the creation of a comment:
-  createComment(comment: CommentRequest): Observable<CommentResponse> {
-    return this.http.post<CommentResponse>(this.apiUrl, comment);
+  createComment(comment: CommentRequest): Observable<Comment> {
+    return this.http.post<Comment>(this.apiUrl, comment);
   }
 
     getComments(postId: number, page: number): Observable<PaginatedCommentsDTO> {
@@ -23,5 +25,9 @@ export class CommentService {
       .set('page', page)
 
     return this.http.get<PaginatedCommentsDTO>(this.apiUrl, { params });
+  }
+
+  imitateComment(comment: Comment):void{
+    this.commentSource.next(comment);
   }
 }

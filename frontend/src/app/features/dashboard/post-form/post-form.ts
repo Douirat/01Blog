@@ -113,11 +113,4 @@ export class PostForm implements OnInit {
     });
   }
 
-  // private handlePostSuccess() {
-  //   this.toastService.success(4000, "Post", "Post was created sucessfully");
-  //   this.form.reset();
-  //   this.fileName = '';
-  // }
-
-
 }

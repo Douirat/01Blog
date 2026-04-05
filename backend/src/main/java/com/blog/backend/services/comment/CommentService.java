@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import com.blog.backend.dtos.comment.CommentDetailsDTO;
 
 public interface CommentService {
-    Comment createComment(CommentDTO requestDTO, Long userId);
+    CommentDetailsDTO createComment(CommentDTO requestDTO, Long userId);
 
     Page<CommentDetailsDTO> getPostComments(int page, Long postId);
 }

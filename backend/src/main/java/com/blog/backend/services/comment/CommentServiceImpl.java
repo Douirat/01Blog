@@ -14,7 +14,6 @@ import com.blog.backend.repositories.post.PostRepository;
 import com.blog.backend.repositories.user.UserRepository;
 import com.blog.backend.repositories.comment.CommentRepository;
 import org.springframework.stereotype.Service;
-import com.blog.backend.exceptions.ResourceNotFoundException; // If you added this custom exception
 import com.blog.backend.mappers.comment.CommentMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
 
         // Assuming this method is public based on the interface context
         @Override
-        public Comment createComment(CommentDTO requestDTO, Long userId) {
+        public CommentDetailsDTO createComment(CommentDTO requestDTO, Long userId) {
                 Post post = postRepository.findById(requestDTO.postId())
                                 .orElseThrow(() -> new ResourceNotFoundException(
                                                 "Post with ID " + requestDTO.postId() + " not found"));
@@ -56,7 +55,8 @@ public class CommentServiceImpl implements CommentService {
                 comment.setPost(post);
                 comment.setUser(user);
                 comment.setCreatedAt(LocalDate.now());
-                return commentRepository.save(comment);
+                commentRepository.save(comment);
+                return commentMapper.toDto(comment);
         }
 
         /**

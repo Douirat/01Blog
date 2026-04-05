@@ -1,9 +1,9 @@
-import { Component, inject, Input, OnChanges, signal } from '@angular/core';
-import { CommentService } from '../../../core/comment/comment-service';
+import { Component, inject, Input, OnInit,OnChanges, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { CommentResponse, CommentRequest } from '../../../types/comment';
+import { CommentRequest, Comment } from '../../../types/comment';
 import { CommonModule } from '@angular/common';
 import { SimpleChanges } from '@angular/core';
+import { CommentService } from '../../../core/comment/comment-service';
 
 type CommentFormType = {
   title: FormControl<string>;
@@ -17,12 +17,24 @@ type CommentFormType = {
   templateUrl: './comment-form.html',
   styleUrl: './comment-form.scss',
 })
+
+
 export class CommentForm implements OnChanges {
+
+  isLoading = false;
+  responseMessage: Comment | null = null;
+  newCommentId: number | null = null;
+  isSuccess: boolean | null = null;
+  service: CommentService = inject(CommentService);
+
+  constructor(private commentService: CommentService){}
+  
 
   @Input() postId!: number;
 
-   // Signal with initial undefined (correct)
+  // Signal with initial undefined (correct)
   post_id = signal<number | null>(null);
+
 
 
 
@@ -33,15 +45,8 @@ export class CommentForm implements OnChanges {
     }
   }
 
-  isLoading = false;
-  responseMessage: CommentResponse | null = null;
-  newCommentId: number | null = null;
-  isSuccess: boolean | null = null;
-  service: CommentService = inject(CommentService);
 
   // Declare the form group as a wrapper of the request type:
-
-
   form: FormGroup<CommentFormType> = new FormGroup<CommentFormType>({
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     content: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -51,8 +56,6 @@ export class CommentForm implements OnChanges {
 
 
   onSubmit() {
-
-
     if (this.form.valid) {
       this.isLoading = true;
       const commentRequest: CommentRequest = this.form.getRawValue();
@@ -60,14 +63,15 @@ export class CommentForm implements OnChanges {
 
       this.service.createComment(commentRequest).subscribe({
         next: (response) => {
+          this.commentService.imitateComment(response);
           this.responseMessage = response;
           this.newCommentId = response.id; // if response has an id
           this.isSuccess = true;
           this.isLoading = false;
-          this.form.reset();
+          this.form.reset({ postId: this.post_id() });
         },
         error: (error) => {
-          this.isSuccess = false;
+          // this.isSuccess = false;
           this.isLoading = false;
           console.error('Error creating comment:', error);
         }
