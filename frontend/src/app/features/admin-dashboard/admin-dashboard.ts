@@ -46,7 +46,7 @@ export class AdminDashboard implements OnInit {
   }
 
   //navigate between pages:
-  nextPage(): void { if (!this.last) { this.page.update(p => p + 1); } this.loadUsers(); }
+  nextPage(): void { if (this.page() < this.totalPages() -1) { this.page.update(p => p + 1); } this.loadUsers(); }
 
   prevPage(): void { if (this.page() > 0) { this.page.update(p => p - 1); } this.loadUsers(); }
 
