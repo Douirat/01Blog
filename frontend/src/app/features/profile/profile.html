@@ -3,23 +3,51 @@
   <h2>{{ user()?.firstName }} {{ user()?.lastName }}</h2>
   <p>{{ user()?.email }}</p>
 </div>
+
+<!-- POSTS LIST -->
 <div *ngFor="let post of posts()" class="post-card">
-  <img style="width: 200px; height: auto;" class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl" alt="Post media">
+
+  <img style="width: 200px; height: auto;" 
+       class="card-image"
+       *ngIf="post.mediaUrl"
+       [src]="post.mediaUrl">
+
   <div class="post-content">
     <span>By {{ post.user.nickName }}</span>
     <h3>{{ post.title }}</h3>
     <p>{{ post.content }}</p>
-    <div class="actions">
-  <!-- Update button -->
-  <button *ngIf="profileOwner()" (click)="toggleUpdate(+post.id)">
-    ✏️ Update
-  </button>
 
-  <!-- Delete button -->
-  <button *ngIf="profileOwner()" (click)="deletePost(+post.id)">
-    🗑️ Delete
-  </button>
-</div>
-    <app-post-form [postToUpdate]="post" *ngIf="postToUpdate() === post.id" (postSaved)="onPostUpdated($event)"></app-post-form>
+    <div class="actions">
+      <button *ngIf="profileOwner()" (click)="toggleUpdate(+post.id)">
+        ✏️ Update
+      </button>
+
+      <button *ngIf="profileOwner()" (click)="deletePost(+post.id)">
+        🗑️ Delete
+      </button>
+    </div>
+
+    <app-post-form
+      [postToUpdate]="post"
+      *ngIf="postToUpdate() === post.id"
+      (postSaved)="onPostUpdated($event)">
+    </app-post-form>
+
     <hr>
   </div>
+
+</div> <!-- IMPORTANT: loop ends here -->
+
+
+<!-- PAGINATION (only once) -->
+<div class="pagination">
+  <button (click)="previousPage()" [disabled]="currentPage() === 0">
+    ⬅ Previous
+  </button>
+
+  <span>Page {{ currentPage() + 1 }} / {{ totalPages() }}</span>
+
+  <button (click)="nextPage()" [disabled]="currentPage() >= totalPages() - 1">
+    Next ➡
+  </button>
+</div>

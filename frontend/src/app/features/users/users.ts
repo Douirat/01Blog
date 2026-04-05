@@ -17,7 +17,7 @@ export class Users {
   page = signal(0);
   users = signal<UserDTO[] | []>([])
   lastUsers = signal(false);
-  totalUser = signal(0);
+  totalUsers = signal(0);
   loggedUserId = signal<string | undefined>(undefined);
 
   // Search reliability
@@ -40,7 +40,7 @@ export class Users {
         this.users().filter(user => user.id !== this.loggedUserId())
       );
       this.lastUsers.set(data.last);
-      this.totalUser.set(data.totalPages);
+      this.totalUsers.set(data.totalPages);
     })
   }
 
@@ -67,7 +67,21 @@ export class Users {
         data.content.filter(user => user.id !== this.loggedUserId())
       );
       this.lastUsers.set(data.last);
-      this.totalUser.set(data.totalPages);
+      this.totalUsers.set(data.totalPages);
     });
   }
+
+  nextPage() {
+  if (this.page() < this.totalUsers() - 1) {
+    this.page.update(p => p + 1);
+    this.loadUsers();
+  }
+}
+
+previousPage() {
+  if (this.page() > 0) {
+    this.page.update(p => p - 1);
+    this.loadUsers();
+  }
+}
 }

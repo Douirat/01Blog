@@ -34,11 +34,11 @@ export class Profile implements OnInit {
   totalPages = signal(0);
 
   constructor(private route: ActivatedRoute,
-      private postService: PostService,
-      private auth: Authentication,
-      private toastService: ToastService,
-      private usersServ: UsersService
-      ) { }
+    private postService: PostService,
+    private auth: Authentication,
+    private toastService: ToastService,
+    private usersServ: UsersService
+  ) { }
 
   ngOnInit(): void {
     this.loggedUser.set(this.auth.user()?.user);
@@ -49,7 +49,7 @@ export class Profile implements OnInit {
       if (this.loggedUser()?.id.toString() === id) {
 
         this.profileOwner.set(true);
-        
+
         this.user.set(this.loggedUser());
       } else {
         this.usersServ.getUserById(this.userId()).subscribe({
@@ -90,26 +90,40 @@ export class Profile implements OnInit {
   }
 
   onPostUpdated(updatedPost: Post) {
-  this.posts.update(posts =>
-    posts.map(p =>
-      p.id === updatedPost.id ? updatedPost : p
-    )
-  );
+    this.posts.update(posts =>
+      posts.map(p =>
+        p.id === updatedPost.id ? updatedPost : p
+      )
+    );
 
-  // close the form
-  this.postToUpdate.set(null);
+    // close the form
+    this.postToUpdate.set(null);
+  }
+
+  deletePost(postId: number): void {
+    this.postService.deletePost(postId).subscribe({
+      next: res => {
+        this.toastService.success(4000, "success", "Post deleted successfully.");
+        this.posts.set(this.posts().filter(p => p.id != postId));
+      },
+      error: err => {
+        this.toastService.error(3000, "error", "Error deleting post.")
+      },
+    })
+  }
+
+  nextPage() {
+  if (this.currentPage() < this.totalPages() - 1) {
+    this.currentPage.update(p => p + 1);
+    this.loadPosts();
+  }
 }
 
-deletePost(postId: number): void{
-this.postService.deletePost(postId).subscribe({
-  next: res =>{
-    this.toastService.success(4000, "success", "Post deleted successfully.");
-    this.posts.set(this.posts().filter(p => p.id != postId));
-  },
-  error: err =>{
-    this.toastService.error(3000, "error", "Error deleting post.")
-  },
-})
+previousPage() {
+  if (this.currentPage() > 0) {
+    this.currentPage.update(p => p - 1);
+    this.loadPosts();
+  }
 }
 
 }
