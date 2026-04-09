@@ -4,6 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +46,32 @@ public class SubscriptionController {
                             Map.of(
                                     "status", "error",
                                     "message", "Already following this user"));
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> checkSubscription(
+            @RequestParam Long followedId) {
+
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Long followerId = this.getUserIdFromContext();
+
+            boolean isFollowing = subscriptionService.isFollowing(followerId, followedId);
+
+            response.put("followerId", followerId);
+            response.put("followedId", followedId);
+            response.put("isFollowing", isFollowing);
+
+            return ResponseEntity.ok(response);
+
+        } catch (IllegalArgumentException e) {
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+
+        } catch (Exception e) {
+            response.put("error", "Unexpected error: " + e.getMessage());
+            return ResponseEntity.status(500).body(response);
         }
     }
 

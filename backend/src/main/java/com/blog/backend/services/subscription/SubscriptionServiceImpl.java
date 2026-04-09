@@ -21,21 +21,35 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Autowired
     private UserRepository userRepository;
 
-@Transactional
-@Override
-public Subscription subscribe(long followerId, long followedId) {
+    @Transactional
+    @Override
+    public Subscription subscribe(long followerId, long followedId) {
 
-    if (followerId == followedId) {
-        throw new IllegalArgumentException("User cannot follow themselves");
+        if (followerId == followedId) {
+            throw new IllegalArgumentException("User cannot follow themselves");
+        }
+
+        User follower = userRepository.getReferenceById(followerId);
+        User followed = userRepository.getReferenceById(followedId);
+
+        Subscription subscription = new Subscription();
+        subscription.setFollower(follower);
+        subscription.setFollowed(followed);
+
+        return subscriptionRepository.save(subscription);
     }
 
-    User follower = userRepository.getReferenceById(followerId);
-    User followed = userRepository.getReferenceById(followedId);
+    @Override
+    public boolean isFollowing(long followerId, long followedId) {
+        if (followerId == followedId) {
+            throw new IllegalArgumentException("User cannot follow themselves");
+        }
 
-    Subscription subscription = new Subscription();
-    subscription.setFollower(follower);
-    subscription.setFollowed(followed);
+        User follower = userRepository.findById(followerId)
+                .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
+        User followed = userRepository.findById(followedId)
+                .orElseThrow(() -> new IllegalArgumentException("Followed user not found"));
 
-    return subscriptionRepository.save(subscription);
-}
+        return subscriptionRepository.existsByFollowerAndFollowed(follower, followed);
+    }
 }

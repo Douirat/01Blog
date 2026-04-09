@@ -33,6 +33,9 @@ export class Profile implements OnInit {
   currentPage = signal(0);
   totalPages = signal(0);
 
+  // Subscription
+  subscribed = signal(false);
+
   constructor(private route: ActivatedRoute,
     private postService: PostService,
     private auth: Authentication,
@@ -68,6 +71,9 @@ export class Profile implements OnInit {
     });
   }
 
+  // TODO: check subscription:
+
+
 
 
   loadPosts() {
@@ -81,6 +87,7 @@ export class Profile implements OnInit {
     })
   }
 
+
   toggleUpdate(postId: number) {
     if (this.postToUpdate() === postId) {
       this.postToUpdate.set(null);
@@ -88,6 +95,7 @@ export class Profile implements OnInit {
     }
     this.postToUpdate.set(postId);
   }
+
 
   onPostUpdated(updatedPost: Post) {
     this.posts.update(posts =>
@@ -99,6 +107,7 @@ export class Profile implements OnInit {
     // close the form
     this.postToUpdate.set(null);
   }
+
 
   deletePost(postId: number): void {
     this.postService.deletePost(postId).subscribe({
@@ -112,12 +121,15 @@ export class Profile implements OnInit {
     })
   }
 
+
+
   nextPage() {
   if (this.currentPage() < this.totalPages() - 1) {
     this.currentPage.update(p => p + 1);
     this.loadPosts();
   }
 }
+
 
 previousPage() {
   if (this.currentPage() > 0) {
