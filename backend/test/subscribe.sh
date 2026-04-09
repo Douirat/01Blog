@@ -3,4 +3,4 @@ TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huMUBleGFtcGxlLmNvbSIsImlkIjo0LCJyb2xl
 curl -X POST \
      -H "Authorization: Bearer $TOKEN" \
      -H "Content-Type: application/json" \
-     "http://localhost:8080/api/subscription?followedId=4"
+     "http://localhost:8080/api/subscription?followedId=3"

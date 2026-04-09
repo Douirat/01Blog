@@ -80,13 +80,9 @@ export class Profile implements OnInit {
       const id = params['id'];
       this.subscriptionService.checkSubscription(id).subscribe({
         next: r => {
-          if (r["isFollowing"]) {
-            this.subscribed.set(true);
-          } else {
-            this.subscribed.set(false);
-          }
+          this.subscribed.set(r.isFollowing);
         },
-        error: e => {
+        error: _ => {
          this.toastService.warning(3000, "issue", "issue checking subscription");
         }
       });
@@ -95,7 +91,15 @@ export class Profile implements OnInit {
 
 
   handleSubscription():void{
-    console.log("🔔🔔🔔🔔🔔🔔🔔🔔", this.userId());
+    this.subscriptionService.handleSubscription(this.userId()).subscribe({
+      next: res =>{
+        console.log(res);
+        this.subscribed.set(res.isFollowing);
+      },
+      error: e =>{
+        console.log(e);
+      }
+    })
   }
 
 

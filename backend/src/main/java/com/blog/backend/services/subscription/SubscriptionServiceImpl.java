@@ -29,9 +29,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             throw new IllegalArgumentException("User cannot follow themselves");
         }
 
-        User follower = userRepository.getReferenceById(followerId);
-        User followed = userRepository.getReferenceById(followedId);
+        User follower = userRepository.findById(followerId)
+                .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
 
+        User followed = userRepository.findById(followedId)
+                .orElseThrow(() -> new IllegalArgumentException("Followed user not found"));
+
+        Optional<Subscription> subscriptionOpt = subscriptionRepository.findByFollowerAndFollowed(follower, followed);
+
+        // If already following → UNFOLLOW (toggle off)
+        if (subscriptionOpt.isPresent()) {
+            subscriptionRepository.delete(subscriptionOpt.get());
+            return null; // means "unfollowed"
+        }
+
+        // If not following → FOLLOW (toggle on)
         Subscription subscription = new Subscription();
         subscription.setFollower(follower);
         subscription.setFollowed(followed);

@@ -27,25 +27,27 @@ public class SubscriptionController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> follow(@RequestParam long followedId) {
+    public ResponseEntity<Map<String, Object>> follow(@RequestParam long followedId) {
 
         Long followerId = this.getUserIdFromContext();
 
         try {
             Subscription sub = subscriptionService.subscribe(followerId, followedId);
-            return ResponseEntity.ok(
-                    Map.of(
-                            "status", "success",
-                            "message", "Subscription created with id " + sub.getId()));
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("followerId", followerId);
+            response.put("followedId", followedId);
+            response.put("isFollowing", sub != null);
+
+            return ResponseEntity.ok(response);
+
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
-                    .body(Map.of("message", e.getMessage()));
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(
-                            Map.of(
-                                    "status", "error",
-                                    "message", "Already following this user"));
+                    .body(Map.of("error", e.getMessage()));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Unexpected server error"));
         }
     }
 
