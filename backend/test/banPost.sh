@@ -3,4 +3,4 @@ TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huMUBleGFtcGxlLmNvbSIsImlkIjoyLCJyb2xl
 curl -X PATCH \
      -H "Authorization: Bearer $TOKEN" \
      -H "Content-Type: application/json" \
-     "http://localhost:8080/api/posts?id=1"
+     "http://localhost:8080/api/posts?id=5"

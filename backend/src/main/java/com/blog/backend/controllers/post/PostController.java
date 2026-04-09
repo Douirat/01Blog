@@ -33,7 +33,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class PostController {
 
     private final PostService postService;
-
+// TODO: missing a huge part of error handling and exceptions;
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> createPost(
             @ModelAttribute PostInputDTO dto) {
@@ -169,7 +169,7 @@ public class PostController {
         return ResponseEntity.ok(Map.of("message", "Post banned successfully"));
     }
 
-    @PatchMapping("/unban") // TODO: Unban post and remove the reject report the the report flow.
+    @PatchMapping("/unban")
     public ResponseEntity<Map<String, String>> unbanPost(@RequestParam long id) {
         boolean banned = postService.unbanPost(id);
 
