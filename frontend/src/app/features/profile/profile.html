@@ -2,15 +2,15 @@
   <img style="width: 200px; height: auto;" [src]="user()?.avatar" alt="Avatar">
   <h2>{{ user()?.firstName }} {{ user()?.lastName }}</h2>
   <p>{{ user()?.email }}</p>
+<button (click)="handleSubscription()">
+  {{ subscribed() ? '🔔' : '🔕' }}
+</button>
 </div>
 
 <!-- POSTS LIST -->
 <div *ngFor="let post of posts()" class="post-card">
 
-  <img style="width: 200px; height: auto;" 
-       class="card-image"
-       *ngIf="post.mediaUrl"
-       [src]="post.mediaUrl">
+  <img style="width: 200px; height: auto;" class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl">
 
   <div class="post-content">
     <span>By {{ post.user.nickName }}</span>
@@ -27,10 +27,7 @@
       </button>
     </div>
 
-    <app-post-form
-      [postToUpdate]="post"
-      *ngIf="postToUpdate() === post.id"
-      (postSaved)="onPostUpdated($event)">
+    <app-post-form [postToUpdate]="post" *ngIf="postToUpdate() === post.id" (postSaved)="onPostUpdated($event)">
     </app-post-form>
 
     <hr>

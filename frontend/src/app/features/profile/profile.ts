@@ -8,6 +8,7 @@ import { PostForm } from '../dashboard/post-form/post-form';
 import { Authentication } from '../../core/authentication/auth/authentication';
 import { UsersService } from "../../core/users/users-service";
 import { ToastService } from '../../core/toast/toast-service';
+import { SubscriptionService } from '../../core/subscription/subscription-service';
 
 
 
@@ -21,7 +22,7 @@ import { ToastService } from '../../core/toast/toast-service';
 export class Profile implements OnInit {
 
   user = signal<UserDTO | undefined>(undefined);
-  userId = signal<number | null>(null);
+  userId = signal(0);
   profileOwner = signal<boolean>(false);
   loggedUser = signal<UserDTO | undefined>(undefined);
 
@@ -40,7 +41,8 @@ export class Profile implements OnInit {
     private postService: PostService,
     private auth: Authentication,
     private toastService: ToastService,
-    private usersServ: UsersService
+    private usersServ: UsersService,
+    private subscriptionService: SubscriptionService
   ) { }
 
   ngOnInit(): void {
@@ -68,11 +70,33 @@ export class Profile implements OnInit {
         });
       }
       this.loadPosts();
+      this.checkFollowing();
     });
   }
 
   // TODO: check subscription:
+  checkFollowing(): void {
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      this.subscriptionService.checkSubscription(id).subscribe({
+        next: r => {
+          if (r["isFollowing"]) {
+            this.subscribed.set(true);
+          } else {
+            this.subscribed.set(false);
+          }
+        },
+        error: e => {
+         this.toastService.warning(3000, "issue", "issue checking subscription");
+        }
+      });
+    });
+  }
 
+
+  handleSubscription():void{
+    console.log("🔔🔔🔔🔔🔔🔔🔔🔔", this.userId());
+  }
 
 
 
@@ -124,18 +148,18 @@ export class Profile implements OnInit {
 
 
   nextPage() {
-  if (this.currentPage() < this.totalPages() - 1) {
-    this.currentPage.update(p => p + 1);
-    this.loadPosts();
+    if (this.currentPage() < this.totalPages() - 1) {
+      this.currentPage.update(p => p + 1);
+      this.loadPosts();
+    }
   }
-}
 
 
-previousPage() {
-  if (this.currentPage() > 0) {
-    this.currentPage.update(p => p - 1);
-    this.loadPosts();
+  previousPage() {
+    if (this.currentPage() > 0) {
+      this.currentPage.update(p => p - 1);
+      this.loadPosts();
+    }
   }
-}
 
 }
