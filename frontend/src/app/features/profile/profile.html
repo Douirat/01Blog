@@ -2,9 +2,11 @@
   <img style="width: 200px; height: auto;" [src]="user()?.avatar" alt="Avatar">
   <h2>{{ user()?.firstName }} {{ user()?.lastName }}</h2>
   <p>{{ user()?.email }}</p>
-<button (click)="handleSubscription()">
-  {{ subscribed() ? '🔔' : '🔕' }}
-</button>
+  @if (toStr(loggedUser()?.id) !== toStr(user()?.id)) {
+  <button (click)="handleSubscription()">
+    {{ subscribed() ? '🔔' : '🔕' }}
+  </button>
+  }
 </div>
 
 <!-- POSTS LIST -->

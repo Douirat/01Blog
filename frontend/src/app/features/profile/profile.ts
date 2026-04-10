@@ -83,20 +83,20 @@ export class Profile implements OnInit {
           this.subscribed.set(r.isFollowing);
         },
         error: _ => {
-         this.toastService.warning(3000, "issue", "issue checking subscription");
+          this.toastService.warning(3000, "issue", "issue checking subscription");
         }
       });
     });
   }
 
 
-  handleSubscription():void{
+  handleSubscription(): void {
     this.subscriptionService.handleSubscription(this.userId()).subscribe({
-      next: res =>{
+      next: res => {
         console.log(res);
         this.subscribed.set(res.isFollowing);
       },
-      error: e =>{
+      error: e => {
         console.log(e);
       }
     })
@@ -164,6 +164,10 @@ export class Profile implements OnInit {
       this.currentPage.update(p => p - 1);
       this.loadPosts();
     }
+  }
+
+  toStr(value: unknown): string {
+    return String(value);
   }
 
 }
