@@ -33,7 +33,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class PostController {
 
     private final PostService postService;
-// TODO: missing a huge part of error handling and exceptions;
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> createPost(
             @ModelAttribute PostInputDTO dto) {
@@ -45,7 +44,6 @@ public class PostController {
     /**
      * Update an existing post:
      */
-
     @PutMapping(value = "/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Post> updatePost(
             @PathVariable Long postId,

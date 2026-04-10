@@ -7,6 +7,7 @@ import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.repositories.user.UserRepository;
 import com.blog.backend.models.user.User;
 import com.blog.backend.services.file.FileStorageService;
+import com.blog.backend.types.report.ReportStatus;
 import com.blog.backend.constants.FileTypeConstants;
 import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.dtos.post.UserSummaryDTO;
@@ -235,6 +236,7 @@ public class PostServiceImpl implements PostService {
                 if (post.isBanned()) {
                         return true; // already banned → still success from UI POV
                 }
+                this.reportRepository.updateStatusByPostId(post.getId(), ReportStatus.APPROVED);
 
                 post.setBanned(true);
                 postRepository.save(post); // explicit save = clearer intent
@@ -280,6 +282,8 @@ public class PostServiceImpl implements PostService {
                 if (!post.isBanned()) {
                         return true; // already banned → still success from UI POV
                 }
+
+                this.reportRepository.updateStatusByPostId(post.getId(), ReportStatus.REJECTED);
 
                 post.setBanned(false);
                 postRepository.save(post); // explicit save = clearer intent

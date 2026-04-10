@@ -23,8 +23,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
                 ORDER BY
                     CASE
                         WHEN r.status = com.blog.backend.types.report.ReportStatus.PENDING THEN 0
-                        WHEN r.status = com.blog.backend.types.report.ReportStatus.REVIEWED THEN 1
-                        WHEN r.status = com.blog.backend.types.report.ReportStatus.APPROVED THEN 2
+                        WHEN r.status = com.blog.backend.types.report.ReportStatus.APPROVED THEN 1
                         WHEN r.status = com.blog.backend.types.report.ReportStatus.REJECTED THEN 3
                         ELSE 4
                     END,
@@ -39,9 +38,8 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
                 ORDER BY
                     CASE
                         WHEN r.status = com.blog.backend.types.report.ReportStatus.PENDING THEN 0
-                        WHEN r.status = com.blog.backend.types.report.ReportStatus.REVIEWED THEN 1
-                        WHEN r.status = com.blog.backend.types.report.ReportStatus.APPROVED THEN 2
-                        WHEN r.status = com.blog.backend.types.report.ReportStatus.REJECTED THEN 3
+                        WHEN r.status = com.blog.backend.types.report.ReportStatus.APPROVED THEN 1
+                        WHEN r.status = com.blog.backend.types.report.ReportStatus.REJECTED THEN 2
                         ELSE 4
                     END,
                     r.createdAt DESC
@@ -57,5 +55,11 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     @Modifying
     @Query("DELETE FROM Report r WHERE r.post.id = :postId")
     int deleteByPostId(@Param("postId") Long postId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Report r SET r.status = :status WHERE r.post.id = :postId")
+    int updateStatusByPostId(@Param("postId") Long postId,
+            @Param("status") ReportStatus status);
 
 }

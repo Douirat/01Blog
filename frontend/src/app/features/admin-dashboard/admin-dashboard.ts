@@ -23,6 +23,7 @@ export class AdminDashboard implements OnInit {
   // Search reliability:
   searchTerm = signal("");
   searchPage = signal(0);
+  activeSearch = signal(false);
 
   constructor(
     private auth: Authentication,
@@ -46,13 +47,31 @@ export class AdminDashboard implements OnInit {
   }
 
   //navigate between pages:
-  nextPage(): void { if (this.page() < this.totalPages() -1) { this.page.update(p => p + 1); } this.loadUsers(); }
+  nextPage(): void {
+    if (this.page() < this.totalPages() - 1) {
+      if (this.activeSearch()) {
+        this.searchPage.update(p => p + 1);
+        this.searchUsers();
+        return;
+      }
+      this.page.update(p => p + 1);
+    } this.loadUsers();
+  }
 
-  prevPage(): void { if (this.page() > 0) { this.page.update(p => p - 1); } this.loadUsers(); }
+  prevPage(): void {
+    if (this.page() > 0) {
+      if (this.activeSearch()) {
+        this.searchPage.update(p => p - 1);
+        this.searchUsers();
+        return;
+      }
+      this.page.update(p => p - 1);
+    } this.loadUsers();
+  }
 
   // Navigate to a user's profile
-  adminVisitProfile(user: UserDTO): void { 
-    this.router.navigate(['/profile-admin', user.id]); 
+  adminVisitProfile(user: UserDTO): void {
+    this.router.navigate(['/profile-admin', user.id]);
   }
 
   /**
@@ -61,12 +80,14 @@ export class AdminDashboard implements OnInit {
   searchUsers() {
     const term = this.searchTerm().trim();
     if (!term) {
+      this.activeSearch.set(false);
       // empty search → go back to normal feed
       this.loadUsers();
       return;
     }
 
-    this.usersService.searchUsers(this.page(), term).subscribe((data: PaginatedUsers) => {
+
+    this.usersService.searchUsers(this.searchPage(), term).subscribe((data: PaginatedUsers) => {
       this.users.set(
         data.content.filter(user => user.id !== this.loggedUserId())
       );
