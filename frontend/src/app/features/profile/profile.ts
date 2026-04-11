@@ -70,7 +70,9 @@ export class Profile implements OnInit {
         });
       }
       this.loadPosts();
-      this.checkFollowing();
+      if(this.user()?.id != this.loggedUser()?.id){
+        this.checkFollowing();
+      }
     });
   }
 
@@ -97,7 +99,7 @@ export class Profile implements OnInit {
         this.subscribed.set(res.isFollowing);
       },
       error: e => {
-        console.log(e);
+        console.log("what the fuck is this shit...." ,e);
       }
     })
   }

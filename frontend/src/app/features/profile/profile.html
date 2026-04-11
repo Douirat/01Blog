@@ -4,7 +4,7 @@
   <p>{{ user()?.email }}</p>
   @if (toStr(loggedUser()?.id) !== toStr(user()?.id)) {
   <button (click)="handleSubscription()">
-    {{ subscribed() ? '🔔' : '🔕' }}
+    {{ !subscribed() ? '🔔' : '🔕' }}
   </button>
   }
 </div>

@@ -11,12 +11,19 @@ import com.blog.backend.util.JwtUtil;
 import com.blog.backend.services.file.FileStorageService;
 import com.blog.backend.constants.FileTypeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 
 @Service
 class UserServiceImpl implements UserService {
+
+    @Value("${file.base-url:http://localhost:8080}")
+    private String baseUrl;
+
+    @Value("${file.upload-dir:uploads}")
+    private String uploadDir;
 
     private final FileStorageService fileStorage;
     private final UserRepository userRepository;
@@ -45,17 +52,12 @@ class UserServiceImpl implements UserService {
             return Optional.empty(); // Required fields are missing
         }
 
-        String avatarPath = null;
-        if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
-            avatarPath = fileStorage.saveFile(user.getAvatar(), FileTypeConstants.AVATAR_DIR,
-                    FileTypeConstants.IMAGE_TYPES);
-        } else {
-            avatarPath = "http://localhost:8080/uploads/default-avatar.jpg";
-        }
+        String avatarPath = (user.getAvatar() != null && !user.getAvatar().isEmpty())
+                ? fileStorage.saveFile(user.getAvatar(), FileTypeConstants.AVATAR_DIR, FileTypeConstants.IMAGE_TYPES)
+                : baseUrl + "/" + uploadDir + "/default-avatar.jpg";
 
         User newUser = new User();
         newUser.setEmail(user.getEmail());
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         newUser.setPassword(encoder.encode(user.getPassword()));
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());

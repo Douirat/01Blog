@@ -48,8 +48,15 @@ export class Registration {
       // set the loading state:
       this.isSubmitting = true;
       this.errorMessage = '';
+
+
       // get the form values and create the user object:
       const newUser: RegistrationFormData = this.form.value;
+
+      if (this.selectedFile) {
+        newUser.avatar = this.selectedFile; // IMPORTANT
+      }
+
       // call the authentication service to register the user:
       this.authService.register(newUser).subscribe({
         // Success handler:
@@ -102,9 +109,54 @@ export class Registration {
 
 
   onFileSelected(event: any) {
-    if (event.target.files && event.target.files.length > 0) {
-      this.selectedFile = event.target.files[0];
+    const file: File = event.target.files?.[0];
+
+    if (!file) return;
+
+    // 1. Validate type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      this.toastService.error(4000, "Invalid file", "Only JPG, PNG, WEBP allowed");
+      this.resetForm();
+      return;
     }
+
+    // 2. Validate size (5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+      this.toastService.error(4000, "File too large", "Max size is 5MB");
+      return;
+    }
+
+    // 3. Validate resolution (async)
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.onload = () => {
+      const width = img.width;
+      const height = img.height;
+
+      URL.revokeObjectURL(objectUrl);
+
+      if (width > 5000 || height > 5000) {
+        this.toastService.error(
+          4000,
+          "Invalid resolution",
+          "Max resolution is 5000×5000"
+        );
+        return;
+      }
+
+      // If everything is valid → store file
+      this.selectedFile = file;
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      this.toastService.error(4000, "Invalid file", "Not a valid image");
+    };
+
+    img.src = objectUrl;
   }
 
 
