@@ -8,7 +8,7 @@
 
 <!-- Posts -->
 <div *ngFor="let post of posts()" class="post-card">
-  <img class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl" alt="Post media">
+  <img *ngIf="post.mediaUrl" [src]="post.mediaUrl" width="100%" height="auto" style="object-fit: cover;">
   <div class="post-content">
     <span>By {{ post.user.nickName }}</span>
     <h3>{{ post.title }}</h3>
@@ -22,13 +22,13 @@
       <small>
         <button (click)="vote(post.id, 'dislike')">Dislike</button> {{ post.dislikes }}
       </small>
-   <small *ngIf="user() && +user()!.user.id !== post.user.id">
+      <small *ngIf="user() && +user()!.user.id !== post.user.id">
         <button *ngIf="user()" (click)="reportPost(post.id)">report</button>
       </small>
     </div>
     <hr />
     <app-report *ngIf="postToReport() > 0 && postToReport() == post.id && user()" [postId]="post.id"
-        [reporterId]="+user()!.user!.id">
+      [reporterId]="+user()!.user!.id">
     </app-report>
     <hr />
     <!-- Comment form -->
