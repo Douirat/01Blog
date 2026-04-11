@@ -99,7 +99,7 @@ export class Profile implements OnInit {
         this.subscribed.set(res.isFollowing);
       },
       error: e => {
-        console.log("what the fuck is this shit...." ,e);
+       this.toastService.warning(3000, "issue", "issue making subscription");
       }
     })
   }
