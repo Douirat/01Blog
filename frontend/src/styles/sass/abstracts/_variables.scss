@@ -1,0 +1,23 @@
+// VARIABLES
+// Store all design tokens here:
+// colors, spacing, fonts, z-index, breakpoints, etc.
+// This file should NOT output CSS.
+/*                              ======================================
+                                                Header
+                                ======================================
+*/ 
+
+// colors.
+$header-primary-color: #222221;
+$header-secondary-color: #424242;
+$header-font-color: #fff;
+
+// Height and width.
+$header-height: 50px;
+$header-width: 100vw;
+
+// Font
+$header-font-family: 'Nunito';
+
+// Body.
+$initial-background-color: linear-gradient(180deg, #3b3b3b, #111112);

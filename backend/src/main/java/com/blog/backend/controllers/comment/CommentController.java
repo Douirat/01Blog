@@ -1,16 +1,13 @@
 package com.blog.backend.controllers.comment;
 
-import com.blog.backend.dtos.comment.CommentResponseDTO;
+
 import com.blog.backend.services.comment.CommentService;
 import com.blog.backend.dtos.comment.CommentDTO;
 import com.blog.backend.dtos.comment.CommentDetailsDTO;
 import com.blog.backend.dtos.comment.PaginatedCommentsDTO;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.blog.backend.security.PrincipalUser;
 import jakarta.validation.Valid;
-import com.blog.backend.models.comment.Comment;
-
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,0 +1,7 @@
+// FUNCTIONS
+// Custom Sass functions that return values.
+// Example: color manipulation, unit conversions.
+
+@function rem($px) {
+  @return $px / 16px * 1rem;
+}

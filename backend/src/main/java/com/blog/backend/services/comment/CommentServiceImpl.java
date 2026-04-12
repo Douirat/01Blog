@@ -41,10 +41,12 @@ public class CommentServiceImpl implements CommentService {
         // Assuming this method is public based on the interface context
         @Override
         public CommentDetailsDTO createComment(CommentDTO requestDTO, Long userId) {
+                @SuppressWarnings("null")
                 Post post = postRepository.findById(requestDTO.postId())
                                 .orElseThrow(() -> new ResourceNotFoundException(
                                                 "Post with ID " + requestDTO.postId() + " not found"));
 
+                @SuppressWarnings("null")
                 User user = userRepository.findById(userId)
                                 .orElseThrow(() -> new ResourceNotFoundException(
                                                 "User with ID " + userId + " not found"));

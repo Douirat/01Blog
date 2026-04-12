@@ -1,0 +1,14 @@
+// LAYOUT: header
+// Structural layout styles.
+// Used for major page sections.
+@use "../abstracts" as *;
+
+.header {
+    background-color: $header-primary-color;
+    border-bottom: $header-primary-color;
+    font-family: $header-font-family;
+    color: $header-font-color;
+    height: $header-height;
+    width: $header-width;
+    @include header-flex-center;
+}

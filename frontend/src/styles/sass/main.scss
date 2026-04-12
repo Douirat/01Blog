@@ -1,0 +1,23 @@
+// MAIN SCSS ENTRY POINT
+// This file loads the entire architecture.
+
+@use "abstracts";
+@use "base/reset";
+@use "base/typography";
+@use "base/animations";
+@use "base/utilities";
+
+@use "layout/grid";
+@use "layout/header";
+@use "layout/footer";
+@use "layout/sidebar";
+
+@use "components/buttons";
+@use "components/cards";
+@use "components/forms";
+@use "components/modals";
+@use "components/navigation";
+
+@use "pages/home";
+@use "pages/about";
+@use "pages/contact";

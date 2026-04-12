@@ -1,0 +1,10 @@
+// RESET
+// Remove browser inconsistencies.
+// Could include a CSS reset or normalize.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}

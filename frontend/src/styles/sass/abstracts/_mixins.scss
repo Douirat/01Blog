@@ -1,0 +1,14 @@
+// MIXINS
+// Reusable style blocks.
+// Example: flex centering, responsive breakpoints.
+
+/*                              ======================================
+                                                Header
+                                ======================================
+*/ 
+@mixin header-flex-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
