@@ -65,15 +65,8 @@
     background: url("/assets/icons/profile.png") center/contain no-repeat;
 }
 
-.blog-icon {
-    width: $icon-size;
-    height: $icon-size;
-    display: inline-block;
-    flex-shrink: 0;
 
-    background: url("/assets/icons/blog.png") center/contain no-repeat;
-}
-
+.blog-icon,
 .users-icon,
 .reports-icon {
     width: $icon-size;
@@ -84,6 +77,10 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.blog-icon {
+    background: url("/assets/icons/blog.png") center/contain no-repeat;
 }
 
 .users-icon {
