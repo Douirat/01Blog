@@ -3,7 +3,10 @@
   <ng-container *ngIf="!isLoggedIn()">
 
     <div class="first-nav-section">
-      <a class="clickable link" routerLink="/" (click)="goHome()">01 Blog</a>
+      <a class="clickable link" routerLink="/" (click)="goHome()">
+        <span class="blog-icon"></span>
+        01 Blog
+      </a>
     </div>
 
     <div class="second-nav-section">
@@ -15,14 +18,28 @@
   <!--Logged in-->
   <ng-container *ngIf="isLoggedIn()">
     <div class="first-nav-section">
-      <a class="clickable link" routerLink="/" (click)="goHome()">01 Blog</a>
+      <a class="clickable link" routerLink="/" (click)="goHome()">
+        <span class="blog-icon"></span>
+        01 Blog
+      </a>
       <a class="clickable link" (click)="goToUsersOrReports()">
+
+        @if (!isAdmin()) {
+        <span class="users-icon"></span>
+        }
+
+        @if (isAdmin()) {
+        <span class="reports-icon"></span>
+        }
+
         {{ isAdmin() ? ('reports: ' + reportsNumber()) : 'users' }}
       </a>
     </div>
     <div class="second-nav-section">
-      <a class="clickable link" (click)="goToProfile()">Profile <span>{{ user()?.user?.nickname }}
-        </span></a>
+      <a class="clickable link" (click)="goToProfile()">
+        <span class="profile-icon"></span>
+        <span>{{ user()?.user?.nickname }}</span>
+      </a>
       <button class="logout-btn" (click)="logout()"></button>
     </div>
   </ng-container>
