@@ -5,16 +5,21 @@
 /*                              ======================================
                                                 Header
                                 ======================================
-*/ 
+*/
 
 // colors.
 $header-primary-color: #222221;
 $header-secondary-color: #424242;
 $header-font-color: #fff;
+$header-hover-font-color: #30994d;
 
 // Height and width.
-$header-height: 50px;
+$header-height: 60px;
 $header-width: 100vw;
+$header-padding:2vw;
+$header-links-margin:2vmin;
+$nav-section-width:50%;
+$header-gap:2vw;
 
 // Font
 $header-font-family: 'Nunito';

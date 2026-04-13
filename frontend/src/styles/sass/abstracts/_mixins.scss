@@ -5,10 +5,24 @@
 /*                              ======================================
                                                 Header
                                 ======================================
-*/ 
-@mixin header-flex-center {
+*/
+@mixin header-flex-center-between {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin header-flex-center-start {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@mixin header-flex-center-end {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   align-items: center;
 }

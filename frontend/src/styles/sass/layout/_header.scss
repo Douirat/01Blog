@@ -7,8 +7,46 @@
     background-color: $header-primary-color;
     border-bottom: $header-primary-color;
     font-family: $header-font-family;
-    color: $header-font-color;
     height: $header-height;
     width: $header-width;
-    @include header-flex-center;
+    padding: $header-padding;
+    @include header-flex-center-between;
+}
+
+.link {
+    color: $header-font-color;
+    font-size: large;
+    &:hover {
+        color: $header-hover-font-color;
+        cursor: pointer;
+    }
+}
+
+.first-nav-section {
+    width: $nav-section-width;
+    @include header-flex-center-start;
+    gap: $header-gap;
+}
+
+.second-nav-section {
+    width: $nav-section-width;
+    @include header-flex-center-end;
+    gap: $header-gap;
+}
+
+.logout-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: url("/assets/icons/logout.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 0.2s;
+
+  &:hover {
+    transform: scale(1.15);
+  }
 }

@@ -10,7 +10,6 @@ import { ReportService } from '../../core/report/report-service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './header.html',
-  styleUrl: './header.scss',
 })
 export class Header implements OnInit {
   // Keep auth private:
