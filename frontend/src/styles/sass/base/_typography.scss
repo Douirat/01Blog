@@ -1,7 +1,10 @@
 // TYPOGRAPHY
 // Global text styles.
+@use "../abstracts/" as *;
 
 body {
   font-family: sans-serif;
   line-height: 1.5;
+  color: $header-font-color;
+  font-size: large;
 }

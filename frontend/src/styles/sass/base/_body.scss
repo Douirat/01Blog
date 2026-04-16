@@ -1,0 +1,8 @@
+@use "../abstracts/" as *;
+
+body {
+    background: $initial-background-color;
+    background-repeat: no-repeat;
+    min-height: 98vh;
+    // @include center-elements-column;
+}
