@@ -1,0 +1,28 @@
+// _toast-theme.scss
+
+$toast-types: (
+  success: (
+    bg: #e8f8f0,
+    border: #28a745,
+    text: #155724,
+    icon: #28a745
+  ),
+  error: (
+    bg: #fdecea,
+    border: #dc3545,
+    text: #721c24,
+    icon: #dc3545
+  ),
+  warning: (
+    bg: #fff8e5,
+    border: #ffc107,
+    text: #856404,
+    icon: #ffc107
+  ),
+  info: (
+    bg: #e7f3fe,
+    border: #17a2b8,
+    text: #0c5460,
+    icon: #17a2b8
+  )
+);

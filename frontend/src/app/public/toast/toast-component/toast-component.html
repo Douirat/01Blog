@@ -1,11 +1,9 @@
 <div class="toast-wrapper">
-  <div *ngFor="let toast of toasts"
-       class="toast"
-       [ngClass]="toast.type">
-
+  <div *ngFor="let toast of toasts" class="toast" [ngClass]="toast.type">
+    <div class="btn_wrapper">
+      <button (click)="removeToast(toast.id)">✕</button>
+    </div>
     <div class="title">{{ toast.title }}</div>
     <div class="message">{{ toast.message }}</div>
-
-    <button (click)="removeToast(toast.id)">✕</button>
   </div>
 </div>

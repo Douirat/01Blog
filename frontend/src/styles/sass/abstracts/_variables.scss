@@ -54,6 +54,7 @@ $bp-desktop:          1024px;
 // Z-index scale
 $z-header:            100;
 $z-modal:             200;
+$z-toast:            9999;
 
 // Background
 $bg-body:             linear-gradient(180deg, #3b3b3b, #111112);
@@ -84,3 +85,9 @@ $header-font-family:        $font-family-base;
 // =============================================
 
 $initial-background-color:  $bg-body;
+
+
+// =============================================
+//  Toast
+// =============================================
+$margin-distance: 3vh;
