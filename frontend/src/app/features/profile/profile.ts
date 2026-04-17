@@ -17,7 +17,6 @@ import { SubscriptionService } from '../../core/subscription/subscription-servic
   standalone: true,
   imports: [CommonModule, PostForm],
   templateUrl: './profile.html',
-  styleUrl: './profile.scss',
 })
 export class Profile implements OnInit {
 

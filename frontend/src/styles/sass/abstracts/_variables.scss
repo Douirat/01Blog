@@ -2,30 +2,85 @@
 // Store all design tokens here:
 // colors, spacing, fonts, z-index, breakpoints, etc.
 // This file should NOT output CSS.
-/*                              ======================================
-                                                Header
-                                ======================================
-*/
+@use "sass:color";
+// =============================================
+//  General / Global tokens
+// =============================================
 
-// colors.
-$header-primary-color: #222221;
-$header-secondary-color: #424242;
-$header-font-color: #fff;
-$header-hover-font-color: #30994d;
+// Colors
+$color-primary:       #222221;
+$color-surface:       #424242;
+$color-surface-light: color.adjust(#424242, $lightness: 8%);
+$color-accent:        #30994d;
+$color-accent-dark:   #267a3d;
+$color-danger:        #e57373;
+$color-text:          #fff;
+$color-text-muted:    rgba(#fff, 0.45);
+$color-border:        rgba(#fff, 0.08);
+$color-error: #ff4d4f; // or any value
 
-// Height and width.
-$header-height: 2vh;
-$header-width: 100vw;
-$icon-size:26px;
+// Typography
+$font-family-base:    'Nunito', sans-serif;
+$font-size-xs:        0.75rem;
+$font-size-sm:        0.82rem;
+$font-size-base:      0.95rem;
+$font-size-md:        1rem;
+$font-size-lg:        1.25rem;
+$font-weight-normal:  400;
+$font-weight-semi:    600;
+$font-weight-bold:    700;
+
+// Spacing
+$spacing-xs:          0.25rem;
+$spacing-sm:          0.5rem;
+$spacing-md:          1rem;
+$spacing-lg:          1.5rem;
+$spacing-xl:          2rem;
+
+// Radius
+$radius-sm:           6px;
+$radius-md:           10px;
+$radius-lg:           14px;
+
+// Shadows
+$shadow-card:         0 4px 20px rgba(0, 0, 0, 0.4);
+$shadow-btn:          0 2px 8px rgba(0, 0, 0, 0.3);
+
+// Breakpoints
+$bp-mobile:           480px;
+$bp-tablet:           768px;
+$bp-desktop:          1024px;
+
+// Z-index scale
+$z-header:            100;
+$z-modal:             200;
+
+// Background
+$bg-body:             linear-gradient(180deg, #3b3b3b, #111112);
 
 
-$header-padding:2vw;
-$header-links-margin:2vmin;
-$nav-section-width:50%;
-$header-gap:2vw;
+// =============================================
+//  Header (backward-compatible aliases)
+// =============================================
 
-// Font
-$header-font-family: 'Nunito';
+$header-primary-color:      $color-primary;
+$header-secondary-color:    $color-surface;
+$header-font-color:         $color-text;
+$header-hover-font-color:   $color-accent;
 
-// Body.
-$initial-background-color: linear-gradient(180deg, #3b3b3b, #111112);
+$header-height:             2vh;
+$header-width:              100vw;
+$icon-size:                 26px;
+
+$header-padding:            2vw;
+$header-links-margin:       2vmin;
+$nav-section-width:         50%;
+$header-gap:                2vw;
+
+$header-font-family:        $font-family-base;
+
+// =============================================
+//  Body (backward-compatible alias)
+// =============================================
+
+$initial-background-color:  $bg-body;

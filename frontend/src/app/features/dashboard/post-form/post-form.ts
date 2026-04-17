@@ -13,7 +13,6 @@ import { ToastService } from '../../../core/toast/toast-service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './post-form.html',
-  styleUrl: './post-form.scss',
 })
 
 

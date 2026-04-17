@@ -1,8 +1,24 @@
-@use "../abstracts/" as *;
+// base/_body.scss
+// Global body styles — uses tokens from abstracts/_variables.scss
+
+@use '../abstracts' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-    background: $initial-background-color;
-    background-repeat: no-repeat;
-    min-height: 98vh;
-    // @include center-elements-column;
+  background: $initial-background-color;
+  background-repeat: no-repeat;
+  font-family: $header-font-family, sans-serif;
+  color: $header-font-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 100vh;
 }

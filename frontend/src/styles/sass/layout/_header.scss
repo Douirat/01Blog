@@ -1,92 +1,147 @@
-// LAYOUT: header
-// Structural layout styles.
-// Used for major page sections.
-@use "../abstracts" as *;
+@use '../abstracts/' as *;
+
 
 .header {
-    background-color: $header-primary-color;
-    border-bottom: $header-primary-color;
-    font-family: $header-font-family;
-    height: $header-height;
-    width: $header-width;
-    padding: $header-padding;
-    @include header-flex-center-between;
-}
+    width: 100vw;
+    min-height: 64px;
+    padding-left: $header-padding;
+    padding-right: $header-padding;
+    @include flex(row, center, space-between);
+    background-color: $color-surface;
+    border-bottom: 1px solid $color-border;
 
-.link {
-    color: $header-font-color;
-    font-size: large;
+    position: sticky;
+    top: 0;
+    z-index: $z-header;
 
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    // Give the content a max readable width while the
+    // background stays full width
+    &>* {
+        max-width: 1400px;
+    }
 
-    &:hover {
-        color: $header-hover-font-color;
+    .first-nav-section,
+    .second-nav-section {
+        @include flex(row, center, flex-start, $spacing-xl);
+        height: 64px;
+    }
+
+    .second-nav-section {
+        justify-content: flex-end;
+    }
+
+    // =====================================
+    // LINKS
+    // =====================================
+
+    .link {
+        @include flex(row, center, center, $spacing-sm);
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+        text-decoration: none;
         cursor: pointer;
+        padding: 6px 10px;
+        border-radius: $radius-sm;
+        transition: background-color .2s, color .2s;
+
+        &:hover {
+            color: $color-text;
+            background-color: $color-surface-light;
+        }
     }
-}
 
-.first-nav-section {
-    width: $nav-section-width;
-    @include header-flex-center-start;
-    gap: $header-gap;
-}
+    // =====================================
+    // ICON SYSTEM (REAL IMAGES)
+    // =====================================
 
-.second-nav-section {
-    width: $nav-section-width;
-    @include header-flex-center-end;
-    gap: $header-gap;
-}
+    .profile-icon {
+        width: $icon-size;
+        height: $icon-size;
+        display: inline-block;
+        margin-right: 6px;
 
-.logout-btn {
-    width: $icon-size;
-    height: $icon-size;
-    border: none;
-    cursor: pointer;
-    background-color: transparent;
-    background-image: url("/assets/icons/logout.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: 0.2s;
-
-    &:hover {
-        transform: scale(1.15);
+        background: url("/assets/icons/profile.png") center/contain no-repeat;
     }
-}
-
-.profile-icon {
-    width: $icon-size;
-    height: $icon-size;
-    display: inline-block;
-    margin-right: 6px;
-
-    background: url("/assets/icons/profile.png") center/contain no-repeat;
-}
 
 
-.blog-icon,
-.users-icon,
-.reports-icon {
-    width: $icon-size;
-    height: $icon-size;
-    display: inline-block;
-    flex-shrink: 0;
-    margin-right: 6px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
+    .blog-icon,
+    .users-icon,
+    .reports-icon {
+        width: $icon-size;
+        height: $icon-size;
+        display: inline-block;
+        flex-shrink: 0;
+        margin-right: 6px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
-.blog-icon {
-    background: url("/assets/icons/blog.png") center/contain no-repeat;
-}
+    .blog-icon {
+        background: url("/assets/icons/blog.png") center/contain no-repeat;
+    }
 
-.users-icon {
-    background-image: url("/assets/icons/users.png");
-}
+    .users-icon {
+        background-image: url("/assets/icons/users.png");
+    }
 
-.reports-icon {
-    background-image: url("/assets/icons/reports.png");
+    .reports-icon {
+        background-image: url("/assets/icons/reports.png");
+    }
+
+    .link:hover span {
+        opacity: 1;
+    }
+
+    // =====================================
+    // LOGOUT BUTTON (ICON BUTTON)
+    // =====================================
+
+    .logout-btn {
+        width: $icon-size;
+        height: $icon-size;
+        border: none;
+        cursor: pointer;
+        background-color: transparent;
+        background-image: url("/assets/icons/logout.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: 0.2s;
+
+        &:hover {
+            transform: scale(1.15);
+        }
+    }
+
+    // =====================================
+    // TABLET
+    // =====================================
+
+    @include respond-to(tablet) {
+        padding: 0 $spacing-lg;
+
+        .first-nav-section,
+        .second-nav-section {
+            gap: $spacing-lg;
+        }
+    }
+
+    // =====================================
+    // MOBILE
+    // =====================================
+
+    @include respond-to(mobile) {
+        flex-direction: column;
+        align-items: stretch;
+        padding: $spacing-sm $spacing-md;
+        min-height: auto;
+
+        .first-nav-section,
+        .second-nav-section {
+            width: 100%;
+            justify-content: space-between;
+            height: auto;
+        }
+    }
 }

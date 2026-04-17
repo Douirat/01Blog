@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   selector: 'app-users',
   imports: [CommonModule],
   templateUrl: './users.html',
-  styleUrl: './users.scss',
 })
 export class Users {
 

@@ -8,7 +8,6 @@ import { ToastComponent } from './public/toast/toast-component/toast-component';
   standalone: true,
   imports: [RouterOutlet, Header,ToastComponent],
   templateUrl: './app.html',
-  styleUrls: ['./app.scss'],
 })
 export class App {
   protected readonly title = signal('01blog');

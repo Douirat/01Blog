@@ -10,7 +10,6 @@ import { ToastService } from '../../core/toast/toast-service';
   selector: 'app-reports',
   imports: [CommonModule],
   templateUrl: './reports.html',
-  styleUrl: './reports.scss',
 })
 export class Reports implements OnInit{
 

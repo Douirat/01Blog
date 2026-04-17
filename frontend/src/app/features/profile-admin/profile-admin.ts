@@ -12,7 +12,6 @@ import { ReportService } from '../../core/report/report-service';
   selector: 'app-profile-admin',
   imports: [CommonModule],
   templateUrl: './profile-admin.html',
-  styleUrl: './profile-admin.scss',
 })
 export class ProfileAdmin implements OnInit {
 

@@ -1,40 +1,124 @@
 // MIXINS
-// Reusable style blocks.
-// Example: flex centering, responsive breakpoints.
+// Reusable patterns — output CSS only when called.
 
-/*                              ======================================
-                                                Header
-                                ======================================
-*/
-@mixin header-flex-center-between {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+@use 'variables' as *;
+
+// =============================================
+//  Responsive
+// =============================================
+
+@mixin respond-to($bp) {
+  @if $bp == mobile {
+    @media (max-width: $bp-mobile)  { @content; }
+  } @else if $bp == tablet {
+    @media (max-width: $bp-tablet)  { @content; }
+  } @else if $bp == desktop {
+    @media (max-width: $bp-desktop) { @content; }
+  }
 }
 
-@mixin header-flex-center-start {
+// =============================================
+//  Layout helpers
+// =============================================
+
+@mixin flex($direction: row, $align: center, $justify: flex-start, $gap: 0) {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+  @if $gap != 0 { gap: $gap; }
 }
 
-@mixin header-flex-center-end {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+// =============================================
+//  Buttons
+// =============================================
+
+// Base ghost-style button used across the app
+@mixin btn-base {
+  display: inline-flex;
   align-items: center;
-}
-
-/*                              ======================================
-                                                body
-                                ======================================
-*/
-
-@mixin center-elements-column {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  border: none;
+  border-radius: $radius-sm;
+  font-family: $font-family-base;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semi;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease, color 0.2s ease;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+@mixin btn-accent {
+  @include btn-base;
+  background-color: $color-accent;
+  color: $color-text;
+
+  &:hover:not(:disabled) { background-color: $color-accent-dark; }
+}
+
+@mixin btn-ghost {
+  @include btn-base;
+  background-color: transparent;
+  color: $color-text-muted;
+  border: 1px solid $color-border;
+
+  &:hover:not(:disabled) {
+    background-color: $color-surface-light;
+    color: $color-text;
+  }
+}
+
+@mixin btn-danger {
+  @include btn-base;
+  background-color: transparent;
+  color: $color-danger;
+  border: 1px solid rgba($color-danger, 0.3);
+
+  &:hover:not(:disabled) {
+    background-color: rgba($color-danger, 0.12);
+  }
+}
+
+// =============================================
+//  Card surface
+// =============================================
+
+@mixin card {
+  background-color: $color-surface;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+}
+
+// =============================================
+//  Divider
+// =============================================
+
+@mixin divider {
+  border: none;
+  border-top: 1px solid $color-border;
+  margin: $spacing-md 0;
+}
+
+// =============================================
+//  Truncate text
+// =============================================
+
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }

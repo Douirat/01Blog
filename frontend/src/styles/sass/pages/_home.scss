@@ -1,3 +1,163 @@
 // PAGE: home
 // Page-specific styles.
 // Avoid heavy styling here; prefer components.
+// pages/_home.scss
+// Styles for the dashboard / home page.
+
+@use '../abstracts' as *;
+
+// =============================================
+//  Page layout
+// =============================================
+
+h1 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text;
+  margin-bottom: $spacing-lg;
+}
+
+// =============================================
+//  Post card
+// =============================================
+
+.post-card {
+  @include card;
+  margin-bottom: $spacing-lg;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+  }
+
+  // ── Media image ───────────────────────────
+  img {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  // ── Text body ─────────────────────────────
+  .post-content {
+    padding: $spacing-lg;
+    @include flex(column, flex-start, flex-start, $spacing-sm);
+
+    // Author
+    > span {
+      font-size: $font-size-sm;
+      color: $color-accent;
+      font-weight: $font-weight-semi;
+    }
+
+    h3 {
+      font-size: $font-size-md;
+      font-weight: $font-weight-bold;
+      color: $color-text;
+      @include truncate(2);
+    }
+
+    p {
+      font-size: $font-size-base;
+      color: $color-text-muted;
+      line-height: 1.6;
+      @include truncate(4);
+    }
+  }
+}
+
+// =============================================
+//  Post actions bar
+// =============================================
+
+.post-actions {
+  @include flex(row, center, flex-start, $spacing-sm);
+  flex-wrap: wrap;
+  margin-top: $spacing-xs;
+
+  // Comments (primary CTA)
+  > button {
+    @include btn-accent;
+  }
+
+  // Like / Dislike / Report wrappers
+  small {
+    @include flex(row, center, flex-start, $spacing-xs);
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+
+    // Like button
+    &:nth-of-type(1) button { @include btn-ghost; }
+
+    // Dislike button
+    &:nth-of-type(2) button { @include btn-ghost; }
+
+    // Report button
+    &:nth-of-type(3) button { @include btn-danger; }
+  }
+}
+
+// =============================================
+//  Dividers inside post content
+// =============================================
+
+.post-content hr {
+  @include divider;
+}
+
+// =============================================
+//  Pagination controls
+// =============================================
+
+.pagination-controls {
+  @include flex(row, center, center, $spacing-md);
+  margin: $spacing-xl 0;
+
+  span {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+  }
+
+  button {
+    @include btn-ghost;
+    padding: $spacing-xs $spacing-lg;
+  }
+}
+
+// =============================================
+//  Responsive
+// =============================================
+
+@include respond-to(tablet) {
+  .post-card img {
+    height: 180px;
+  }
+
+  .post-actions {
+    gap: $spacing-xs;
+  }
+}
+
+@include respond-to(mobile) {
+  .post-card img {
+    height: 140px;
+  }
+
+  .post-content {
+    padding: $spacing-md;
+  }
+
+  .post-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pagination-controls {
+    gap: $spacing-sm;
+
+    button {
+      padding: $spacing-xs $spacing-md;
+    }
+  }
+}

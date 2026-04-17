@@ -9,7 +9,6 @@ import { ToastService } from '../../../core/toast/toast-service';
   selector: 'app-post-comments',
   imports: [CommonModule],
   templateUrl: './post-comments.html',
-  styleUrl: './post-comments.scss',
 })
 
 

@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   selector: 'app-admin-dashboard',
   imports: [CommonModule],
   templateUrl: './admin-dashboard.html',
-  styleUrl: './admin-dashboard.scss',
 })
 export class AdminDashboard implements OnInit {
 

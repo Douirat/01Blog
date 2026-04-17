@@ -17,7 +17,6 @@ import {Report} from './report/report'
   standalone: true,
   imports: [CommonModule, PostForm, CommentForm, PostComments, Report],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss',
 })
 export class Dashboard implements OnInit {
   user = signal<UserResponse | null>(null);

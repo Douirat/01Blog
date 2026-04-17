@@ -15,7 +15,6 @@ type CommentFormType = {
   selector: 'app-comment-form',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './comment-form.html',
-  styleUrl: './comment-form.scss',
 })
 
 

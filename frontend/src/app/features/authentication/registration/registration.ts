@@ -12,7 +12,6 @@ import { ToastService } from '../../../core/toast/toast-service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registration.html',
-  styleUrls: ['./registration.scss'],
 })
 export class Registration {
   form: FormGroup;

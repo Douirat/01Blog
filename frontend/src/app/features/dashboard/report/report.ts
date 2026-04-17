@@ -9,7 +9,6 @@ import { ToastService } from '../../../core/toast/toast-service';
   selector: 'app-report',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './report.html',
-  styleUrls: ['./report.scss'],
 })
 export class Report {
 
