@@ -10,11 +10,23 @@
 //  Page layout
 // =============================================
 
-h1 {
+.dashbord{
+  @include flex(column, center,center, 2vh);
+}
+
+hr{
+  width: 100%;
+}
+
+
+h3{
   font-size: $font-size-lg;
   font-weight: $font-weight-bold;
   color: $color-text;
   margin-bottom: $spacing-lg;
+  font-style: italic;
+  font-size: large;
+  color: $color-accent;
 }
 
 // =============================================

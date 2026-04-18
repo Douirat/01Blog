@@ -1,110 +1,164 @@
-@use "../abstracts/" as *;
+// TOAST
+// Notification toasts rendered via *ngFor in toast-component.html.
+// Type variants (.success .error .warning .info) are applied via [ngClass]="toast.type"
+// Depends on: abstracts/variables, abstracts/mixins
+
+@use 'sass:map';
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// =============================================
+//  Type tokens
+//  Kept local — not needed anywhere else
+// =============================================
+
+$_toast-types: (
+  success: (
+    accent:  $color-accent,
+    bg:      #1a3326,
+    border:  $color-accent,
+  ),
+  error: (
+    accent:  $color-error,
+    bg:      #3b1f1f,
+    border:  $color-error,
+  ),
+  warning: (
+    accent:  #f5a623,
+    bg:      #3b2e12,
+    border:  #f5a623,
+  ),
+  info: (
+    accent:  #4ea8de,
+    bg:      #142b3b,
+    border:  #4ea8de,
+  ),
+);
+
+// =============================================
+//  Wrapper — fixed stack, top-center
+// =============================================
 
 .toast-wrapper {
   position: fixed;
   top: $margin-distance;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: $z-toast;
-  @include flex(column, center, center, $spacing-md);
-}
-.toast {
-  width: 320px;
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  border-left: 6px solid #ccc;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  background: #fff;
-  color: #333;
+  @include flex(column, center, center, $spacing-sm);
+  pointer-events: none; // let clicks fall through the empty wrapper
 
+  // Re-enable pointer events on individual toasts
+  > * { pointer-events: auto; }
+
+  @include respond-to(mobile) {
+    width: calc(100vw - #{$spacing-md * 2});
+    top: $spacing-sm;
+  }
+}
+
+// =============================================
+//  Base toast
+// =============================================
+
+.toast {
+  @include card;
+  width: 320px;
+  padding: $spacing-md $spacing-lg;
+  border-left: 4px solid $color-border;
+  background-color: $color-surface;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); // heavier shadow to lift above page
+  color: $color-text;
+
+  // 2-column grid: content | close button
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto;
-  gap: 0.25rem 0.75rem;
-  align-items: center;
+  column-gap: $spacing-md;
+  row-gap: $spacing-xs;
+  align-items: start;
 
+  @include respond-to(mobile) {
+    width: 100%;
+  }
+
+  // ── Close button ──────────────────────────
   .btn_wrapper {
     grid-column: 2;
     grid-row: 1;
     justify-self: end;
-    align-self: start;
+    align-self: center;
   }
 
   button {
-    background: none;
+    @include btn-base;
+    background: transparent;
     border: none;
-    cursor: pointer;
-    opacity: 0.6;
+    color: $color-text-muted;
+    font-size: $font-size-md;
+    padding: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: $radius-sm;
+    line-height: 1;
 
-    &:hover {
-      opacity: 1;
+    &:hover:not(:disabled) {
+      color: $color-text;
+      background-color: $color-surface-light;
     }
   }
 
+  // ── Title ─────────────────────────────────
   .title {
     grid-column: 1;
     grid-row: 1;
     align-self: center;
-    font-weight: 600;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semi;
+    color: $color-text;
   }
 
+  // ── Message ───────────────────────────────
   .message {
     grid-column: 1 / -1;
     grid-row: 2;
-    font-size: 0.85rem;
-    opacity: 0.9;
+    font-size: $font-size-sm;
+    color: $color-text;
+    opacity: 0.75;
+    line-height: 1.5;
   }
 }
-.toast {
-  width: 320px;
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  border-left: 6px solid #ccc;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  background: #fff;
-  color: #333;
 
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.25rem 0.75rem;
+// =============================================
+//  Type variants  (generated from map)
+// =============================================
 
-  .message {
-    grid-column: 1 / -1;
-    font-size: 0.85rem;
-  }
+@each $type, $values in $_toast-types {
+  .toast.#{$type} {
+    background-color: map.get($values, bg);
+    border-left: 5px solid map.get($values, accent);
 
-  button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    opacity: 0.6;
-
-    &:hover {
-      opacity: 1;
+    .title {
+      color: map.get($values, accent);
     }
   }
 }
 
-/* TYPES */
+// =============================================
+//  Enter animation
+// =============================================
 
-.toast.success {
-  background: #e8f8f0;
-  border-left-color: #28a745;
-  color: #155724;
+.toast {
+  animation: toast-in 0.22s ease forwards;
 }
 
-.toast.error {
-  background: #fdecea;
-  border-left-color: #dc3545;
-  color: #721c24;
-}
-
-.toast.warning {
-  background: #fff8e5;
-  border-left-color: #ffc107;
-  color: #856404;
-}
-
-.toast.info {
-  background: #e7f3fe;
-  border-left-color: #17a2b8;
-  color: #0c5460;
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-$spacing-sm) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

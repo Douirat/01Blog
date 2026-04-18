@@ -1,0 +1,157 @@
+// PROFILE
+// Styles for the user profile header, post cards, post actions, and pagination.
+// Depends on: abstracts/variables, abstracts/mixins
+
+@use '../abstracts/' as *;
+
+
+// =============================================
+//  Profile header
+// =============================================
+
+.profile-header {
+  @include card;
+  @include flex(column, center, center, $spacing-md);
+  padding: $spacing-xl;
+  margin-bottom: $spacing-lg;
+  text-align: center;
+
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid $color-accent;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text;
+  }
+
+  p {
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+  }
+
+  // Subscribe / unsubscribe toggle button
+  .btn-subscribe {
+    @include btn-ghost;
+    font-size: $font-size-md;
+    padding: $spacing-xs $spacing-md;
+    border-radius: $radius-lg;
+  }
+}
+
+// =============================================
+//  Posts list
+// =============================================
+
+.posts-list {
+  @include flex(column, stretch, flex-start, $spacing-md);
+  width: 100%;
+}
+
+// =============================================
+//  Post card
+// =============================================
+
+.post-card {
+  @include card;
+  overflow: hidden; // already in card mixin but explicit for media
+
+  .card-image {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-content {
+    @include flex(column, stretch, flex-start, $spacing-sm);
+    padding: $spacing-md $spacing-lg;
+
+    // Author nickname
+    span {
+      font-size: $font-size-xs;
+      color: $color-text-muted;
+      font-weight: $font-weight-semi;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: $font-size-md;
+      font-weight: $font-weight-bold;
+      color: $color-text;
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-size-sm;
+      color: $color-text-muted;
+      line-height: 1.6;
+      @include truncate(4);
+    }
+
+    hr {
+      @include divider;
+    }
+  }
+}
+
+// =============================================
+//  Post actions (update / delete)
+// =============================================
+
+.actions {
+  @include flex(row, center, flex-start, $spacing-sm);
+  flex-wrap: wrap;
+
+  button {
+    @include btn-base;
+    font-size: $font-size-sm;
+
+    // Update — ghost style
+    &:first-child {
+      @include btn-ghost;
+    }
+
+    // Delete — danger style
+    &:last-child {
+      @include btn-danger;
+    }
+  }
+}
+
+// =============================================
+//  Pagination  (shared pattern)
+// =============================================
+
+.pagination {
+  @include flex(row, center, center, $spacing-md);
+  margin-top: $spacing-lg;
+  flex-wrap: wrap;
+
+  span {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  button {
+    @include btn-accent;
+    min-width: 100px;
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+}

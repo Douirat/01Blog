@@ -1,52 +1,37 @@
-<div *ngIf="user()">
-  <img style="width: 200px; height: auto;" [src]="user()?.avatar" alt="Avatar">
+<!-- Profile header -->
+<div class="profile-header" *ngIf="user()">
+  <img class="profile-avatar" [src]="user()?.avatar" alt="Avatar">
   <h2>{{ user()?.firstName }} {{ user()?.lastName }}</h2>
   <p>{{ user()?.email }}</p>
   @if (toStr(loggedUser()?.id) !== toStr(user()?.id)) {
-  <button (click)="handleSubscription()">
-    {{ !subscribed() ? '🔔' : '🔕' }}
-  </button>
+    <button class="btn-subscribe" (click)="handleSubscription()">
+      {{ !subscribed() ? '🔔' : '🔕' }}
+    </button>
   }
 </div>
 
-<!-- POSTS LIST -->
-<div *ngFor="let post of posts()" class="post-card">
-
-  <img style="width: 200px; height: auto;" class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl">
-
-  <div class="post-content">
-    <span>By {{ post.user.nickName }}</span>
-    <h3>{{ post.title }}</h3>
-    <p>{{ post.content }}</p>
-
-    <div class="actions">
-      <button *ngIf="profileOwner()" (click)="toggleUpdate(+post.id)">
-        ✏️ Update
-      </button>
-
-      <button *ngIf="profileOwner()" (click)="deletePost(+post.id)">
-        🗑️ Delete
-      </button>
+<!-- Posts list -->
+<div class="posts-list">
+  <div *ngFor="let post of posts()" class="post-card">
+    <img class="card-image" *ngIf="post.mediaUrl" [src]="post.mediaUrl">
+    <div class="post-content">
+      <span>By {{ post.user.nickName }}</span>
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.content }}</p>
+      <div class="actions">
+        <button *ngIf="profileOwner()" (click)="toggleUpdate(+post.id)">✏️ Update</button>
+        <button *ngIf="profileOwner()" (click)="deletePost(+post.id)">🗑️ Delete</button>
+      </div>
+      <app-post-form [postToUpdate]="post" *ngIf="postToUpdate() === post.id" (postSaved)="onPostUpdated($event)">
+      </app-post-form>
+      <hr>
     </div>
-
-    <app-post-form [postToUpdate]="post" *ngIf="postToUpdate() === post.id" (postSaved)="onPostUpdated($event)">
-    </app-post-form>
-
-    <hr>
   </div>
+</div>
 
-</div> <!-- IMPORTANT: loop ends here -->
-
-
-<!-- PAGINATION (only once) -->
+<!-- Pagination -->
 <div class="pagination">
-  <button (click)="previousPage()" [disabled]="currentPage() === 0" class="btn btn-primary">
-    ⏪ Previous
-  </button>
-
+  <button (click)="previousPage()" [disabled]="currentPage() === 0">⏪ Previous</button>
   <span>Page {{ currentPage() + 1 }} / {{ totalPages() }}</span>
-
-  <button (click)="nextPage()" [disabled]="currentPage() >= totalPages() - 1" class="btn btn-primary">
-    Next ⏩
-  </button>
+  <button (click)="nextPage()" [disabled]="currentPage() >= totalPages() - 1">Next ⏩</button>
 </div>

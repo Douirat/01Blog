@@ -1,0 +1,157 @@
+// FORMS
+// Styles for .form-container, .form-group, inputs, textareas,
+// selects, error/success messages, and form buttons.
+// Depends on: abstracts/variables, abstracts/mixins
+
+@use '../abstracts/' as *;
+
+
+// =============================================
+//  Container
+// =============================================
+
+.form-container {
+  @include card;
+  @include flex(column, stretch, flex-start, $spacing-md);
+  width: 100%;
+  max-width: 480px;
+  margin-inline: auto;
+  padding: $spacing-xl;
+
+  h2,
+  h3 {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text;
+    text-transform: capitalize;
+  }
+
+  @include respond-to(mobile) {
+    padding: $spacing-lg $spacing-md;
+  }
+}
+
+// =============================================
+//  Form group (label + input + error)
+// =============================================
+
+.form-group {
+  @include flex(column, stretch, flex-start, $spacing-xs);
+  width: 100%;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $color-text-muted;
+    letter-spacing: 0.02em;
+  }
+}
+
+// =============================================
+//  Inputs, textareas, selects
+// =============================================
+
+.form-container {
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  input[type='date'],
+  input[type='file'],
+  textarea,
+  select {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    background-color: $color-primary;
+    border: 1px solid $color-border;
+    border-radius: $radius-sm;
+    color: $color-text;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+
+    &:focus {
+      border-color: $color-accent;
+      box-shadow: 0 0 0 3px rgba($color-accent, 0.18);
+    }
+
+    // Error state — toggled via [class.input--error] in Angular
+    &.input--error {
+      border-color: $color-error;
+      box-shadow: 0 0 0 3px rgba($color-error, 0.15);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.6;
+  }
+
+  // File input — strip native chrome, keep it subtle
+  input[type='file'] {
+    padding: $spacing-xs $spacing-sm;
+    cursor: pointer;
+    color: $color-text-muted;
+    font-size: $font-size-sm;
+
+    &::file-selector-button {
+      @include btn-ghost;
+      margin-right: $spacing-sm;
+      font-size: $font-size-xs;
+    }
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='rgba(255,255,255,0.45)' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right $spacing-md center;
+    padding-right: $spacing-xl;
+    cursor: pointer;
+
+    option {
+      background-color: $color-surface;
+    }
+  }
+}
+
+// =============================================
+//  Inline field error
+// =============================================
+
+.form-error {
+  font-size: $font-size-xs;
+  color: $color-error;
+  margin-top: 0; // gap already handled by .form-group
+}
+
+// =============================================
+//  Status banners (success / error)
+// =============================================
+
+.form-message {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semi;
+
+  &--error {
+    background-color: rgba($color-error, 0.12);
+    border: 1px solid rgba($color-error, 0.3);
+    color: $color-error;
+  }
+
+  &--success {
+    background-color: rgba($color-accent, 0.12);
+    border: 1px solid rgba($color-accent, 0.3);
+    color: $color-accent;
+  }
+}
+

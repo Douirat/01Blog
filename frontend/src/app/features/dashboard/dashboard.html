@@ -1,53 +1,55 @@
-<h1>Dashboard</h1>
-
-<!-- Post creation form -->
-<div *ngIf="user()">
-  <app-post-form></app-post-form>
-</div>
-<hr />
-
-<!-- Posts -->
-<div *ngFor="let post of posts()" class="post-card">
-  <img *ngIf="post.mediaUrl" [src]="post.mediaUrl" width="100%" height="auto" style="object-fit: cover;">
-  <div class="post-content">
-    <span>By {{ post.user.nickName }}</span>
-    <h3>{{ post.title }}</h3>
-    <p>{{ post.content }}</p>
-
-    <div class="post-actions">
-      <button (click)="toggleCommentForm(post.id)">Comments</button>
-      <small>
-        <button (click)="vote(post.id, 'like')">Like</button> {{ post.likes }}
-      </small>
-      <small>
-        <button (click)="vote(post.id, 'dislike')">Dislike</button> {{ post.dislikes }}
-      </small>
-      <small *ngIf="user() && +user()!.user.id !== post.user.id">
-        <button *ngIf="user()" (click)="reportPost(post.id)">report</button>
-      </small>
-    </div>
-    <hr />
-    <app-report *ngIf="postToReport() > 0 && postToReport() == post.id && user()" [postId]="post.id"
-      [reporterId]="+user()!.user!.id">
-    </app-report>
-    <hr />
-    <!-- Comment form -->
-    <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-comment-form>
-    <hr />
-    <!-- Post comments -->
-    <app-post-comments *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-post-comments>
+<div class="dashbord">
+  <h3>Dashboard</h3>
+  
+  <!-- Post creation form -->
+  <div *ngIf="user()">
+    <app-post-form></app-post-form>
   </div>
-</div>
+  <hr />
+  
+  <!-- Posts -->
+  <div *ngFor="let post of posts()" class="post-card">
+    <img *ngIf="post.mediaUrl" [src]="post.mediaUrl" width="100%" height="auto" style="object-fit: cover;">
+    <div class="post-content">
+      <span>By {{ post.user.nickName }}</span>
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.content }}</p>
+  
+      <div class="post-actions">
+        <button (click)="toggleCommentForm(post.id)">Comments</button>
+        <small>
+          <button (click)="vote(post.id, 'like')">Like</button> {{ post.likes }}
+        </small>
+        <small>
+          <button (click)="vote(post.id, 'dislike')">Dislike</button> {{ post.dislikes }}
+        </small>
+        <small *ngIf="user() && +user()!.user.id !== post.user.id">
+          <button *ngIf="user()" (click)="reportPost(post.id)">report</button>
+        </small>
+      </div>
+      <hr />
+      <app-report *ngIf="postToReport() > 0 && postToReport() == post.id && user()" [postId]="post.id"
+        [reporterId]="+user()!.user!.id">
+      </app-report>
 
-<!-- Load more posts -->
-<div class="pagination-controls" *ngIf="posts().length > 0">
-  <button (click)="prevPage()" [disabled]="currentPage() === 0">
-    ⏪ Previous
-  </button>
-
-  <span>Page {{ currentPage() + 1 }} / {{ totalPages() }}</span>
-
-  <button (click)="nextPage()" [disabled]="lastPage()">
-    Next ⏩
-  </button>
+      <!-- Comment form -->
+      <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-comment-form>
+    
+      <!-- Post comments -->
+      <app-post-comments *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-post-comments>
+    </div>
+  </div>
+  
+  <!-- Load more posts -->
+  <div class="pagination-controls" *ngIf="posts().length > 0">
+    <button (click)="prevPage()" [disabled]="currentPage() === 0">
+      ⏪ Previous
+    </button>
+  
+    <span>Page {{ currentPage() + 1 }} / {{ totalPages() }}</span>
+  
+    <button (click)="nextPage()" [disabled]="lastPage()">
+      Next ⏩
+    </button>
+  </div>
 </div>

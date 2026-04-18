@@ -19,8 +19,10 @@
 @use "components/modals";
 @use "components/navigation";
 @use "components/toast";
+@use "components/reports";
 
 @use "pages/home";
 @use "pages/about";
 @use "pages/contact";
-
+@use "pages/users";
+@use "pages/profile";

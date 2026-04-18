@@ -9,11 +9,12 @@
         type="text"
         formControlName="emailOrUsername"
         placeholder="Enter your email or username"
+        [class.input--error]="hasError('emailOrUsername', 'required') || hasError('emailOrUsername', 'invalidFormat')"
       />
-      <small class="error" *ngIf="hasError('emailOrUsername', 'required')">
+      <small class="form-error" *ngIf="hasError('emailOrUsername', 'required')">
         Email or username is required
       </small>
-      <small class="error" *ngIf="hasError('emailOrUsername', 'invalidFormat')">
+      <small class="form-error" *ngIf="hasError('emailOrUsername', 'invalidFormat')">
         Must be a valid email or username (3-20 chars, letters/numbers/_)
       </small>
     </div>
@@ -26,19 +27,21 @@
         type="password"
         formControlName="password"
         placeholder="Enter your password"
+        [class.input--error]="hasError('password', 'required') || hasError('password', 'minlength')"
       />
-      <small class="error" *ngIf="hasError('password', 'required')">
+      <small class="form-error" *ngIf="hasError('password', 'required')">
         Password is required
       </small>
-      <small class="error" *ngIf="hasError('password', 'minlength')">
+      <small class="form-error" *ngIf="hasError('password', 'minlength')">
         Password must be at least 6 characters long
       </small>
     </div>
 
     <!-- Submit Button -->
-    <button type="submit" [disabled]="isSubmitting || form.invalid">
+    <button type="submit" class="btn btn--primary" [disabled]="isSubmitting || form.invalid">
       <span *ngIf="isSubmitting">Submitting...</span>
       <span *ngIf="!isSubmitting">Login</span>
     </button>
+
   </form>
 </div>

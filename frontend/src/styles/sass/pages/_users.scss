@@ -1,0 +1,142 @@
+// USERS
+// Styles for the users search bar, user cards grid, and pagination.
+// Depends on: abstracts/variables, abstracts/mixins
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// =============================================
+//  Search bar
+// =============================================
+
+.search-bar {
+  @include flex(row, center, flex-start, $spacing-sm);
+  width: 100%;
+  margin-bottom: $spacing-lg;
+
+  input[type='text'] {
+    flex: 1;
+    padding: $spacing-sm $spacing-md;
+    background-color: $color-primary;
+    border: 1px solid $color-border;
+    border-radius: $radius-sm;
+    color: $color-text;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+
+    &:focus {
+      border-color: $color-accent;
+      box-shadow: 0 0 0 3px rgba($color-accent, 0.18);
+    }
+  }
+
+  button {
+    @include btn-accent;
+    white-space: nowrap;
+  }
+}
+
+// =============================================
+//  Users grid
+// =============================================
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: $spacing-md;
+  width: 100%;
+
+  @include respond-to(mobile) {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: $spacing-sm;
+  }
+}
+
+// =============================================
+//  User card
+// =============================================
+
+.user-card {
+  @include card;
+  @include flex(column, center, center, $spacing-sm);
+  padding: $spacing-md;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  text-align: center;
+
+  &:hover {
+    transform: translateY(-3px);
+    background-color: $color-surface-light;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+
+  // ── Avatar ────────────────────────────────
+  .profile-image {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid $color-border;
+    transition: border-color 0.18s ease;
+    flex-shrink: 0;
+  }
+
+  &:hover .profile-image {
+    border-color: $color-accent;
+  }
+
+  // ── Avatar placeholder (no image) ─────────
+  &:not(:has(.profile-image)) {
+    &::before {
+      content: '👤';
+      font-size: 2rem;
+      display: block;
+    }
+  }
+
+  // ── Name ──────────────────────────────────
+  p {
+    margin: 0;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $color-text;
+    @include truncate(2);
+  }
+}
+
+// =============================================
+//  Pagination  (shared pattern with reports)
+// =============================================
+
+.pagination {
+  @include flex(row, center, center, $spacing-md);
+  margin-top: $spacing-lg;
+  flex-wrap: wrap;
+
+  span {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  button {
+    @include btn-accent;
+    min-width: 100px;
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,3 +1,27 @@
 // COMPONENT: buttons
 // Styles for the buttons component only.
 // Each component should be isolated and reusable.
+
+@use '../abstracts/' as *;
+
+// =============================================
+//  Buttons
+// =============================================
+
+.btn {
+  @include btn-base;
+  width: 100%;
+  margin-top: $spacing-xs;
+
+  &--primary {
+    @include btn-accent;
+    width: 100%;
+    margin-top: $spacing-xs;
+    box-shadow: $shadow-btn;
+  }
+
+  &--secondary {
+    @include btn-ghost;
+    width: 100%;
+  }
+}
