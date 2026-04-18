@@ -1,0 +1,171 @@
+// ADMIN DASHBOARD
+// Styles for the admin user search, users table, avatar cells, and pagination.
+// Depends on: abstracts/variables, abstracts/mixins
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// =============================================
+//  Search bar  (shared pattern with users)
+// =============================================
+
+.search-bar {
+  @include flex(row, center, flex-start, $spacing-sm);
+  width: 100%;
+  margin-bottom: $spacing-lg;
+
+  input[type='text'] {
+    flex: 1;
+    padding: $spacing-sm $spacing-md;
+    background-color: $color-primary;
+    border: 1px solid $color-border;
+    border-radius: $radius-sm;
+    color: $color-text;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+
+    &:focus {
+      border-color: $color-accent;
+      box-shadow: 0 0 0 3px rgba($color-accent, 0.18);
+    }
+  }
+
+  button {
+    @include btn-accent;
+    white-space: nowrap;
+  }
+}
+
+// =============================================
+//  Table container
+// =============================================
+
+.users-table-container {
+  @include card;
+  @include flex(column, stretch, flex-start, $spacing-md);
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: $spacing-md;
+}
+
+// =============================================
+//  Users table
+// =============================================
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-size-sm;
+  color: $color-text;
+
+  // ── Head ──────────────────────────────────
+  thead tr {
+    border-bottom: 1px solid $color-border;
+  }
+
+  th {
+    padding: $spacing-sm $spacing-md;
+    text-align: left;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semi;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  // ── Body ──────────────────────────────────
+  tbody tr {
+    border-bottom: 1px solid $color-border;
+    transition: background-color 0.15s ease;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: $color-surface-light;
+    }
+  }
+
+  td {
+    padding: $spacing-sm $spacing-md;
+    vertical-align: middle;
+    color: $color-text;
+    white-space: nowrap;
+
+    // Email + nickname — muted mono
+    &:nth-child(4),
+    &:nth-child(5) {
+      color: $color-text-muted;
+      font-size: $font-size-xs;
+      font-family: monospace;
+    }
+  }
+
+  // ── Avatar cell ───────────────────────────
+  td:first-child {
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid $color-border;
+      display: block;
+    }
+
+    span {
+      font-size: $font-size-xs;
+      color: $color-text-muted;
+      font-style: italic;
+    }
+  }
+
+  // ── Admin badge ───────────────────────────
+  td:nth-child(6) {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semi;
+    color: $color-text-muted;
+  }
+
+  // ── Action cell ───────────────────────────
+  td:last-child {
+    button {
+      @include btn-ghost;
+      font-size: $font-size-xs;
+    }
+  }
+}
+
+// =============================================
+//  Pagination  (shared pattern)
+// =============================================
+
+.pagination {
+  @include flex(row, center, center, $spacing-md);
+  padding: 0 $spacing-md;
+  flex-wrap: wrap;
+
+  span {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  button {
+    @include btn-accent;
+    min-width: 100px;
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+}

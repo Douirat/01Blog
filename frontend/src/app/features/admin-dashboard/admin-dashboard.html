@@ -26,7 +26,7 @@
     <tbody>
       <tr *ngFor="let user of users()">
         <td>
-          <img *ngIf="user.avatar" [src]="user.avatar" alt="Avatar" width="50">
+          <img *ngIf="user.avatar" [src]="user.avatar" alt="Avatar">
           <span *ngIf="!user.avatar">No Avatar</span>
         </td>
         <td>{{ user.firstName }}</td>
@@ -41,16 +41,16 @@
     </tbody>
   </table>
 
-<div class="pagination">
-  <button (click)="prevPage()" [disabled]="page() === 0">
-    ⏪ Previous
-  </button>
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page() === 0">
+      ⏪ Previous
+    </button>
 
-  <span>Page {{ page() + 1 }} of {{ totalPages() }}</span>
+    <span>Page {{ page() + 1 }} of {{ totalPages() }}</span>
 
-  <button (click)="nextPage()" [disabled]="last()">
-    Next ⏩
-  </button>
-</div>
-  
+    <button (click)="nextPage()" [disabled]="last()">
+      Next ⏩
+    </button>
+  </div>
+
 </div>

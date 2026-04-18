@@ -1,0 +1,214 @@
+// PROFILE ADMIN
+// Styles for the admin profile view: user info header, ban/unban action,
+// reported posts list with moderation controls.
+// Depends on: abstracts/variables, abstracts/mixins
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// =============================================
+//  Page wrapper
+// =============================================
+
+.profile_info {
+  @include flex(column, stretch, flex-start, $spacing-lg);
+  width: 100%;
+  padding: $spacing-lg;
+
+  @include respond-to(mobile) {
+    padding: $spacing-md;
+    gap: $spacing-md;
+  }
+}
+
+// =============================================
+//  Profile header card
+// =============================================
+
+.profile-header {
+  @include card;
+  @include flex(row, center, flex-start, $spacing-lg);
+  padding: $spacing-lg;
+  flex-wrap: wrap;
+
+  @include respond-to(mobile) {
+    @include flex(column, center, center, $spacing-md);
+    text-align: center;
+  }
+
+  // ── Avatar ──────────────────────────────
+  #img_container {
+    flex-shrink: 0;
+
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid $color-accent;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      display: block;
+    }
+  }
+
+  // ── About ───────────────────────────────
+  #about {
+    @include flex(column, flex-start, center, $spacing-xs);
+    flex: 1;
+
+    span small {
+      font-size: $font-size-xs;
+      color: $color-accent;
+      font-weight: $font-weight-semi;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-size-md;
+      font-weight: $font-weight-bold;
+      color: $color-text;
+    }
+
+    small {
+      font-size: $font-size-xs;
+      color: $color-text-muted;
+    }
+  }
+
+  // ── Ban / Unban button ───────────────────
+  .ban-btn {
+    @include btn-danger;
+    margin-left: auto;
+
+    @include respond-to(mobile) {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+
+  .unban-btn {
+    @include btn-ghost;
+    margin-left: auto;
+    color: $color-accent;
+    border-color: rgba($color-accent, 0.3);
+
+    &:hover:not(:disabled) {
+      background-color: rgba($color-accent, 0.1);
+      color: $color-accent;
+    }
+
+    @include respond-to(mobile) {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+}
+
+// =============================================
+//  Reported posts section
+// =============================================
+
+#banned_posts {
+  @include flex(column, stretch, flex-start, $spacing-md);
+
+  h3 {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $color-border;
+  }
+}
+
+// =============================================
+//  Post card  (extends profile pattern)
+// =============================================
+
+.post-card {
+  @include card;
+  @include flex(column, stretch, flex-start, $spacing-sm);
+  padding: $spacing-md $spacing-lg;
+
+  // ── Header: author + date ────────────────
+  .post-header {
+    @include flex(row, center, space-between, $spacing-sm);
+    flex-wrap: wrap;
+
+    .author {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semi;
+      color: $color-accent;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .date {
+      font-size: $font-size-xs;
+      color: $color-text-muted;
+    }
+  }
+
+  // ── Title ───────────────────────────────
+  .title {
+    margin: 0;
+    font-size: $font-size-md;
+    font-weight: $font-weight-bold;
+    color: $color-text;
+  }
+
+  // ── Content ─────────────────────────────
+  .content {
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    line-height: 1.6;
+    @include truncate(4);
+  }
+
+  // ── Media ───────────────────────────────
+  .post-image {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    border-radius: $radius-sm;
+    display: block;
+  }
+
+  // ── Stats ───────────────────────────────
+  .post-stats {
+    @include flex(row, center, flex-start, $spacing-md);
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    padding: $spacing-xs 0;
+    border-top: 1px solid $color-border;
+    border-bottom: 1px solid $color-border;
+  }
+
+  // ── Moderation controls ──────────────────
+  .moderation {
+    @include flex(row, center, flex-start, $spacing-sm);
+    flex-wrap: wrap;
+
+    button {
+      @include btn-base;
+
+      // Ban post — danger
+      &:first-child {
+        @include btn-danger;
+      }
+
+      // Reject reports — ghost
+      &:nth-child(2) {
+        @include btn-ghost;
+      }
+
+      // Unban post — accent (positive action)
+      &:only-child {
+        @include btn-accent;
+      }
+    }
+  }
+}
