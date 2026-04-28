@@ -1,25 +1,52 @@
-<div class="search-bar">
-  <input type="text" placeholder="Search users..." [value]="searchTerm()"
-    (input)="searchTerm.set($any($event.target).value)" (keyup.enter)="searchUsers()" />
-  <button (click)="searchUsers()">Search</button>
-</div>
+<div class="users-page">
 
-<ng-container *ngFor="let user of users()">
-  <div (click)="visiteProfile(user)" class="user-card"
-    *ngIf="loggedUserId() != undefined && user.id !== loggedUserId() ">
-    <img class="profile-image" *ngIf="user.avatar" [src]="user.avatar" alt="user-avatar">
-    <p>{{ user.firstName }} {{ user.lastName }}</p>
+  <!-- Search bar -->
+  <div class="search-bar">
+    <input type="text" placeholder="Search users..."
+      [value]="searchTerm()"
+      (input)="searchTerm.set($any($event.target).value)"
+      (keyup.enter)="searchUsers()" />
+    <button (click)="searchUsers()">Search</button>
   </div>
-</ng-container>
 
-<div class="pagination">
-  <button (click)="previousPage()" [disabled]="page() === 0">
-    ⏪ Previous
-  </button>
+  <!-- Users grid -->
+  <div class="users-grid">
+    <ng-container *ngFor="let user of users()">
+      <div class="user-card" (click)="visiteProfile(user)"
+        *ngIf="loggedUserId() != undefined && user.id !== loggedUserId()">
 
-  <span>Page {{ page() + 1 }} / {{ totalUsers() }}</span>
+        <!-- Avatar -->
+        <div class="user-card__avatar">
+          <img class="profile-image" *ngIf="user.avatar" [src]="user.avatar" alt="user-avatar">
+          <div class="profile-image profile-image--placeholder" *ngIf="!user.avatar">
+            {{ user.firstName[0] }}{{ user.lastName[0] }}
+          </div>
+          <span class="user-card__badge user-card__badge--admin" *ngIf="user.isAdmin">Admin</span>
+          <span class="user-card__badge user-card__badge--banned" *ngIf="user.banned">Banned</span>
+        </div>
 
-  <button (click)="nextPage()" [disabled]="page() >= totalUsers() - 1">
-    Next ⏩
-  </button>
+        <!-- Info -->
+        <div class="user-card__info">
+          <p class="user-card__name">{{ user.firstName }} {{ user.lastName }}</p>
+          <p class="user-card__nickname">@{{ user.nickname }}</p>
+          <p class="user-card__email">{{ user.email }}</p>
+          <p class="user-card__dob">🎂 {{ user.dateOfBirth | date:'mediumDate' }}</p>
+        </div>
+
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="users().length === 0">
+    <p>No users found</p>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page() === 0">&lsaquo;</button>
+    <span>Page {{ page() + 1 }} / {{ totalUsers() }}</span>
+    <button (click)="nextPage()" [disabled]="page() >= totalUsers() - 1">&rsaquo;</button>
+  </div>
+
 </div>

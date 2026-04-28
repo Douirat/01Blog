@@ -2,8 +2,22 @@
 // Styles for the users search bar, user cards grid, and pagination.
 // Depends on: abstracts/variables, abstracts/mixins
 
-@use '../abstracts/variables' as *;
-@use '../abstracts/mixins' as *;
+@use '../abstracts/' as *;
+
+// =============================================
+//  Page wrapper
+// =============================================
+
+.users-page {
+  @include flex(column, stretch, flex-start, $spacing-lg);
+  width: 100%;
+  padding: $spacing-lg;
+
+  @include respond-to(mobile) {
+    padding: $spacing-md;
+    gap: $spacing-md;
+  }
+}
 
 // =============================================
 //  Search bar
@@ -12,7 +26,6 @@
 .search-bar {
   @include flex(row, center, flex-start, $spacing-sm);
   width: 100%;
-  margin-bottom: $spacing-lg;
 
   input[type='text'] {
     flex: 1;
@@ -26,9 +39,7 @@
     outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
-    &::placeholder {
-      color: $color-text-muted;
-    }
+    &::placeholder { color: $color-text-muted; }
 
     &:focus {
       border-color: $color-accent;
@@ -48,12 +59,12 @@
 
 .users-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: $spacing-md;
   width: 100%;
 
   @include respond-to(mobile) {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: $spacing-sm;
   }
 }
@@ -64,11 +75,10 @@
 
 .user-card {
   @include card;
-  @include flex(column, center, center, $spacing-sm);
+  @include flex(column, center, flex-start, $spacing-sm);
   padding: $spacing-md;
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
-  text-align: center;
 
   &:hover {
     transform: translateY(-3px);
@@ -80,47 +90,121 @@
     transform: translateY(-1px);
   }
 
-  // ── Avatar ────────────────────────────────
+  // ── Avatar block ──────────────────────────
+  &__avatar {
+    position: relative;
+    align-self: center;
+  }
+
   .profile-image {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid $color-border;
+    display: block;
     transition: border-color 0.18s ease;
-    flex-shrink: 0;
+
+    &--placeholder {
+      @include flex(row, center, center, 0);
+      background-color: $color-primary;
+      color: $color-text;
+      font-size: $font-size-md;
+      font-weight: $font-weight-bold;
+      letter-spacing: 0.05em;
+      user-select: none;
+    }
   }
 
   &:hover .profile-image {
     border-color: $color-accent;
   }
 
-  // ── Avatar placeholder (no image) ─────────
-  &:not(:has(.profile-image)) {
-    &::before {
-      content: '👤';
-      font-size: 2rem;
-      display: block;
+  // ── Status badges ─────────────────────────
+  &__badge {
+    position: absolute;
+    bottom: 0;
+    right: -4px;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semi;
+    padding: 1px 6px;
+    border-radius: $radius-sm;
+    line-height: 1.4;
+
+    &--admin {
+      background-color: rgba($color-accent, 0.2);
+      color: $color-accent;
+      border: 1px solid rgba($color-accent, 0.4);
+    }
+
+    &--banned {
+      background-color: rgba($color-error, 0.2);
+      color: $color-error;
+      border: 1px solid rgba($color-error, 0.4);
     }
   }
 
-  // ── Name ──────────────────────────────────
-  p {
+  // ── Info block ────────────────────────────
+  &__info {
+    @include flex(column, center, flex-start, 2px);
+    width: 100%;
+    text-align: center;
+  }
+
+  &__name {
     margin: 0;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-semi;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
     color: $color-text;
-    @include truncate(2);
+    @include truncate(1);
+  }
+
+  &__nickname {
+    margin: 0;
+    font-size: $font-size-xs;
+    color: $color-accent;
+    font-weight: $font-weight-semi;
+    @include truncate(1);
+  }
+
+  &__email {
+    margin: 0;
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    @include truncate(1);
+  }
+
+  &__dob {
+    margin: 0;
+    font-size: $font-size-xs;
+    color: $color-text-muted;
   }
 }
 
 // =============================================
-//  Pagination  (shared pattern with reports)
+//  Empty state
+// =============================================
+
+.empty-state {
+  @include flex(column, center, center, $spacing-sm);
+  padding: $spacing-xl;
+  color: $color-text-muted;
+  font-size: $font-size-base;
+  text-align: center;
+
+  &::before {
+    content: '👥';
+    font-size: 2rem;
+    display: block;
+  }
+}
+
+// =============================================
+//  Pagination
 // =============================================
 
 .pagination {
   @include flex(row, center, center, $spacing-md);
-  margin-top: $spacing-lg;
   flex-wrap: wrap;
 
   span {
@@ -132,7 +216,9 @@
 
   button {
     @include btn-accent;
-    min-width: 100px;
+    min-width: 2.5rem;
+    font-size: $font-size-lg;
+    padding: $spacing-xs $spacing-sm;
 
     &:disabled {
       opacity: 0.35;

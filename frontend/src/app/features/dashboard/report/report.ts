@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReportInput } from '../../../types/report';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { ToastService } from '../../../core/toast/toast-service';
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './report.html',
 })
-export class Report {
+export class Report implements OnInit {
 
   constructor(private reportService: ReportService, private toastService: ToastService) { }
 
@@ -32,6 +32,17 @@ export class Report {
     details: new FormControl('', Validators.required)
   });
 
+  ngOnInit() {
+    this.reportForm.get('reason')?.valueChanges.subscribe(value => {
+      const details = this.reportForm.get('details');
+      if (value === 'other') {
+        details?.setValidators(Validators.required);
+      } else {
+        details?.clearValidators();
+      }
+      details?.updateValueAndValidity();
+    });
+  }
 
 
   onSubmit() {

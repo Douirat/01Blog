@@ -9,13 +9,19 @@
         type="text"
         formControlName="emailOrUsername"
         placeholder="Enter your email or username"
-        [class.input--error]="hasError('emailOrUsername', 'required') || hasError('emailOrUsername', 'invalidFormat')"
+        [class.input--error]="hasError('emailOrUsername', 'required') || hasError('emailOrUsername', 'minlength') || hasError('emailOrUsername', 'maxlength') || hasError('emailOrUsername', 'invalidFormat')"
       />
       <small class="form-error" *ngIf="hasError('emailOrUsername', 'required')">
         Email or username is required
       </small>
+      <small class="form-error" *ngIf="hasError('emailOrUsername', 'minlength')">
+        Must be at least 3 characters
+      </small>
+      <small class="form-error" *ngIf="hasError('emailOrUsername', 'maxlength')">
+        Must be at most 254 characters
+      </small>
       <small class="form-error" *ngIf="hasError('emailOrUsername', 'invalidFormat')">
-        Must be a valid email or username (3-20 chars, letters/numbers/_)
+        Must be a valid email or username (letters/numbers/_)
       </small>
     </div>
 
@@ -27,13 +33,16 @@
         type="password"
         formControlName="password"
         placeholder="Enter your password"
-        [class.input--error]="hasError('password', 'required') || hasError('password', 'minlength')"
+        [class.input--error]="hasError('password', 'required') || hasError('password', 'minlength') || hasError('password', 'maxlength')"
       />
       <small class="form-error" *ngIf="hasError('password', 'required')">
         Password is required
       </small>
       <small class="form-error" *ngIf="hasError('password', 'minlength')">
-        Password must be at least 6 characters long
+        Password must be at least 8 characters
+      </small>
+      <small class="form-error" *ngIf="hasError('password', 'maxlength')">
+        Password must be at most 128 characters
       </small>
     </div>
 

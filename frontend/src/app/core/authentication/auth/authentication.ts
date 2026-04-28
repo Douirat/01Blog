@@ -30,8 +30,10 @@ export class Authentication {
 
   constructor(private http: HttpClient) {
     // no manual assignment is needed: Angular's dependency injection handles this automatically.
-    this.loadStoredUser()
-    this.checkStatus().subscribe()
+    if(this.user() != null){
+      this.loadStoredUser()
+      this.checkStatus().subscribe()
+    }
   }
 
   /**
@@ -45,7 +47,6 @@ export class Authentication {
         this.currentUser.next(JSON.parse(storedUser));
         this.user.set(JSON.parse(storedUser));
       } catch (error) {
-        console.error('[AuthService] Failed to parse stored user', error);
         localStorage.removeItem('currentUser')
       }
     }
@@ -184,7 +185,6 @@ export class Authentication {
  */
   private handleError(operation: string) {
     return (error: HttpErrorResponse): Observable<never> => {
-      console.error(`[AuthService] ${operation} failed:`, error);
 
       // Create user-friendly error message based on status code
       let errorMessage = 'An unexpected error occurred';
