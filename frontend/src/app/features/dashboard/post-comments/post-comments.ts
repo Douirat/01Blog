@@ -44,8 +44,7 @@ export class PostComments implements OnChanges, OnInit {
     this.commentService.getComments(this.postId, this.page()).subscribe({
       next: res => {
         if (res != null) {
-          console.log("res =====>", res);
-          
+       
           this.comments.set(res?.content);
           this.totalPages.set(res.totalPages);
           this.lastPage.set(res.last);

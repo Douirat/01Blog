@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/reports")
 @RequiredArgsConstructor
 public class ReportController {
+
     private final ReportService reportService;
 
     // Create a report:
@@ -35,7 +36,9 @@ public class ReportController {
     // Get reports' count based on pending reports.
     @GetMapping("/count")
     public Map<String, Long> getReportsCount() {
-        return Map.of("count", this.reportService.getReportsCount());
+        long count = this.reportService.getReportsCount();
+        System.out.println("the count è---> " + count);
+        return Map.of("count", count);
     }
 
     @GetMapping
@@ -43,7 +46,7 @@ public class ReportController {
         if (page < 0) {
             return ResponseEntity.badRequest().build();
         }
-        System.out.println("the page: "+ page);
+        System.out.println("the page: " + page);
         Page<ReportResponseDTO> reports = this.reportService.getAllReports(page);
         if (reports.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -59,11 +62,13 @@ public class ReportController {
     @GetMapping("/user")
     public ResponseEntity<PaginatedReportsDTO> getUserReports(@RequestParam("userId") Long userId,
             @RequestParam(value = "page", defaultValue = "0") int page) {
-        if (page < 0)
+        if (page < 0) {
             return ResponseEntity.badRequest().build();
+        }
         Page<ReportResponseDTO> reports = this.reportService.getUserReports(page, userId);
-        if (reports.isEmpty())
+        if (reports.isEmpty()) {
             return ResponseEntity.noContent().build();
+        }
         PaginatedReportsDTO response = new PaginatedReportsDTO(
                 reports.getContent(),
                 reports.isLast(),

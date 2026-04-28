@@ -10,13 +10,13 @@
 
 <div class="pagination" *ngIf="comments().length > 0">
   <button (click)="prevPage()" [disabled]="page() === 0">
-    ⏪ Previous
+    <
   </button>
 
   <span>Page {{ page() + 1 }} / {{ totalPages() }}</span>
 
   <button (click)="nextPage()" [disabled]="lastPage()">
-    Next ⏩
+    >
   </button>
 </div>
 </div>

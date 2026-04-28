@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../../core/users/users-service';
 import { Authentication } from '../../core/authentication/auth/authentication';
 import { Router } from '@angular/router';
+import { ToastService } from '../../core/toast/toast-service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -27,7 +28,8 @@ export class AdminDashboard implements OnInit {
   constructor(
     private auth: Authentication,
     private usersService: UsersService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -37,10 +39,15 @@ export class AdminDashboard implements OnInit {
   }
 
   loadUsers(): void {
-    this.usersService.fetchUsers(this.page()).subscribe((data: PaginatedUsers) => {
+    this.usersService.fetchUsers(this.page()).subscribe( {
+      next: data =>{
       this.users.set(data.content.filter(user => user.id !== this.loggedUserId()));
       this.last.set(data.last);
       this.totalPages.set(data.totalPages);
+      },
+      error: _=>{
+        this.toastService.warning(3000, "users loading", "no reports yet");
+      }
     }
     );
   }

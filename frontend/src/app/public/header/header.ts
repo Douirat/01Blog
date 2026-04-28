@@ -4,6 +4,7 @@ import { Authentication } from '../../core/authentication/auth/authentication';
 import { Router } from '@angular/router';
 import { Store } from '../../core/store/store';
 import { ReportService } from '../../core/report/report-service';
+import { ToastService } from '../../core/toast/toast-service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,7 @@ import { ReportService } from '../../core/report/report-service';
 })
 export class Header implements OnInit {
   // Keep auth private:
-  constructor(private auth: Authentication, private reportService: ReportService, private store: Store, private router: Router) { }
+  constructor(private auth: Authentication, private reportService: ReportService, private store: Store, private router: Router, private toastService: ToastService) { }
 
   reportsNumber = signal(0);
 
@@ -29,10 +30,10 @@ updateReportsCount(): void {
   this.reportService.getReportsCount().subscribe({
     next: (data) => {
       this.reportsNumber.set(data['count']);
-      
+      console.log("======== count", this.reportsNumber());
     },
     error: (err) => {
-      console.error(err);
+      this.toastService.info(3000, "reports", err);
     }
   });
 }

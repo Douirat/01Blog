@@ -54,12 +54,12 @@
 
     <!-- Pagination Controls -->
     <div class="pagination" *ngIf="reports().length > 0">
-        <button (click)="previousPage()" [disabled]="page()==0" class="btn btn-primary">
-            ⏪ Previous
+        <button (click)="previousPage()" [disabled]="page()==0">
+          < 
         </button>
 
-        <button (click)="nextPage()" [disabled]="isLast()" class="btn btn-primary">
-            Next ⏩
+        <button (click)="nextPage()" [disabled]="isLast()" >
+           >
         </button>
     </div>
 </div>
