@@ -4,19 +4,35 @@
 
     <div class="form-group">
       <label for="post-title">Title</label>
-      <input id="post-title" type="text" formControlName="title" placeholder="Title"
+      <input id="post-title" type="text" formControlName="title" placeholder="Title" maxlength="150"
         [class.input--error]="form.controls.title.invalid && form.controls.title.touched" />
-      <small class="form-error" *ngIf="form.controls.title.invalid && form.controls.title.touched">
+      <small class="form-error" *ngIf="form.controls.title.hasError('required') && form.controls.title.touched">
         Title is required
+      </small>
+
+      <small class="form-error" *ngIf="form.controls.title.hasError('minlength') && form.controls.title.touched">
+        Title is too short
+      </small>
+
+      <small class="form-error" *ngIf="form.controls.title.hasError('maxlength') && form.controls.title.touched">
+        Title is too long
       </small>
     </div>
 
     <div class="form-group">
       <label for="post-content">Content</label>
-      <textarea id="post-content" formControlName="content" placeholder="Content" rows="5"
+      <textarea id="post-content" formControlName="content" placeholder="Content" rows="5" maxlength="5000"
         [class.input--error]="form.controls.content.invalid && form.controls.content.touched"></textarea>
-      <small class="form-error" *ngIf="form.controls.content.invalid && form.controls.content.touched">
+      <small class="form-error" *ngIf="form.controls.content.hasError('required') && form.controls.content.touched">
         Content is required
+      </small>
+
+      <small class="form-error" *ngIf="form.controls.content.hasError('minlength') && form.controls.content.touched">
+        Content is too short
+      </small>
+
+      <small class="form-error" *ngIf="form.controls.content.hasError('maxlength') && form.controls.content.touched">
+        Content is too long
       </small>
     </div>
 

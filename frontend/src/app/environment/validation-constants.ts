@@ -11,12 +11,12 @@ export const VALIDATION = {
 
   email: {
     min: 6,
-    max: 254,      // RFC 5321
+    max: 100,      // RFC 5321
   },
 
   password: {
     min: 8,
-    max: 128,      // NIST SP 800-63B
+    max: 8,      // NIST SP 800-63B
   },
 
   nickname: {
@@ -26,17 +26,17 @@ export const VALIDATION = {
 
   postTitle: {
     min: 3,
-    max: 150,      // Common CMS standard
+    max: 50,      // Common CMS standard
   },
 
   postContent: {
     min: 10,
-    max: 5000,     // Common CMS standard
+    max: 1000,     // Common CMS standard
   },
 
   commentTitle: {
     min: 3,
-    max: 100,
+    max: 50,
   },
 
   commentContent: {

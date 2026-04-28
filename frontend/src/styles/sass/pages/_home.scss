@@ -37,7 +37,7 @@ h3{
   @include card;
   margin-bottom: $spacing-lg;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-
+  max-width: 400px;
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
@@ -55,7 +55,7 @@ h3{
   .post-content {
     padding: $spacing-lg;
     @include flex(column, flex-start, flex-start, $spacing-sm);
-
+       overflow-wrap: break-word;
     // Author
     > span {
       font-size: $font-size-sm;

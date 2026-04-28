@@ -52,7 +52,7 @@
 // =============================================
 
 .posts-list {
-  @include flex(column, stretch, flex-start, $spacing-md);
+  @include flex(column, center, center, $spacing-md);
   width: 100%;
 }
 

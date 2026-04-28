@@ -152,22 +152,24 @@
   }
 
   // ── Title ───────────────────────────────
-  .title {
-    margin: 0;
-    font-size: $font-size-md;
-    font-weight: $font-weight-bold;
-    color: $color-text;
-  }
+.title {
+  margin: 0;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-text;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
 
-  // ── Content ─────────────────────────────
-  .content {
-    margin: 0;
-    font-size: $font-size-sm;
-    color: $color-text-muted;
-    line-height: 1.6;
-    @include truncate(4);
-  }
-
+.content {
+  margin: 0;
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  @include truncate(4);
+}
   // ── Media ───────────────────────────────
   .post-image {
     width: 100%;

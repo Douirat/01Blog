@@ -5,6 +5,7 @@ import { PostService } from '../../../core/post/post-service';
 import { Post, PostInput } from '../../../types/post';
 import { finalize } from 'rxjs/operators';
 import { ToastService } from '../../../core/toast/toast-service';
+import { VALIDATION } from '../../../environment/validation-constants';
 
 
 
@@ -36,8 +37,24 @@ export class PostForm implements OnInit {
 
   constructor(private postService: PostService, private toastService: ToastService) {
     this.form = new FormGroup({
-      title: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
-      content: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
+      title: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.minLength(VALIDATION.postTitle.min),
+          Validators.maxLength(VALIDATION.postTitle.max),
+        ],
+      }),
+
+      content: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.minLength(VALIDATION.postContent.min),
+          Validators.maxLength(VALIDATION.postContent.max),
+        ],
+      }),
+
       mediaType: new FormControl<'image' | 'video' | null>(null),
       media: new FormControl<File | null>(null),
     });
