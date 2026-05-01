@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
   @EntityGraph(attributePaths = { "user", "comments", "votes" })
-  Page<Post> findAllByUserId(@Nonnull Long userId, Pageable pageable);
+  Page<Post> findAllByUserIdAndBannedFalse(@Nonnull Long userId, Pageable pageable);
   @EntityGraph(attributePaths = { "user" })
   // Page<Post> findAll(Pageable pageable);
   Page<Post> findByBannedFalse(Pageable pageable);

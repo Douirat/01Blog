@@ -48,7 +48,7 @@ public class PostServiceImpl implements PostService {
                                 size,
                                 Sort.by(Sort.Direction.DESC, "createdAt"));
 
-                Page<Post> posts = postRepository.findAllByUserId(userId, pageable);
+                Page<Post> posts = postRepository.findAllByUserIdAndBannedFalse(userId, pageable);
 
                 return posts.map(post -> {
 

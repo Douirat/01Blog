@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, signal, output } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PostService } from '../../../core/post/post-service';
 import { Post, PostInput } from '../../../types/post';
@@ -7,7 +7,12 @@ import { finalize } from 'rxjs/operators';
 import { ToastService } from '../../../core/toast/toast-service';
 import { VALIDATION } from '../../../environment/validation-constants';
 
-
+// ---------------------------------------------------------------------------
+// Allowed MIME types per media category
+// ---------------------------------------------------------------------------
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime', 'video/x-msvideo'];
+ 
 
 @Component({
   selector: 'app-post-form',
@@ -57,7 +62,12 @@ export class PostForm implements OnInit {
 
       mediaType: new FormControl<'image' | 'video' | null>(null),
       media: new FormControl<File | null>(null),
-    });
+
+    },
+     
+    { validators: this.mediaFileValidator }
+
+  );
   }
 
   ngOnInit(): void {
@@ -89,6 +99,9 @@ export class PostForm implements OnInit {
     const file = input.files[0];
     this.form.controls.media.setValue(file);
     this.fileName = file.name;
+
+      // Trigger validation for mediaType when a file is selected
+    this.form.controls.mediaType.updateValueAndValidity();
   }
 
   onSubmit() {
@@ -125,5 +138,32 @@ export class PostForm implements OnInit {
       error: (_) => this.toastService.error(4000, "Post", 'Failed to save post')
     });
   }
+
+  // Cross-field validator: checks that the uploaded file matches the mediaType
+// ---------------------------------------------------------------------------
+ mediaFileValidator(group: AbstractControl): ValidationErrors | null {
+  const mediaType = group.get('mediaType')?.value as 'image' | 'video' | null | '';
+  const file = group.get('media')?.value as File | null;
+ 
+  // No file selected – nothing to validate
+  if (!file) return null;
+ 
+  // No mediaType selected but a file was provided
+  if (!mediaType) {
+    return { mediaTypeMissing: true };
+  }
+ 
+  const mimeType = file.type;
+ 
+  if (mediaType === 'image' && !ALLOWED_IMAGE_TYPES.includes(mimeType)) {
+    return { invalidImageFile: true };
+  }
+ 
+  if (mediaType === 'video' && !ALLOWED_VIDEO_TYPES.includes(mimeType)) {
+    return { invalidVideoFile: true };
+  }
+ 
+  return null;
+}
 
 }

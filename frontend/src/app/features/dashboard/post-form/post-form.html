@@ -47,8 +47,28 @@
 
     <div class="form-group">
       <label for="file-upload">Upload File</label>
-      <input id="file-upload" type="file" (change)="onFileSelected($event)" />
+      <input
+        id="file-upload"
+        type="file"
+        (change)="onFileSelected($event)"
+        [class.input--error]="fileName && (form.hasError('invalidImageFile') || form.hasError('invalidVideoFile') || form.hasError('mediaTypeMissing'))"
+      />
       <span *ngIf="fileName">{{ fileName }}</span>
+
+      <!-- File uploaded but no media type selected -->
+      <small class="form-error" *ngIf="form.hasError('mediaTypeMissing') && fileName">
+        Please select a media type before uploading a file.
+      </small>
+
+      <!-- Wrong file type for image -->
+      <small class="form-error" *ngIf="form.hasError('invalidImageFile')">
+        Invalid file. Please upload a valid image (JPEG, PNG, GIF, WEBP, SVG).
+      </small>
+
+      <!-- Wrong file type for video -->
+      <small class="form-error" *ngIf="form.hasError('invalidVideoFile')">
+        Invalid file. Please upload a valid video (MP4, WEBM, OGG, MOV, AVI).
+      </small>
     </div>
 
     <button type="submit" class="btn btn--primary" [disabled]="form.invalid || isSubmitting">
