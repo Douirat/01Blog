@@ -89,7 +89,7 @@ public class PostServiceImpl implements PostService {
                                 Sort.by(Sort.Direction.DESC, "createdAt") // newest → oldest
                 );
 
-                Page<Post> posts = postRepository.findAll(pageable);
+               Page<Post> posts = postRepository.findByBannedFalse(pageable);
 
                 return posts.map(post -> {
 

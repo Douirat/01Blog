@@ -58,6 +58,7 @@ export class Report implements OnInit {
     this.reportService.postReport(report).subscribe({
       next: _ => {
         this.toastService.success(4000, "report", "report was created successfully");
+        this.reportForm.reset();
       },
       error: _ => {
         this.toastService.error(4000, "report", "failed to create a report");

@@ -5,6 +5,7 @@ import { Authentication } from '../../../core/authentication/auth/authentication
 import { LoginPayload } from '../../../types/user';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../../core/toast/toast-service';
+import { VALIDATION } from '../../../environment/validation-constants';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class Login {
   ) {
     this.form = this.fb.group({
       emailOrUsername: ['', [Validators.required, this.usernameOrEmailValidator]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(VALIDATION.password.min)]],
     });
   }
 

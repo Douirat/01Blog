@@ -79,6 +79,9 @@ export class Profile implements OnInit {
   checkFollowing(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
+      if(id == this.loggedUser()?.id.toString()){
+        return;
+      }
       this.subscriptionService.checkSubscription(id).subscribe({
         next: r => {
           this.subscribed.set(r.isFollowing);

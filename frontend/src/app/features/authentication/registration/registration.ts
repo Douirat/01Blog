@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Authentication } from '../../../core/authentication/auth/authentication'; // adjust to your path
 import { RegistrationFormData } from '../../../types/user'; // adjust to your path
 import { ToastService } from '../../../core/toast/toast-service';
+import { VALIDATION } from '../../../environment/validation-constants';
 
 
 @Component({
@@ -28,13 +29,34 @@ export class Registration {
   ) {
     // Initializing the form with validation rules:
     this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-      avatar: [], // Optional field.
-      nickname: ['', Validators.required],
+      email: ['', [
+        Validators.required,
+        Validators.email,
+        Validators.minLength(VALIDATION.email.min),
+        Validators.maxLength(VALIDATION.email.max),
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(VALIDATION.password.min),
+        Validators.maxLength(VALIDATION.password.max),
+      ]],
+      firstName: ['', [
+        Validators.required,
+        Validators.minLength(VALIDATION.name.min),
+        Validators.maxLength(VALIDATION.name.max),
+      ]],
+      lastName: ['', [
+        Validators.required,
+        Validators.minLength(VALIDATION.name.min),
+        Validators.maxLength(VALIDATION.name.max),
+      ]],
+      dateOfBirth: ['', [Validators.required, this.ageRangeValidator(18, 120)]],
+      avatar: [null],
+      nickname: ['', [
+        Validators.required,
+        Validators.minLength(VALIDATION.nickname.min),
+        Validators.maxLength(VALIDATION.nickname.max),
+      ]],
     });
   }
 
@@ -165,6 +187,23 @@ export class Registration {
   resetForm() {
     this.form.reset();
     this.errorMessage = '';
+  }
+
+  ageRangeValidator(minAge: number, maxAge: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value) return null;
+
+      const dob = new Date(value);
+      const today = new Date();
+      const age = today.getFullYear() - dob.getFullYear();
+
+      if (isNaN(dob.getTime())) return { invalidDate: true };
+      if (age < minAge) return { tooYoung: { requiredAge: minAge } };
+      if (age > maxAge) return { tooOld: { maxAge } };
+
+      return null;
+    };
   }
 
 }

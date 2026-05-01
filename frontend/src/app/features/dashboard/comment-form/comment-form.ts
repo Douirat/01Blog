@@ -4,6 +4,7 @@ import { CommentRequest, Comment } from '../../../types/comment';
 import { CommonModule } from '@angular/common';
 import { SimpleChanges } from '@angular/core';
 import { CommentService } from '../../../core/comment/comment-service';
+import { VALIDATION } from '../../../environment/validation-constants';
 
 type CommentFormType = {
   title: FormControl<string>;
@@ -47,8 +48,8 @@ export class CommentForm implements OnChanges {
 
   // Declare the form group as a wrapper of the request type:
   form: FormGroup<CommentFormType> = new FormGroup<CommentFormType>({
-    title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    content: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    title: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(VALIDATION.commentTitle.min), Validators.maxLength(VALIDATION.commentTitle.max)] }),
+    content: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(VALIDATION.commentContent.min), Validators.maxLength(VALIDATION.commentContent.max)] }),
     postId: new FormControl(null as any, { validators: [Validators.required] }),
   });
 
