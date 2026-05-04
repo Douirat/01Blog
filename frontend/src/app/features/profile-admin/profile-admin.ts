@@ -43,7 +43,7 @@ export class ProfileAdmin implements OnInit {
     this.userService.getUserById(id).subscribe({
       next: userData => {
         this.user.set(userData);
-        console.log("the is is the user the admin wants to investigate: ", this.user());
+        console.log("this is is the user the admin wants to investigate: ", this.user());
         if (this.user()?.banned) {
           this.isUserBanned.set(true)
         } else {

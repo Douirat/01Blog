@@ -23,7 +23,9 @@ export class Header implements OnInit {
   user = computed(() => this.auth.user());
 
   ngOnInit(): void {
-    this.updateReportsCount();
+    if(this.isAdmin()){
+      this.updateReportsCount();
+    }
   }
 
 updateReportsCount(): void {
