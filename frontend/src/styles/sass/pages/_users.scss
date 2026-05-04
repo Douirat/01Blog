@@ -4,12 +4,14 @@
 
 @use '../abstracts/' as *;
 
+
+
 // =============================================
 //  Page wrapper
 // =============================================
 
 .users-page {
-  @include flex(column, stretch, flex-start, $spacing-lg);
+  @include flex(column, center, center, $spacing-lg);
   width: 100%;
   padding: $spacing-lg;
 
@@ -25,9 +27,11 @@
 
 .search-bar {
   @include flex(row, center, flex-start, $spacing-sm);
+  max-width: 600px;
   width: 100%;
 
   input[type='text'] {
+    width: 100%;
     flex: 1;
     padding: $spacing-sm $spacing-md;
     background-color: $color-primary;

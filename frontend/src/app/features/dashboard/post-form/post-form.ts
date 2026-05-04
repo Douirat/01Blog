@@ -126,7 +126,7 @@ export class PostForm implements OnInit {
       next: (post) => {
         console.log("The new create post should be added immediately to the posts: ", post);
         this.postService.imitatePostSource(post);
-        this.toastService.success(4000, "Post", "Post was created successfully");
+        this.toastService.success(4000, "Post", "Post was created/updated successfully");
         this.form.reset();
         this.fileName = '';
         this.postSaved.emit(post);

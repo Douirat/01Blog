@@ -69,6 +69,9 @@ export class CommentForm implements OnChanges {
           this.isSuccess = true;
           this.isLoading = false;
           this.form.reset({ postId: this.post_id() });
+          setTimeout(() => {
+            this.isSuccess = null
+          }, 2000);
         },
         error: (error) => {
           // this.isSuccess = false;

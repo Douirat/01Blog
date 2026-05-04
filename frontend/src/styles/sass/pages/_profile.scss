@@ -4,6 +4,16 @@
 
 @use '../abstracts/' as *;
 
+app-profile{
+  @include flex(column, center, center, $spacing-lg);
+  width: 100%;
+  padding: $spacing-lg;
+
+  @include respond-to(mobile) {
+    padding: $spacing-md;
+    gap: $spacing-md;
+  }
+}
 
 // =============================================
 //  Profile header
@@ -15,6 +25,8 @@
   padding: $spacing-xl;
   margin-bottom: $spacing-lg;
   text-align: center;
+  max-width: 400px;
+  width: 100%;
 
   .profile-avatar {
     width: 100px;

@@ -15,38 +15,38 @@ app-admin-dashboard{
 //  Search bar  (shared pattern with users)
 // =============================================
 
-.search-bar {
-  @include flex(row, center, flex-start, $spacing-sm);
-  width: 100%;
-  margin-bottom: $spacing-lg;
+// .search-bar {
+//   @include flex(row, center, flex-start, $spacing-sm);
+//   width: 100%;
+//   margin-bottom: $spacing-lg;
 
-  input[type='text'] {
-    flex: 1;
-    padding: $spacing-sm $spacing-md;
-    background-color: $color-primary;
-    border: 1px solid $color-border;
-    border-radius: $radius-sm;
-    color: $color-text;
-    font-family: $font-family-base;
-    font-size: $font-size-base;
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+//   input[type='text'] {
+//     flex: 1;
+//     padding: $spacing-sm $spacing-md;
+//     background-color: $color-primary;
+//     border: 1px solid $color-border;
+//     border-radius: $radius-sm;
+//     color: $color-text;
+//     font-family: $font-family-base;
+//     font-size: $font-size-base;
+//     outline: none;
+//     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
-    &::placeholder {
-      color: $color-text-muted;
-    }
+//     &::placeholder {
+//       color: $color-text-muted;
+//     }
 
-    &:focus {
-      border-color: $color-accent;
-      box-shadow: 0 0 0 3px rgba($color-accent, 0.18);
-    }
-  }
+//     &:focus {
+//       border-color: $color-accent;
+//       box-shadow: 0 0 0 3px rgba($color-accent, 0.18);
+//     }
+//   }
 
-  button {
-    @include btn-accent;
-    white-space: nowrap;
-  }
-}
+//   button {
+//     @include btn-accent;
+//     white-space: nowrap;
+//   }
+// }
 
 // =============================================
 //  Table container
@@ -170,8 +170,8 @@ table {
 
   button {
     @include btn-accent;
-    min-width: 100px;
-
+    min-width: 32px;
+    
     &:disabled {
       opacity: 0.35;
       cursor: not-allowed;

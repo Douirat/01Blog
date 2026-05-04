@@ -11,7 +11,7 @@
 // =============================================
 
 .profile_info {
-  @include flex(column, stretch, flex-start, $spacing-lg);
+  @include flex(column, center, flex-start, $spacing-lg);
   width: 100%;
   padding: $spacing-lg;
 
@@ -25,11 +25,12 @@
 //  Profile header card
 // =============================================
 
-.profile-header {
+.admin-profile-header {
   @include card;
   @include flex(row, center, flex-start, $spacing-lg);
   padding: $spacing-lg;
   flex-wrap: wrap;
+
 
   @include respond-to(mobile) {
     @include flex(column, center, center, $spacing-md);
@@ -111,7 +112,7 @@
 // =============================================
 
 #banned_posts {
-  @include flex(column, stretch, flex-start, $spacing-md);
+  @include flex(column, center, center, $spacing-md);
 
   h3 {
     margin: 0;
