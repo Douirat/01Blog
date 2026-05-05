@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
+import com.blog.backend.exceptions.ResourceNotFoundException;
 
 @Service
 class UserServiceImpl implements UserService {
@@ -103,7 +104,7 @@ class UserServiceImpl implements UserService {
         User u = userOpt.get();
         // Check if user is banned
         if (u.isBanned()) {
-            throw new IllegalStateException("User is banned and cannot log in.");
+            throw new ResourceNotFoundException("User is banned and cannot log in.");
         }
 
         return userOpt.map(user -> {

@@ -83,8 +83,9 @@ export class Registration {
         // Success handler:
         next: (res => {
           // navigation to a successful page or login if the registration doesnt create session
+          this.authService.setSession(res);
           this.toastService.info(4000, "successful registration", "proceed with login");
-          this.router.navigate(['/login'])
+           this.router.navigate(['/dashboard']);
           // Or you could show a success message
           // this.showSuccessMessage('Account created successfully!');
         }),
@@ -92,6 +93,9 @@ export class Registration {
         error: (err) => {
           // Set error message to display to user
           this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
+          // get the code and message from the error response if available
+        
+          
           this.toastService.error(4000, "Error", this.errorMessage);
           // Reset loading state
           this.isSubmitting = false;
@@ -105,7 +109,7 @@ export class Registration {
       // If form is invalid, mark all fields as touched
       // This will trigger the error messages to display
       this.markFormGroupTouched(this.form);
-      console.log('Form is invalid');
+      this.toastService.error(4000, "Invalid form", "Please correct the errors and try again.");
     }
   }
   /**

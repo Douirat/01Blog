@@ -30,7 +30,6 @@ loadAllReports():void{
 this.reportService.getAllReports(this.page()).subscribe({
           next: res => {
             if(res != null){
-              console.log("--------> ", res);
               this.reports.set(res.content);
               this.isLast.set(res.last);
               this.total.set(res.totalPages);
@@ -43,7 +42,7 @@ this.reportService.getAllReports(this.page()).subscribe({
             this.toastService.info(4000, "info", "No reports were declares.")
           },
           complete: () => {
-            console.log('User fetch completed');
+            this.toastService.info(3000, "Information", "Report fetch completed");
           }
         });
 }

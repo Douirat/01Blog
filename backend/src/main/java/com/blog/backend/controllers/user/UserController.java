@@ -3,7 +3,8 @@ package com.blog.backend.controllers.user;
 import com.blog.backend.dtos.user.LoginRequestDTO;
 import com.blog.backend.dtos.user.UserRegistrationDTO;
 
-import java.util.Map;
+import java.util.*;
+import com.blog.backend.exceptions.ResourceNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,13 +84,18 @@ public class UserController {
 
         @PostMapping("/login")
         public ResponseEntity<AuthResponseDTO> loginUser(@Valid @RequestBody LoginRequestDTO payload) {
-                return userService.loginUser(payload)
-                                .map(authResponse -> ResponseEntity
-                                                .ok()
-                                                .body(authResponse))
-                                .orElseGet(() -> ResponseEntity
-                                                .status(HttpStatus.UNAUTHORIZED)
-                                                .build());
+               try{
+
+                Optional<AuthResponseDTO> response = userService.loginUser(payload);
+                if(response.isPresent()) {
+                return ResponseEntity.ok(response.get());
+                } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();     
+                }
+               } catch(ResourceNotFoundException ex){
+                System.out.println("error " + ex.getMessage());
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+               }
         }
 
         /**

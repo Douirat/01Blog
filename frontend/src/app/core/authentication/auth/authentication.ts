@@ -6,10 +6,7 @@ import { environment } from '../../../environment/environment'
 import { LoginPayload, User, UserResponse, RegistrationFormData } from '../../../types/user';
 
 
-export interface AuthenticationService {
-  register(user: RegistrationFormData): Observable<UserResponse>
-  login(payload: LoginPayload): Observable<UserResponse>
-}
+
 
 @Injectable({
   providedIn: 'root',
@@ -76,14 +73,7 @@ export class Authentication {
     if (user.avatar) {
       formData.append("avatar", user.avatar);
     }
-
-    return this.http.post<UserResponse>(`${this.apiUrl}/register`, formData).pipe(
-      tap(response => {
-        // store the token and user data:
-        this.setSession(response)
-      }),
-      catchError(this.handleError('register'))
-    )
+    return this.http.post<UserResponse>(`${this.apiUrl}/register`, formData)
   }
 
   /**
@@ -97,12 +87,7 @@ export class Authentication {
    */
 
   login(payload: LoginPayload): Observable<UserResponse> {
-    return this.http.post<UserResponse>(`${this.apiUrl}/login`, payload).pipe(
-      tap(response => {
-        this.setSession(response)
-      }),
-      catchError(this.handleError('login'))
-    )
+    return this.http.post<UserResponse>(`${this.apiUrl}/login`, payload)
   }
 
   /**
@@ -113,7 +98,6 @@ export class Authentication {
  * but doesn't wait for response since JWT is stateless.
  */
   logout(): Observable<void> {
-
     // Call backend logout endpoint (for any server-side cleanup)
     return this.http.delete<void>(`${this.apiUrl}/logout`).pipe(
       tap(() => this.clearSession()),
@@ -169,50 +153,12 @@ export class Authentication {
  * Stores user session data in localStorage and updates observable.
  * @param response - User response containing token and user data
  */
-  private setSession(response: UserResponse): void {
+  setSession(response: UserResponse): void {
     localStorage.setItem('token', response.token);
     localStorage.setItem('currentUser', JSON.stringify(response));
     this.currentUser.next(response);
     this.user.set(response)
   }
 
-  /**
- * Centralized error handler for authentication operations.
- * Provides consistent error logging and user-friendly error messages.
- * 
- * @param operation - Name of the operation that failed
- * @returns Error handler function
- */
-  private handleError(operation: string) {
-    return (error: HttpErrorResponse): Observable<never> => {
 
-      // Create user-friendly error message based on status code
-      let errorMessage = 'An unexpected error occurred';
-
-      if (error.error instanceof ErrorEvent) {
-        // Client-side error
-        errorMessage = `Network error: ${error.error.message}`;
-      } else {
-        // Server-side error
-        switch (error.status) {
-          case 400:
-            errorMessage = error.error?.message || 'Invalid request data';
-            break;
-          case 401:
-            errorMessage = 'Invalid credentials';
-            break;
-          case 409:
-            errorMessage = 'User already exists';
-            break;
-          case 500:
-            errorMessage = 'Server error. Please try again later';
-            break;
-          default:
-            errorMessage = error.error?.message || errorMessage;
-        }
-      }
-
-      return throwError(() => new Error(errorMessage));
-    };
-  }
 }

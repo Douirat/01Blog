@@ -45,7 +45,6 @@ export class PostService {
 
   // get posts for a specific profile:
   getProfilePosts(page: number, userId: number | undefined = undefined): Observable<PaginatedPosts> {
-    console.log("the user id i want to fetch is: -------------->", userId);
     let params = new HttpParams().set('page', page.toString());
 
     if (userId !== undefined) {

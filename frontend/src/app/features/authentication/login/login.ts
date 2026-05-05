@@ -61,13 +61,19 @@ export class Login {
     const loginPayload: LoginPayload = this.form.value;
 
     this.authService.login(loginPayload).subscribe({
-      next: _ => {
+      next: res => {
+        this.authService.setSession(res);
         this.toastService.success(4000, "", "you logged in successfully.")
         this.router.navigate(['/dashboard']);
       },
-      error: _ => {
+      error: err => {
+        // print the error message and code to know the message to display:
+         if(err.status == 403){
+          this.toastService.warning(4000, "Forbidden", "You are banned!");
+          return;
+         }
         this.isSubmitting = false;
-        this.toastService.error(4000, "login failed.", "Check your credentials.")
+        this.toastService.error(4000, "login failed.", "Check your credentials.");
       },
       complete: () => (this.isSubmitting = false),
     });

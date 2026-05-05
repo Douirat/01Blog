@@ -35,6 +35,10 @@ export class AdminDashboard implements OnInit {
   ngOnInit(): void {
     const currentUser = this.auth.user();
     this.loggedUserId.set(currentUser?.user?.id);
+    if(!currentUser || !currentUser.user?.isAdmin){
+      this.router.navigate(['/']);
+      return;
+    }
     this.loadUsers();
   }
 

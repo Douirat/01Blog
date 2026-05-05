@@ -20,7 +20,8 @@
       <input id="password" type="password" formControlName="password" placeholder="Enter your password"
         [class.input--error]="hasError('password', 'required') || hasError('password', 'minlength')" />
       <small class="form-error" *ngIf="hasError('password', 'required')">Password is required</small>
-      <small class="form-error" *ngIf="hasError('password', 'minlength')">Password must be at least 6 characters long</small>
+      <small class="form-error" *ngIf="hasError('password', 'minlength')">Password must be at least 6 characters
+        long</small>
     </div>
 
     <div class="form-group">
@@ -46,9 +47,28 @@
 
     <div class="form-group">
       <label for="dateOfBirth">Date of Birth</label>
-      <input id="dateOfBirth" type="date" formControlName="dateOfBirth"
-        [class.input--error]="hasError('dateOfBirth', 'required')" />
-      <small class="form-error" *ngIf="hasError('dateOfBirth', 'required')">Date of birth is required</small>
+      <input id="dateOfBirth" type="date" formControlName="dateOfBirth" [class.input--error]="
+      hasError('dateOfBirth','required') ||
+      hasError('dateOfBirth','tooYoung') ||
+      hasError('dateOfBirth','tooOld') ||
+      hasError('dateOfBirth','invalidDate')
+    " />
+
+      <small class="form-error" *ngIf="hasError('dateOfBirth','required')">
+        Date of birth is required
+      </small>
+
+      <small class="form-error" *ngIf="hasError('dateOfBirth','tooYoung')">
+        You must be at least 18 years old
+      </small>
+
+      <small class="form-error" *ngIf="hasError('dateOfBirth','tooOld')">
+        Age cannot exceed 120 years
+      </small>
+
+      <small class="form-error" *ngIf="hasError('dateOfBirth','invalidDate')">
+        Invalid date
+      </small>
     </div>
 
     <div class="form-group">

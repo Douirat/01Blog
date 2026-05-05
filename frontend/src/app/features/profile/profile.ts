@@ -64,7 +64,7 @@ export class Profile implements OnInit {
             this.toastService.warning(3000, "warning", "Failed to load user")
           },
           complete: () => {
-            console.log('User fetch completed');
+             this.toastService.info(3000, "Information", "User fetch completed");
           }
         });
       }
@@ -97,7 +97,6 @@ export class Profile implements OnInit {
   handleSubscription(): void {
     this.subscriptionService.handleSubscription(this.userId()).subscribe({
       next: res => {
-        console.log(res);
         this.subscribed.set(res.isFollowing);
       },
       error: e => {

@@ -32,7 +32,6 @@ updateReportsCount(): void {
   this.reportService.getReportsCount().subscribe({
     next: (data) => {
       this.reportsNumber.set(data['count']);
-      console.log("======== count", this.reportsNumber());
     },
     error: (err) => {
       this.toastService.info(3000, "reports", err);

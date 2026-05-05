@@ -25,7 +25,6 @@ export class ToastComponent implements OnInit, OnDestroy {
   }
 
   removeToast(id:string):void{
-    console.log("here we are again");
     this.toasts = this.toasts.filter(t => t.id != id);
   }
 

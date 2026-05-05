@@ -27,7 +27,6 @@ export class ProfileAdmin implements OnInit {
   isUserBanned = signal(false);
 
 
-  // TODO: i will have to bring all the reports for this specific profile.
   constructor(
     private route: ActivatedRoute,
     private userService: UsersService,
@@ -43,7 +42,6 @@ export class ProfileAdmin implements OnInit {
     this.userService.getUserById(id).subscribe({
       next: userData => {
         this.user.set(userData);
-        console.log("this is is the user the admin wants to investigate: ", this.user());
         if (this.user()?.banned) {
           this.isUserBanned.set(true)
         } else {
@@ -51,10 +49,10 @@ export class ProfileAdmin implements OnInit {
         }
       },
       error: err => {
-        console.error('Failed to load user', err);
+        this.toastService.error(3000, "Error", "Failed to load user");
       },
       complete: () => {
-        console.log('User fetch completed');
+        this.toastService.info(3000, "Information", "User fetch completed");
       },
     });
     this.loadReportedPosts();
@@ -66,7 +64,6 @@ export class ProfileAdmin implements OnInit {
   loadReportedPosts(): void {
     this.postService.getReportedPosts(this.page(), this.userId()).subscribe({
       next: res => {
-        console.log("res ", res);
         if (res != null) {
           this.reportedPosts.set(res.content);
           this.isLast.set(res.last);
@@ -141,7 +138,6 @@ export class ProfileAdmin implements OnInit {
 
 
   rejectReport(postId: number): void {
-    console.log("the admin wants to reject ost reports: =>", postId);
     this.reportService.rejectReports(postId).subscribe({
       next: _ => {
         this.toastService.success(4000, "success", "all reports were rejected successfully.")
