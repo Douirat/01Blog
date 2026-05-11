@@ -5,7 +5,6 @@ import { UserResponse } from '../../types/user';
 import { PaginatedPosts, Post } from '../../types/post'
 import { Authentication } from '../../core/authentication/auth/authentication';
 import { PostService } from '../../core/post/post-service'
-import { Subscription } from 'rxjs';
 import { CommentForm } from './comment-form/comment-form';
 import { PostComments } from './post-comments/post-comments';
 import { VoteRequest } from '../../types/vote';

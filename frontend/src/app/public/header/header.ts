@@ -22,6 +22,8 @@ export class Header implements OnInit {
   isLoggedIn = computed(() => this.auth.user() != null);
   user = computed(() => this.auth.user());
 
+  num = 0;
+
   ngOnInit(): void {
     if(this.isAdmin()){
       this.updateReportsCount();
@@ -78,6 +80,9 @@ goToProfile() {
   }
 
   goToFeed(){
+    this.num++;
+    console.log("triggered goToFeed", this.num);
+    
     if(this.isAdmin()){ this.updateReportsCount()};
     this.router.navigate(['/feed']);
   }

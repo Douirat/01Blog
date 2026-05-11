@@ -27,6 +27,12 @@ export const routes: Routes = [
         component: Dashboard,
         canActivate: [authGuard]
     },
+
+        {
+        path: 'feed',
+        component: Dashboard,
+    },
+
     {
         path: 'profile/:id',
         component: Profile,

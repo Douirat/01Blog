@@ -2,10 +2,10 @@
   <h3>Dashboard</h3>
   
   <!-- Post creation form -->
-  <div *ngIf="user()">
+  <div *ngIf="user() && user()!.user && !user()!.user.isAdmin">
     <app-post-form></app-post-form>
   </div>
-  <hr />
+  <hr *ngIf="user() && user()!.user && !user()!.user.isAdmin" />
   
   <!-- Posts -->
   <div *ngFor="let post of posts()" class="post-card">
