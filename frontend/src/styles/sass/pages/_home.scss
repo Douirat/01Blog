@@ -14,10 +14,13 @@
   @include flex(column, center,center, 2vh);
 }
 
-hr{
+hr {
+  border: none;     
+  height: 1px;          
+  background-color: #d1d5db;  
   width: 100%;
+  margin: 16px 0;
 }
-
 
 
 h3{

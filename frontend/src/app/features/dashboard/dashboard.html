@@ -1,20 +1,35 @@
 <div class="dashbord">
   <h3>Dashboard</h3>
-  
+
   <!-- Post creation form -->
-  <div *ngIf="user() && user()!.user && !user()!.user.isAdmin">
+  <div *ngIf="user()">
     <app-post-form></app-post-form>
   </div>
-  <hr *ngIf="user() && user()!.user && !user()!.user.isAdmin" />
-  
+  <hr />
+
   <!-- Posts -->
   <div *ngFor="let post of posts()" class="post-card">
-    <img *ngIf="post.mediaUrl" [src]="post.mediaUrl" width="100%" height="auto" style="object-fit: cover;">
+
+    <!-- MEDIA -->
+    <div class="post-media" *ngIf="post.mediaUrl">
+
+      <!-- IMAGE -->
+      <img *ngIf="post.mediaType === 'image'" [src]="post.mediaUrl" width="100%" style="object-fit: cover;" />
+
+      <!-- VIDEO -->
+      <video *ngIf="post.mediaType === 'video'" width="100%" controls>
+        <source [src]="post.mediaUrl" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+    </div>
+
+
     <div class="post-content">
       <span>By {{ post.user.nickName }}</span>
       <h3>{{ post.title }}</h3>
       <p>{{ post.content }}</p>
-  
+
       <div class="post-actions">
         <button (click)="toggleCommentForm(post.id)">Comments</button>
         <small>
@@ -34,24 +49,23 @@
 
       <!-- Comment form -->
       <app-comment-form *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-comment-form>
-    
+
       <!-- Post comments -->
       <app-post-comments *ngIf="showCommentForm(post.id)" [postId]="post.id"></app-post-comments>
     </div>
   </div>
-  
+
   <!-- Load more posts -->
   <div class="pagination-controls" *ngIf="posts().length > 0">
     <button (click)="prevPage()" [disabled]="currentPage() === 0">
       <!-- ⏪ Previous -->
-       <
-    </button>
-  
-    <span>Page {{ currentPage() + 1 }} / {{ totalPages() }}</span>
-  
-    <button (click)="nextPage()" [disabled]="lastPage()">
-      <!-- Next ⏩ -->
-       >
-    </button>
+      < </button>
+
+        <span>Page {{ currentPage() + 1 }} / {{ totalPages() }}</span>
+
+        <button (click)="nextPage()" [disabled]="lastPage()">
+          <!-- Next ⏩ -->
+          >
+        </button>
   </div>
 </div>

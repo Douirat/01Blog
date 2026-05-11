@@ -66,6 +66,11 @@ updateReportsCount(): void {
 
   goHome() {
     if(this.isAdmin()){ this.updateReportsCount()};
+    //check login before causing error on the console;
+    if(!this.isLoggedIn()){
+      this.toastService.info(3000, "home", "Please log in to access the home page.");
+      return;
+    }
     this.router.navigate(['/']);
   }
 
