@@ -76,4 +76,9 @@ goToProfile() {
     const path = this.isAdmin() ? "/reports" : "/users";
     this.router.navigate([path]);
   }
+
+  goToFeed(){
+    if(this.isAdmin()){ this.updateReportsCount()};
+    this.router.navigate(['/feed']);
+  }
 }

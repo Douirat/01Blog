@@ -34,6 +34,12 @@
 
         {{ isAdmin() ? ('reports: ' + reportsNumber()) : 'users' }}
       </a>
+
+      <a *ngIf="isAdmin()" class="clickable link" (click)="goToFeed()">
+        <span class="posts-icon"></span>
+        <span>posts</span>
+      </a>
+
     </div>
     <div class="second-nav-section">
       <a class="clickable link" (click)="goToProfile()">

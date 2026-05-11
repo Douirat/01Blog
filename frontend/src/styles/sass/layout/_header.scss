@@ -67,7 +67,8 @@
 
     .blog-icon,
     .users-icon,
-    .reports-icon {
+    .reports-icon,
+    .posts-icon{
         width: $icon-size;
         height: $icon-size;
         display: inline-block;
@@ -88,6 +89,10 @@
 
     .reports-icon {
         background-image: url("/assets/icons/reports.png");
+    }
+
+    .posts-icon {
+        background-image: url("/assets/icons/posts.png");
     }
 
     .link:hover span {
