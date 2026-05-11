@@ -39,7 +39,7 @@ public class User {
     @Column(nullable = true)
     private String avatar;
 
-    @Column(nullable = true)
+    @Column(nullable = true, unique = true)
     private String nickname;
 
     @Column(name = "is_admin", nullable = false)

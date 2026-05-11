@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-@Component
+@Component // https://www.geeksforgeeks.org/springboot/spring-component-annotation-with-example/
 public class JwtUtil {
     // @Value("${jwt.secret}")
     // private String jwtSecret;
