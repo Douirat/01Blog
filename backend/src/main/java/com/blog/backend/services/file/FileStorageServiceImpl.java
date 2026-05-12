@@ -31,6 +31,24 @@ public class FileStorageServiceImpl implements FileStorageService {
     // MP4 / MOV: "ftyp" sits at offset 4, not 0 — match() handles the offset
     private static final byte[] FTYP = { 0x66, 0x74, 0x79, 0x70 };
 
+    /**
+     * Maps every accepted file extension to the MIME type that magic-byte
+     * detection must return for that extension.  A renamed file (e.g. a JPEG
+     * saved as ".mp4") will have a magic-detected type that does NOT match this
+     * map, and the upload will be rejected.
+     */
+    private static final java.util.Map<String, String> EXT_EXPECTED_MIME =
+        java.util.Map.of(
+            "jpg",  "image/jpeg",
+            "jpeg", "image/jpeg",
+            "png",  "image/png",
+            "webp", "image/webp",
+            "mp4",  "video/mp4",
+            "mov",  "video/mp4",   // MOV shares the ftyp magic with MP4
+            "webm", "video/webm",
+            "avi",  "video/avi"
+        );
+
     @PostConstruct
     public void init() {
         try {
@@ -104,10 +122,11 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
 
         try {
+            // ── 1. Detect real type from magic bytes ──────────────────────────
             byte[] data = file.getBytes();
-
             String detectedType = detectType(data);
 
+            // ── 2. Check detected type is in the caller's allowed list ────────
             boolean allowed = false;
             for (String type : allowedTypes) {
                 if (detectedType.startsWith(type)) {
@@ -115,13 +134,33 @@ public class FileStorageServiceImpl implements FileStorageService {
                     break;
                 }
             }
-
             if (!allowed) {
                 throw new IllegalArgumentException(
                     "Invalid file type: " + detectedType + ". Allowed: " + String.join(", ", allowedTypes)
                 );
             }
 
+            // ── 3. Cross-check: extension must match magic-detected MIME ──────
+            //    Blocks renamed files, e.g. a JPEG uploaded as "photo.mp4".
+            String originalName = file.getOriginalFilename();
+            if (originalName != null && originalName.contains(".")) {
+                String ext = originalName.substring(originalName.lastIndexOf('.') + 1).toLowerCase();
+                String expectedMime = EXT_EXPECTED_MIME.get(ext);
+                if (expectedMime != null && !expectedMime.equals(detectedType)) {
+                    throw new IllegalArgumentException(
+                        "File extension '." + ext + "' does not match actual content (" + detectedType + "). " +
+                        "The file appears to have been renamed."
+                    );
+                }
+                if (expectedMime == null) {
+                    // Extension is not in our known-safe list at all
+                    throw new IllegalArgumentException(
+                        "Unsupported file extension: ." + ext
+                    );
+                }
+            }
+
+            // ── 4. Size limits ────────────────────────────────────────────────
             if (detectedType.startsWith("image/")) {
                 long max = 5L * 1024 * 1024; // 5 MB
                 if (file.getSize() > max) {
