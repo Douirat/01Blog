@@ -151,7 +151,7 @@ public class UserController {
          *                          .orElse(ResponseEntity.status(401).build());
          *                          }
          */
-        @GetMapping
+        @GetMapping("/status")
         public ResponseEntity<AuthResponseDTO> checkStatus(@RequestHeader("Authorization") String authHeader) {
                 return userService.checkStatus(authHeader.replace("Bearer ", ""))
                                 .map(authResponse -> ResponseEntity

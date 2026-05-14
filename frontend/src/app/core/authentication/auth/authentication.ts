@@ -29,7 +29,11 @@ export class Authentication {
     // no manual assignment is needed: Angular's dependency injection handles this automatically.
     if(this.user() != null){
       this.loadStoredUser()
-      this.checkStatus().subscribe()
+      this.checkStatus().subscribe({
+        error: _=>{
+          console.log("this is what causes the issue !!!!");
+        }
+      })
     }
   }
 
@@ -121,7 +125,7 @@ export class Authentication {
  */
 
   checkStatus(): Observable<UserResponse> {
-    return this.http.get<UserResponse>(this.apiUrl).pipe(
+    return this.http.get<UserResponse>(this.apiUrl+"/status").pipe(
       tap(response => {
         // Update user data if it changed on server
         this.currentUser.next(response);

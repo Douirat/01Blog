@@ -9,6 +9,7 @@ import { CommentForm } from './comment-form/comment-form';
 import { PostComments } from './post-comments/post-comments';
 import { VoteRequest } from '../../types/vote';
 import {Report} from './report/report'
+import { Login } from '../authentication/login/login';
 
 
 @Component({
@@ -46,6 +47,8 @@ export class Dashboard implements OnInit {
       this.posts.set([post, ...this.posts()]);
     })
     this.user.set(this.authentication.user())
+    console.log("the logged in user: ", this.user());
+    
     this.loadPosts();
   }
 

@@ -120,9 +120,7 @@ export class PostForm implements OnInit {
       ? this.postService.updatePost(this.post()?.id!, postData)
       : this.postService.createPost(postData);
 
-    request$.pipe(
-      finalize(() => this.isSubmitting = false)
-    ).subscribe({
+    request$.subscribe({
       next: (post) => {
         this.postService.imitatePostSource(post);
         this.toastService.success(4000, "Post", "Post was created/updated successfully");

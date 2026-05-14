@@ -14,7 +14,6 @@ export const authGuard: CanActivateFn = (route, state) => {
       if (res?.user){
         if(res?.user?.isAdmin){
 
-          
              return router.createUrlTree(['/admin'], {
         queryParams: { returnUrl: state.url }
       });
@@ -28,10 +27,15 @@ export const authGuard: CanActivateFn = (route, state) => {
         queryParams: { returnUrl: state.url }
       });
     }),
-    catchError(() =>
-      of(router.createUrlTree(['/login'], {
+    catchError(() =>{
+       console.log("this is what causes the issue !!!!");
+      router.createUrlTree(['/login'], {
         queryParams: { returnUrl: state.url }
-      }))
+  
+    });    return of(false);
+    }
+      
+      
     )
   );
 };

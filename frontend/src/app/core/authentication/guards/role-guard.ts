@@ -25,7 +25,10 @@ export const roleGuard: CanActivateFn = (route) => {
 
       return router.createUrlTree(['/forbidden']);
     }),
-    catchError(() => of(router.createUrlTree(['/login'])))
+    catchError(() => {
+      console.log("this is what causes the issue !!!!");
+      return of(router.createUrlTree(['/login']));
+    })
   );
 };
   /** 
