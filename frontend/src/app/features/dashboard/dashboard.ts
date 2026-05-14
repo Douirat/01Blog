@@ -47,8 +47,6 @@ export class Dashboard implements OnInit {
       this.posts.set([post, ...this.posts()]);
     })
     this.user.set(this.authentication.user())
-    console.log("the logged in user: ", this.user());
-    
     this.loadPosts();
   }
 

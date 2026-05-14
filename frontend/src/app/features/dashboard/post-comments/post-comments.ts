@@ -28,6 +28,7 @@ export class PostComments implements OnChanges, OnInit {
 
   ngOnInit(): void {
     this.commentService.commentSource$.subscribe(comment => {
+      
       this.comments.set([comment, ...this.comments()])
     })
   }

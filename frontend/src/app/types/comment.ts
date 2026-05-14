@@ -6,7 +6,7 @@ Vote type definition for a blog postding system.
 // The comment author:
 export interface CommentAuthor {
   id: number;
-  nickname: string;
+  nickName: string;
 }
 
 // a contract to receive the comment from the backend:
