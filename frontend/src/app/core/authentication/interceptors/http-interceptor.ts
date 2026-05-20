@@ -4,6 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import {Router} from '@angular/router';
 import { ToastService } from '../../toast/toast-service';
+import { Authentication } from '../auth/authentication';
 
 /**
  * HTTP Interceptor that automatically adds JWT token to requests.
@@ -25,6 +26,7 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('token');
   const router = inject(Router);
   const toastService = inject(ToastService);
+  const auth = inject(Authentication);
 
   // skip attaching token for login/register endpoints:
   const isAuthReq = req.url.includes('/login') || req.url.includes('register')
@@ -45,6 +47,8 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 403) {
         // Handle forbidden
        toastService.warning(4000, "Unauthorized", "You don't have permission to perform this action.");
+       auth.clearSession();
+        router.navigate(['/login']);
       }
       return throwError(() => error);
     })

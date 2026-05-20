@@ -2,7 +2,7 @@
   <h3>Comments</h3>
 
   <div *ngFor="let c of comments()">
-    <p><strong>{{ c.author?.nickName }}</strong> - {{ c.createdAt }}</p>
+    <p><strong>{{ c.author.nickName }}</strong> - {{ c.createdAt }}</p>
     <span>{{ c.content }}</span>
     <p>{{ c.createdAt }}</p>
     <hr />

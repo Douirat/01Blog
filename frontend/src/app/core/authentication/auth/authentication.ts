@@ -1,9 +1,11 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError, BehaviorSubject } from 'rxjs'; // RXJS reactive extensive library for handling asynchronous data streams.
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environment/environment'
-import { LoginPayload, User, UserResponse, RegistrationFormData } from '../../../types/user';
+import { LoginPayload, UserResponse, RegistrationFormData } from '../../../types/user';
+import { ToastService } from '../../toast/toast-service';
+import { Router } from '@angular/router';
 
 
 
@@ -18,20 +20,29 @@ export class Authentication {
 
   // create a user state subject to handle the state of the user so whenever the user changes it changes among all subscribers:
   public currentUser = new BehaviorSubject<UserResponse | null>(null);
+
   // observe the current subject to react properly to change:
   // hhh the dolar sign is just a convention to specify the observable
   public currentUser$ = this.currentUser.asObservable();
+
   public user = signal<UserResponse | null>(null);
   public isAdmin = computed(() => this.user()?.user?.isAdmin)
 
 
-  constructor(private http: HttpClient) {
+
+
+  constructor(private http: HttpClient, private toastService: ToastService, private router: Router) {
     // no manual assignment is needed: Angular's dependency injection handles this automatically.
     if(this.user() != null){
       this.loadStoredUser()
       this.checkStatus().subscribe({
-        error: _=>{
-          console.log("this is what causes the issue !!!!");
+        next: (response) => {          
+          this.setSession(response);
+        },
+        error: (_) => {
+          this.toastService.warning(3000, "Sesion expired", "please log in again");
+          this.clearSession();
+          this.router.navigate(['/login']);
         }
       })
     }
