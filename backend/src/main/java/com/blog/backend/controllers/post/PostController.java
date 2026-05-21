@@ -36,6 +36,13 @@ public class PostController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> createPost(
             @ModelAttribute PostInputDTO dto) {
+
+                dto.setTitle(dto.getTitle().trim());
+                dto.setContent(dto.getContent().trim());
+                if(dto.getTitle() == null || dto.getTitle().isEmpty() || dto.getContent() == null || dto.getContent().isEmpty()){
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                }
+
         Long user_id = this.getUserIdFromContext();
         Post saved = postService.createPost(user_id, dto);
         return ResponseEntity.ok(saved);
@@ -48,9 +55,15 @@ public class PostController {
     public ResponseEntity<Post> updatePost(
             @PathVariable Long postId,
             @ModelAttribute PostInputDTO dto) {
+                dto.setTitle(dto.getTitle().trim());
+                dto.setContent(dto.getContent().trim());
+                if(dto.getTitle() == null || dto.getTitle().isEmpty() || dto.getContent() == null || dto.getContent().isEmpty()){
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                }
         Long userId = this.getUserIdFromContext();
 
         Post saved = postService.updatePost(userId, postId, dto);
+
         return ResponseEntity.ok(saved);
     }
 

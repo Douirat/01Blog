@@ -109,12 +109,12 @@ export class PostForm implements OnInit {
 
     this.isSubmitting = true;
 
-    const postData: PostInput = {
-      title: this.form.controls.title.value!,
-      content: this.form.controls.content.value!,
-      mediaType: this.form.controls.mediaType.value || undefined,
-      media: this.form.controls.media.value || undefined
-    };
+  const postData: PostInput = {
+    title: this.form.controls.title.value.trim(),
+    content: this.form.controls.content.value.trim(),
+    mediaType: this.form.controls.mediaType.value || undefined,
+    media: this.form.controls.media.value || undefined
+  };
 
     const request$ = this.updateState()
       ? this.postService.updatePost(this.post()?.id!, postData)
@@ -131,8 +131,10 @@ export class PostForm implements OnInit {
           this.updateState.set(false);
           this.post.set(null);
         }
+         this.isSubmitting = false;
       },
-      error: (_) => this.toastService.error(4000, "Post", 'Failed to save post')
+      error: (_) => {this.toastService.error(4000, "Post", 'Failed to save post')
+      this.isSubmitting = false;}
     });
   }
 
