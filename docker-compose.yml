@@ -35,9 +35,10 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION}
     volumes:
-      - uploads_data:/app/uploads
+      # Bind mount: maps your local uploads folder directly into the container
+      - ./backend/uploads:/app/uploads
 
-  frontend:
+  frontend: #  http://localhost:4200
     build: ./frontend
     container_name: angular-frontend
     restart: on-failure
@@ -47,5 +48,4 @@ services:
       - "4200:80"
 
 volumes:
-  db_data:
-  uploads_data:
+  db_data: 

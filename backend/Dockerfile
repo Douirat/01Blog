@@ -13,6 +13,10 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
 
+# Copy default avatar so it's always available
+RUN mkdir -p /app/uploads
+COPY uploads/default-avatar.jpg /app/uploads/default-avatar.jpg
+
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

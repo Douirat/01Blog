@@ -122,6 +122,42 @@
 }
 
 // =============================================
+//  Media preview
+// =============================================
+
+.media-preview {
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $spacing-sm;
+  background-color: $color-primary;
+
+  &__label {
+    display: block;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semi;
+    color: $color-text-muted;
+    letter-spacing: 0.02em;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    border-radius: $radius-sm;
+  }
+
+  &__video {
+    display: block;
+    width: 100%;
+    max-height: 280px;
+    border-radius: $radius-sm;
+    background-color: $color-surface;
+  }
+}
+
+// =============================================
 //  Inline field error
 // =============================================
 
@@ -154,4 +190,3 @@
     color: $color-accent;
   }
 }
-

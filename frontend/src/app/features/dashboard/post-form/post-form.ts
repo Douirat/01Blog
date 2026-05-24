@@ -40,6 +40,10 @@ export class PostForm implements OnInit {
   updateState = signal(false)
   post = signal<Post | null>(null)
 
+  imagePreviewUrl = signal<string | null>(null);
+  videoPreviewUrl = signal<string | null>(null);
+  videoMimeType = signal<string>('');
+
   constructor(private postService: PostService, private toastService: ToastService) {
     this.form = new FormGroup({
       title: new FormControl<string>('', {
@@ -83,9 +87,14 @@ export class PostForm implements OnInit {
         media: null, // file input cannot be pre-filled
       });
 
-      // Show current media file name if exists
+      // Show current media file name and preview if exists
       if (this.postToUpdate.mediaUrl) {
         this.fileName = this.postToUpdate.mediaUrl.split('/').pop() || '';
+        if (this.postToUpdate.mediaType === 'image') {
+          this.imagePreviewUrl.set(this.postToUpdate.mediaUrl);
+        } else if (this.postToUpdate.mediaType === 'video') {
+          this.videoPreviewUrl.set(this.postToUpdate.mediaUrl);
+        }
       }
     }
   }
@@ -99,6 +108,18 @@ export class PostForm implements OnInit {
     const file = input.files[0];
     this.form.controls.media.setValue(file);
     this.fileName = file.name;
+
+    // Revoke previous blob URLs to avoid memory leaks
+    this.revokePreviewUrls();
+
+    if (ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      this.imagePreviewUrl.set(URL.createObjectURL(file));
+      this.videoPreviewUrl.set(null);
+    } else if (ALLOWED_VIDEO_TYPES.includes(file.type)) {
+      this.videoMimeType.set(file.type);
+      this.videoPreviewUrl.set(URL.createObjectURL(file));
+      this.imagePreviewUrl.set(null);
+    }
 
       // Trigger validation for mediaType when a file is selected
     this.form.controls.mediaType.updateValueAndValidity();
@@ -126,6 +147,9 @@ export class PostForm implements OnInit {
         this.toastService.success(4000, "Post", "Post was created/updated successfully");
         this.form.reset();
         this.fileName = '';
+        this.revokePreviewUrls();
+        this.imagePreviewUrl.set(null);
+        this.videoPreviewUrl.set(null);
         this.postSaved.emit(post);
         if (this.updateState()) {
           this.updateState.set(false);
@@ -136,6 +160,13 @@ export class PostForm implements OnInit {
       error: (_) => {this.toastService.error(4000, "Post", 'Failed to save post')
       this.isSubmitting = false;}
     });
+  }
+
+  private revokePreviewUrls(): void {
+    const img = this.imagePreviewUrl();
+    const vid = this.videoPreviewUrl();
+    if (img?.startsWith('blob:')) URL.revokeObjectURL(img);
+    if (vid?.startsWith('blob:')) URL.revokeObjectURL(vid);
   }
 
   // Cross-field validator: checks that the uploaded file matches the mediaType

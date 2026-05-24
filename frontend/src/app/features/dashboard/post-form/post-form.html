@@ -71,6 +71,21 @@
       </small>
     </div>
 
+    <!-- Media Preview -->
+    <div class="form-group media-preview" *ngIf="imagePreviewUrl() || videoPreviewUrl()">
+      <span class="media-preview__label">Preview</span>
+      <img
+        *ngIf="imagePreviewUrl()"
+        [src]="imagePreviewUrl()"
+        alt="Image preview"
+        class="media-preview__image"
+      />
+      <video *ngIf="videoPreviewUrl()" controls class="media-preview__video">
+        <source [src]="videoPreviewUrl()" [type]="videoMimeType()" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
     <button type="submit" class="btn btn--primary" [disabled]="form.invalid || isSubmitting">
       {{ isSubmitting ? 'Creating...' : (updateState() ? 'Update Post' : 'Create Post') }}
     </button>

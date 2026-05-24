@@ -167,9 +167,9 @@ public class FileStorageServiceImpl implements FileStorageService {
                     throw new IllegalArgumentException("Image exceeds 5 MB limit");
                 }
             } else {
-                long max = 200L * 1024 * 1024; // 200 MB
+                long max = 500L * 1024 * 1024; // 500 MB
                 if (file.getSize() > max) {
-                    throw new IllegalArgumentException("Video exceeds 200 MB limit");
+                    throw new IllegalArgumentException("Video exceeds 500 MB limit");
                 }
             }
 
