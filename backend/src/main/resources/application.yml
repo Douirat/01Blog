@@ -3,17 +3,20 @@ spring:
     name: 01blog
 
   datasource:
-    url: jdbc:sqlite:blogdb.sqlite
-    driver-class-name: org.sqlite.JDBC
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
     hibernate:
       ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
 
 jwt:
-  secret: toBeOrNotToBeThatIsTheQuestionAnd01blog06-09-1991
-  expiration: 86400000
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
 
 file:
   upload-dir: uploads
