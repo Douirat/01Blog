@@ -103,7 +103,6 @@ public class PostController {
         System.out.println("page: " + page);
 
         // Long user_id = this.getUserIdFromContext();
-
         Page<PostDetailDTO> posts = postService.getUserPosts(page, userId);
 
         if (posts.isEmpty()) {

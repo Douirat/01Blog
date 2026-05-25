@@ -125,10 +125,10 @@ export class PostForm implements OnInit {
     this.form.controls.mediaType.updateValueAndValidity();
   }
 
-  onSubmit() {
-    if (this.form.invalid) return;
+onSubmit() {
+  if (this.form.invalid) return;
 
-    this.isSubmitting = true;
+  this.isSubmitting = true;
 
   const postData: PostInput = {
     title: this.form.controls.title.value.trim(),
@@ -137,30 +137,43 @@ export class PostForm implements OnInit {
     media: this.form.controls.media.value || undefined
   };
 
-    const request$ = this.updateState()
-      ? this.postService.updatePost(this.post()?.id!, postData)
-      : this.postService.createPost(postData);
+  const isUpdate = this.updateState(); // correct signal read
 
-    request$.subscribe({
+  const request$ = isUpdate
+    ? this.postService.updatePost(this.post()!.id, postData)
+    : this.postService.createPost(postData);
+
+  request$
+    .pipe(finalize(() => (this.isSubmitting = false)))
+    .subscribe({
       next: (post) => {
-        this.postService.imitatePostSource(post);
-        this.toastService.success(4000, "Post", "Post was created/updated successfully");
+        if (!isUpdate) {
+          this.postService.imitatePostSource(post);
+        }
+
+        this.toastService.success(4000, 'Post', 'Saved successfully');
+
         this.form.reset();
+        this.form.markAsPristine();
+        this.form.markAsUntouched();
+
         this.fileName = '';
         this.revokePreviewUrls();
         this.imagePreviewUrl.set(null);
         this.videoPreviewUrl.set(null);
+
         this.postSaved.emit(post);
-        if (this.updateState()) {
+
+        if (isUpdate) {
           this.updateState.set(false);
           this.post.set(null);
         }
-         this.isSubmitting = false;
       },
-      error: (_) => {this.toastService.error(4000, "Post", 'Failed to save post')
-      this.isSubmitting = false;}
+      error: () => {
+        this.toastService.error(4000, 'Post', 'Failed to save post');
+      },
     });
-  }
+}
 
   private revokePreviewUrls(): void {
     const img = this.imagePreviewUrl();
@@ -170,7 +183,6 @@ export class PostForm implements OnInit {
   }
 
   // Cross-field validator: checks that the uploaded file matches the mediaType
-// ---------------------------------------------------------------------------
  mediaFileValidator(group: AbstractControl): ValidationErrors | null {
   const mediaType = group.get('mediaType')?.value as 'image' | 'video' | null | '';
   const file = group.get('media')?.value as File | null;

@@ -16,6 +16,8 @@ export class PostService {
   private readonly apiUrlProfile = `${environment.apiUrl}/api/posts/profile`
   private readonly voteApiUrl = `${environment.apiUrl}/api/votes`
 
+
+
   private postSource = new Subject<Post>();
   postSource$ = this.postSource.asObservable();
 
@@ -119,15 +121,17 @@ export class PostService {
   }
 
 
-  // delete a post:
+  /** Fires postSource$ — call only after a successful create. */
+  imitatePostSource(post: Post): void { this.postSource.next(post); }
+
+
   deletePost(postId: number): Observable<Record<string, string>> {
     const params = new HttpParams().set('postId', postId.toString());
     return this.http.delete<Record<string, string>>(this.apiUrl, { params });
   }
 
 
-  // imitate post source:
-  imitatePostSource(post: Post):void{this.postSource.next(post);}
+
 
 
 }
