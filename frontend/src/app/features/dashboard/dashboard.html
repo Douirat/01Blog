@@ -32,6 +32,7 @@
 
     <div class="post-content">
       <span>By {{ post.user.nickName }}</span>
+      <span class="post-date">{{ post.createdAt | date:'medium' }}</span>
       <h3>{{ post.title }}</h3>
       <p>{{ post.content }}</p>
 
