@@ -39,6 +39,11 @@ export class PostService {
     return this.http.post<Post>(`${this.apiUrl}`, formData);
   }
 
+  getAllPosts(page: number) {
+  let params = new HttpParams().set('page', page.toString());
+    return this.http.get<PaginatedPosts>(this.apiUrl+"/all", { params });
+  }
+
   // A general full accessed method to fetch posts from backend:
   fetchPosts(page: number): Observable<PaginatedPosts> {
     let params = new HttpParams().set('page', page.toString());

@@ -53,14 +53,24 @@ export class Dashboard implements OnInit {
 
 
 
-  loadPosts() {
-    this.postService.fetchPosts(this.currentPage()).subscribe((data: PaginatedPosts) => {
-      if( data ){
-        this.posts.set(data.content);
-        this.lastPage.set(data.last);
-        this.totalPages.set(data.totalPages);
-      }
-    });
+loadPosts() {
+    if (this.user()?.isAdmin) {
+      this.postService.getAllPosts(this.currentPage()).subscribe((data: PaginatedPosts) => {
+        if (data) {
+          this.posts.set(data.content);
+          this.lastPage.set(data.last);
+          this.totalPages.set(data.totalPages);
+        }
+      });
+    } else {
+      this.postService.fetchPosts(this.currentPage()).subscribe((data: PaginatedPosts) => {
+        if (data) {
+          this.posts.set(data.content);
+          this.lastPage.set(data.last);
+          this.totalPages.set(data.totalPages);
+        }
+      });
+    }
   }
 
   //  Toggle single post comment form:

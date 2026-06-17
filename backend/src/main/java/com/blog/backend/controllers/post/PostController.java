@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.dtos.user.UserDTO;
-import com.blog.backend.dtos.vote.VoteResponseDTO;
 import com.blog.backend.services.post.PostService;
 import lombok.RequiredArgsConstructor;
 import com.blog.backend.models.post.Post;
