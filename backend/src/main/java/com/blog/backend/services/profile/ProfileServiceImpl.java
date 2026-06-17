@@ -43,7 +43,7 @@ public class ProfileServiceImpl implements ProfileService {
     public Page<UserDTO> fetchUsers(int page) {
         int size = 10;
         Pageable pageable = PageRequest.of(page, size);
-        Page<User> users = userRepository.findAll(pageable);
+        Page<User> users = userRepository.findByAdminFalse(pageable);
         return users.map(user -> new UserDTO(
                 user.getId(),
                 user.getEmail(),

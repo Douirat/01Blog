@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 
 public interface PostService {
 
-    Page<PostDetailDTO> getAllPosts(int page);
+    Page<PostDetailDTO> getAllPosts(Long userId, int page);
 
     Page<PostDetailDTO> getUserPosts(int page, long userId);
 

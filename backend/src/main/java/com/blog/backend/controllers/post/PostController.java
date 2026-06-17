@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import com.blog.backend.dtos.post.PostInputDTO;
 import com.blog.backend.dtos.user.UserDTO;
+import com.blog.backend.dtos.vote.VoteResponseDTO;
 import com.blog.backend.services.post.PostService;
 import lombok.RequiredArgsConstructor;
 import com.blog.backend.models.post.Post;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 
 import java.util.Map;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.data.domain.Page;
 import com.blog.backend.dtos.post.PostDetailDTO;
 import com.blog.backend.dtos.post.PaginatedPostsDTO;
@@ -75,7 +77,21 @@ public class PostController {
             return ResponseEntity.badRequest().build();
         }
 
-        Page<PostDetailDTO> posts = postService.getAllPosts(page);
+        // get the user id (principal user) from the context:
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        // 1. Check if the principal is our expected user type and is authenticated
+        if (!(principal instanceof PrincipalUser)) {
+            // This happens if the user is anonymous or not authenticated properly
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        // 2. Cast the object and extract the userId
+        PrincipalUser currentUser = (PrincipalUser) principal;
+        Long userId = currentUser.getId();
+
+        Page<PostDetailDTO> posts = postService.getAllPosts(userId, page);
 
         if (posts.isEmpty()) {
             return ResponseEntity.noContent().build();

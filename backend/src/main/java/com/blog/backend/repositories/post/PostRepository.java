@@ -15,6 +15,9 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
+@EntityGraph(attributePaths = { "user" })
+@Query("SELECT p FROM Post p WHERE p.user IN (SELECT s.followed FROM Subscription s WHERE s.follower.id = :userId) AND p.banned = false")
+Page<Post> findPostsByFollowedUsers(@Param("userId") Long userId, Pageable pageable);
   @EntityGraph(attributePaths = { "user", "comments", "votes" })
   Page<Post> findAllByUserIdAndBannedFalse(@Nonnull Long userId, Pageable pageable);
   @EntityGraph(attributePaths = { "user" })

@@ -46,7 +46,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
             """)
     Page<Report> findAllByReporterIdOrderByPriority(Long userId, Pageable pageable);
 
-    @Query("SELECT DISTINCT r.post FROM Report r WHERE r.post.user.id = :userId")
+    @Query("SELECT r.post FROM Report r WHERE r.post.user.id = :userId")
     Page<Post> findAllReportedPosts(Pageable pageable, long userId);
     // Page<Post> findDistinctByReportsIsNotEmptyAndUserId(Pageable pageable, long
     // userId);

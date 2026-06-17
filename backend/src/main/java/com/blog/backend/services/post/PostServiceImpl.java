@@ -79,7 +79,7 @@ public class PostServiceImpl implements PostService {
         }
 
         @Override
-        public Page<PostDetailDTO> getAllPosts(int page) {
+        public Page<PostDetailDTO> getAllPosts(Long userId, int page) {
 
                 int size = 10;
 
@@ -89,7 +89,7 @@ public class PostServiceImpl implements PostService {
                                 Sort.by(Sort.Direction.DESC, "createdAt") // newest → oldest
                 );
 
-               Page<Post> posts = postRepository.findByBannedFalse(pageable);
+               Page<Post> posts = postRepository.findPostsByFollowedUsers(userId, pageable);
 
                 return posts.map(post -> {
 
