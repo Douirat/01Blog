@@ -34,15 +34,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class PostController {
 
     private final PostService postService;
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> createPost(
             @ModelAttribute PostInputDTO dto) {
 
-                dto.setTitle(dto.getTitle().trim());
-                dto.setContent(dto.getContent().trim());
-                if(dto.getTitle() == null || dto.getTitle().isEmpty() || dto.getContent() == null || dto.getContent().isEmpty()){
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-                }
+        dto.setTitle(dto.getTitle().trim());
+        dto.setContent(dto.getContent().trim());
+        if (dto.getTitle() == null || dto.getTitle().isEmpty() || dto.getContent() == null
+                || dto.getContent().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
 
         Long user_id = this.getUserIdFromContext();
         Post saved = postService.createPost(user_id, dto);
@@ -56,11 +58,12 @@ public class PostController {
     public ResponseEntity<Post> updatePost(
             @PathVariable Long postId,
             @ModelAttribute PostInputDTO dto) {
-                dto.setTitle(dto.getTitle().trim());
-                dto.setContent(dto.getContent().trim());
-                if(dto.getTitle() == null || dto.getTitle().isEmpty() || dto.getContent() == null || dto.getContent().isEmpty()){
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-                }
+        dto.setTitle(dto.getTitle().trim());
+        dto.setContent(dto.getContent().trim());
+        if (dto.getTitle() == null || dto.getTitle().isEmpty() || dto.getContent() == null
+                || dto.getContent().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         Long userId = this.getUserIdFromContext();
 
         Post saved = postService.updatePost(userId, postId, dto);
@@ -83,7 +86,7 @@ public class PostController {
         // 1. Check if the principal is our expected user type and is authenticated
         if (!(principal instanceof PrincipalUser)) {
             // This happens if the user is anonymous or not authenticated properly
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         // 2. Cast the object and extract the userId
@@ -102,6 +105,19 @@ public class PostController {
                 posts.getTotalPages(),
                 posts.getTotalElements());
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<PaginatedPostsDTO> getAllPostsForAdmin(
+            @RequestParam(defaultValue = "0") int page) {
+        if (page < 0)
+            return ResponseEntity.badRequest().build();
+        Page<PostDetailDTO> posts = postService.getAllPostsForAdmin(page);
+        if (posts.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(new PaginatedPostsDTO(
+                posts.getContent(), posts.isLast(),
+                posts.getTotalPages(), posts.getTotalElements()));
     }
 
     // get posts for a specific user.
@@ -207,10 +223,11 @@ public class PostController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Map<String, String>> deletePost(@RequestParam long postId){
+    public ResponseEntity<Map<String, String>> deletePost(@RequestParam long postId) {
         boolean deleted = this.postService.deletePost(postId);
-        if(!deleted){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "Error deleting post"));
+        if (!deleted) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error deleting post"));
         }
         return ResponseEntity.ok(Map.of("message", "Post deleted successfully"));
     }

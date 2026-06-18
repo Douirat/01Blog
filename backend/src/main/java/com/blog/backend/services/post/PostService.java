@@ -10,6 +10,8 @@ public interface PostService {
 
     Page<PostDetailDTO> getAllPosts(Long userId, int page);
 
+    Page<PostDetailDTO> getAllPostsForAdmin(int page);
+
     Page<PostDetailDTO> getUserPosts(int page, long userId);
 
     Page<PostDetailDTO> getReportedPosts(int page, long userId);

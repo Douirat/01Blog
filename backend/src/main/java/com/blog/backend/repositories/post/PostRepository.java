@@ -1,7 +1,5 @@
 package com.blog.backend.repositories.post;
 
-
-
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,16 +13,23 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-@EntityGraph(attributePaths = { "user" })
-@Query("SELECT p FROM Post p WHERE p.user IN (SELECT s.followed FROM Subscription s WHERE s.follower.id = :userId) AND p.banned = false")
-Page<Post> findPostsByFollowedUsers(@Param("userId") Long userId, Pageable pageable);
+  @EntityGraph(attributePaths = { "user" })
+  @Query("SELECT p FROM Post p WHERE p.user IN (SELECT s.followed FROM Subscription s WHERE s.follower.id = :userId) AND p.banned = false")
+  Page<Post> findPostsByFollowedUsers(@Param("userId") Long userId, Pageable pageable);
+
+  Page<Post> findAllByBannedFalse(Pageable pageable);
+
   @EntityGraph(attributePaths = { "user", "comments", "votes" })
   Page<Post> findAllByUserIdAndBannedFalse(@Nonnull Long userId, Pageable pageable);
+
   @EntityGraph(attributePaths = { "user" })
   // Page<Post> findAll(Pageable pageable);
   Page<Post> findByBannedFalse(Pageable pageable);
+
   List<Post> findByTitleContaining(String keyword);
+
   Optional<Post> findByIdAndUserId(@Nonnull Long id, Long userId);
+
   @Query("SELECT p.user FROM Post p WHERE p.id = :postId")
   Optional<User> findUserByPostId(@Param("postId") Long postId);
 }

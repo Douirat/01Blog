@@ -89,7 +89,7 @@ public class PostServiceImpl implements PostService {
                                 Sort.by(Sort.Direction.DESC, "createdAt") // newest → oldest
                 );
 
-               Page<Post> posts = postRepository.findPostsByFollowedUsers(userId, pageable);
+                Page<Post> posts = postRepository.findPostsByFollowedUsers(userId, pageable);
 
                 return posts.map(post -> {
 
@@ -140,6 +140,22 @@ public class PostServiceImpl implements PostService {
                 newPost.setCreatedAt(LocalDateTime.now());
                 newPost.setUser(user);
                 return postRepository.save(newPost);
+        }
+
+        @Override
+        public Page<PostDetailDTO> getAllPostsForAdmin(int page) {
+                Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
+                Page<Post> posts = postRepository.findAllByBannedFalse(pageable);
+                return posts.map(post -> {
+                        UserSummaryDTO userSummary = new UserSummaryDTO(post.getUser().getId(),
+                                        post.getUser().getNickname());
+                        int likes = (int) post.getVotes().stream().filter(Vote::isLiked).count();
+                        int dislikes = (int) post.getVotes().stream().filter(v -> !v.isLiked()).count();
+                        return new PostDetailDTO(post.getId(), post.getTitle(), post.getContent(),
+                                        post.getMediaType(), post.getMediaUrl(), userSummary,
+                                        likes, dislikes, post.getComments().size(), post.getCreatedAt(),
+                                        post.isBanned());
+                });
         }
 
         @Override

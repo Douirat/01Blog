@@ -54,7 +54,7 @@ export class Dashboard implements OnInit {
 
 
 loadPosts() {
-    if (this.user()?.isAdmin) {
+    if (this.user()?.user?.isAdmin) {
       this.postService.getAllPosts(this.currentPage()).subscribe((data: PaginatedPosts) => {
         if (data) {
           this.posts.set(data.content);
